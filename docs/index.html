@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <meta charset=utf-8>
+    <title>Reference ABAP SDK for IBM watsonx</title>
+    <link rel="stylesheet" href="ABAPDoc/htmldesign/stylesheet.css">
+  </head>
+  <body style="margin:1em;font-size:2ex;">
+    <h1>ABAP SDK for IBM watsonx: API Reference</h1>
+    <div>
+      The ABAP<sup>®</sup> SDK is used to consume IBM<sup>®</sup>
+      watsonx cognitive services with the SAP<sup>®</sup> Business
+      Suite, SAP S/4HANA<sup>®</sup> and the SAP BTP ABAP
+      Environment.</div>
+    <br>
+    <div>
+      It wraps the IBM watsonx service REST API into regular ABAP
+      classes and delivers ABAP data types that exactly fit the IBM
+      watsonx interface.
+    </div>
+    <br>
+    <div>
+      The table below provides an overview of the supported IBM
+      watsonx services. Click the ABAP class name to navigate to the
+      corresponding methods and data types reference.
+    </div>
+    <br><br>
+    <table>
+      <tr><th>watsonx Service</th><th style="width: 4em;">Version</th><th>ABAP Class Name</th></tr>
+      <tr><td>Watson Machine Learning</td><td>V4</td><td><a href="ABAPDoc/abapdoc/zibmx/classes/zcl_ibmx_wml_v4.html">ZCL_IBMX_WML_V4</a></td></tr>
+      <tr><td>watsonx.ai</td><td>V1</td><td><a href="ABAPDoc/abapdoc/zibmx/classes/zcl_ibmx_watsonx_ai_ml_v1.html">ZCL_IBMX_WATSONX_AI_ML_V1</a></td></tr>
+    </table>
+    <h3>Restriction</h3>
+    The <a href="https://github.com/IBM/abap-sdk-nwas-x">NWAS
+    variant</a> of the SDK does not support
+    the <i><code>..._update</code></i>-methods.
+    Calling these methods returns an exception with text
+    <i>"<code>not supported</code>"</i>.
+  </body>
+</html>
