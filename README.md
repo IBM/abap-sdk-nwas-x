@@ -38,7 +38,7 @@ information in [Support and Feedback](#support-and-feedback).
 | **abap-sdk-nwas-x** | [abap-sdk-btp-x](https://github.com/IBM/abap-sdk-btp-x) |
 |---|---|
 | for SAP NetWeaver<sup>®</sup> AS ABAP 7.50+ | for SAP BTP ABAP Environment |
-| tested on SAP Business Suite and SAP S/4HANA on-premises edition | tested with SAP BTP ABAP Environment 2402 |
+| tested on SAP Business Suite and SAP S/4HANA on-premises edition | tested with SAP BTP ABAP Environment 2405 |
 | `this repository` |  |
 
 ---
@@ -47,7 +47,7 @@ information in [Support and Feedback](#support-and-feedback).
   <summary>Table of Contents</summary>
 
 - [Announcements](#announcements)
-  - [Major version 1.0.0 released](#major-version-100-released)
+  - [Version 1.1.0 released](#version-110-released)
 - [Before you begin](#before-you-begin)
 - [Installation](#installation)
 - [SAP System Configuration](#sap-system-configuration)
@@ -70,9 +70,10 @@ information in [Support and Feedback](#support-and-feedback).
 
 ## Announcements
 
-### Major version 1.0.0 released
+### Version 1.1.0 released
 
-Version v1.0.0 of the SDK has been released.
+Version v1.1.0 of the SDK has been released - see what's changed in
+the [migration guide](MIGRATION-V1.1.0.md).
 
 ## Before you begin
 
@@ -99,7 +100,6 @@ The following SAP profile parameter settings are recommended.
 icm/HTTPS/client_sni_enabled = TRUE
 ssl/ciphersuites = 135:PFS:HIGH::EC_P256:EC_HIGH
 ssl/client_ciphersuites = 150:PFS:HIGH::EC_P256:EC_HIGH
-wdisp/ssl_ignore_host_mismatch = TRUE
 ```
 
 ### Proxy configuration
@@ -201,9 +201,11 @@ system's *Standard SSL Client PSE*.
 It is recommended to restart the ICM after a new SSL certificate has
 been applied to the PSE. To do so, proceed as follows.
 
-1. Logon to the SAP system and call transaction SMICM.
-2. Select menu item *Administration* &rarr; *ICM* &rarr; *Restart*
-   &rarr; *Yes*.
+1. Logon to the SAP system and start transaction SMICM.
+3. If applicable, ensure that the ICM is restarted automatically when ended:
+   *Administration* &rarr; *ICM* &rarr; *Restart* &rarr; *Yes*.
+4. Select menu item *Administration* &rarr; *ICM* &rarr; *Exit Soft*
+   &rarr; *Global*.
 
 ## Credentials
 
@@ -249,7 +251,7 @@ in table `ZIBMX_CONFIG`. This table has three keys:
 | PROXY_HOST        |                   | Proxy server                                                                |
 | PROXY_PORT        |                   | Proxy server port                                                           |
 | AUTH_NAME         | service-dependent | Authorization, `IAM` or `basicAuth`                                         |
-| SSL_ID            | CLIENT            | SSL Identity, defines PSE for SSL certificates: `CLIENT` or `ANONYM`        |
+| SSL_ID            | CLIENT            | SSL identity, defines PSE for SSL certificates: `CLIENT` or `ANONYM`        |
 
 </details>
 
@@ -278,7 +280,7 @@ called again with a new (refreshed) bearer-token as parameter.
 ## Usage
 
 The client library is delivered as package *ZIBMX*. Once the Git
-Repository has been cloned to the SAP system, a watsonx service
+repository has been cloned to the SAP system, a watsonx service
 instance is wrapped by an ABAP class instance.<br> The following
 watsonx services are currently supported:
 

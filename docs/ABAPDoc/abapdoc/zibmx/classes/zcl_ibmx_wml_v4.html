@@ -4,8 +4,11 @@
     The list of allowed identities that are allowed to access</p>
      the remote system.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_allowed_identity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The allowed identity.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_all_content_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The metadata related to the attachments.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_base_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The model id of the base model for this prompt tuning.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_batch_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The metadata related to the attachments.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_api_error</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    An error message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_api_error_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The data returned when an error is encountered.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_api_error_target</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The target of the error.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_base_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The model id of the base model for this job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_batch_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Indicates that this is a batch deployment. An empty object</p>
      has to be specified.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_binary_classification</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_bluemix_account</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_cnsmptn_capacity_unit_hours</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_cnsmptn_deployment_job_count</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Limit for deployment jobs.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_common_patch_request_helper</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -71,8 +74,7 @@
      environment variables and values must be specified as key-value pairs.<br/>
     <br/>
     This property is currently supported only for Python Scripts in batch deployment
-     jobs.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_error</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The data returned when an error is encountered.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_error_item</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_evaluations_spec</span> TYPE STANDARD TABLE OF T_EVALUATIONS_SPEC_ITEM WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     jobs.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_evaluations_spec</span> TYPE STANDARD TABLE OF T_EVALUATIONS_SPEC_ITEM WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A list of evaluation specifications.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_evaluations_spec_item</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     An evaluation specification used to support evaluations for</p>
      TensorFlow.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_evaluation_definition</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -264,7 +266,7 @@
      about this model that can be tracked with IBM AI Factsheets. See [Using AI
      Factsheets](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fa
     ctsheets-model-inventory.html) for more details.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_message</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Optional messages related to the deployment.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_metric</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Optional messages related to the resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_metric</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A metric.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_metrics</span> TYPE STANDARD TABLE OF T_METRIC WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Metrics that can be returned by an operation.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_metrics_context</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Provides extra information for this training stage in the</p>
@@ -384,11 +386,15 @@
     Common metadata for a resource where `project_id` or</p>
      `space_id` must be present.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_roc_curve</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The roc (receiver operating characteristic) curve for the</p>
-     selected class.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_payload</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     selected class.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_parameters</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Parameters that can be used to control the prediction</p>
+     request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_payload</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The payload for scoring.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_payload_optim</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The payload for scoring.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_payload_optim_value</span> type JSONOBJECT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The record.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_payload_optim_values</span> TYPE STANDARD TABLE OF T_SCORING_PAYLOAD_OPTIM_VALUE WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The records.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_targets</span> type TT_JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_simple_rel</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The records.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scoring_targets</span> type TT_JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_scrng_param_forecast_window</span> type INTEGER</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The forecast window to use for the prediction. If no value</p>
+     is set then the value used during training will be used.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_simple_rel</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to a resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_software_spec_rel</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A software specification.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_solve_parameters</span> type JSONOBJECT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     To control solve behavior, you can specify solve parameters</p>
@@ -604,15 +610,13 @@
     parameter is not currently supported.<br/>
    &lt;br /&gt;<br/>
    When &apos;asset&apos; is patched with id/rev:<br/>
-   - Deployment with the patched id/rev is started. - If the deployment is
-    asynchronous, 202 response code will be returned and<br/>
-     one can poll the deployment status thereafter.<br/>
-   - If the deployment is synchronous, 200 response code will be returned with<br/>
-     patched deployment response.<br/>
+   - Deployment with the patched id/rev is started. - With an asynchronous
+    deployment (`version` greater than [2021-05-01](#vd-2021-05-01)), 202 response
+    code will be returned and<br/>
+     one can poll the deployment for the status.<br/>
    - If any failures, deployment will be reverted back to the previous id/rev<br/>
-     and the failure message will be captured in &apos;failures&apos; field in
-    the<br/>
-     response.<br/>
+     and the failure message will be captured in &apos;failures&apos; field in the
+    response.<br/>
    <br/>
    In the case of an online deployment, the PATCH operation with path specified as
     `/online/parameters` can be used to update the `serving_name`.<br/>
@@ -1039,17 +1043,17 @@
     when the function     is deployed, and the environment is then frozen and ready
     to be used whenever     the online scoring or batch inline job processing API
     is called. The code that     sits in the inner score function runs when the
-    online scoring or batch inline     job processing API is called, in the
-    environment customized by the outer function.     See [Deploying Python
+    online scoring or batch inline job processing API is called, in the environment
+    customized by the outer function.     See [Deploying Python
     function](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/ml-d
    eploy-py-function.html?context=cpdaas$&#123;content_description&#125;audience=wd
    p) for more details.         This is illustrated in the example below:
     &lt;pre&gt; &lt;br /&gt;     ...python code used to set up the environment...
-    &lt;br /&gt;     &lt;br /&gt;     def score(payload): &lt;br /&gt;
+    &lt;br /&gt; &lt;br /&gt;     def score(payload): &lt;br /&gt;
     df_payload = pd.DataFrame(payload[values]) &lt;br /&gt;
     df_payload.columns = payload[fields] &lt;br /&gt;         ... &lt;br /&gt;
        output = &#123;result : res&#125; &lt;br /&gt;         return output &lt;br
-    /&gt;     &lt;br /&gt;     return score &lt;br /&gt;     &lt;/pre&gt;<br/>
+    /&gt;     &lt;br /&gt;     return score &lt;br /&gt; &lt;/pre&gt;<br/>
 
 
  </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_function_id</span></td><td><span class="abapDocComment">
@@ -1179,11 +1183,11 @@
    eploy-py-function.html?context=cpdaas$&#123;content_description&#125;audience=wd
    p) for more details.         This is illustrated in the example below:
     &lt;pre&gt; &lt;br /&gt;     ...python code used to set up the environment...
-    &lt;br /&gt;     &lt;br /&gt;     def score(payload): &lt;br /&gt;
+    &lt;br /&gt; &lt;br /&gt;     def score(payload): &lt;br /&gt;
     df_payload = pd.DataFrame(payload[values]) &lt;br /&gt;
     df_payload.columns = payload[fields] &lt;br /&gt;         ... &lt;br /&gt;
        output = &#123;result : res&#125; &lt;br /&gt;         return output &lt;br
-    /&gt;     &lt;br /&gt;     return score &lt;br /&gt;     &lt;/pre&gt;<br/>
+    /&gt;     &lt;br /&gt;     return score &lt;br /&gt; &lt;/pre&gt;<br/>
 
 
  </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_function_id</span></td><td><span class="abapDocComment">
@@ -2188,4 +2192,4 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TRAIN_DEFINITION_RESOURCES
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
-</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 26.03.2024</div></body></html>
+</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 26.06.2024</div></body></html>

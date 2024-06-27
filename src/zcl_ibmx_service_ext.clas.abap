@@ -27,10 +27,11 @@ public section.
   types TY_IMAGE_CLASS type STRING .
   types:
     begin of ts_oauth_prop,
-        url      type ts_url,
-        username type string,
-        password type string,
-        apikey   type string,
+        url         type ts_url,
+        destination type Zif_IBMX_service_arch=>ty_http_destination,
+        username    type string,
+        password    type string,
+        apikey      type string,
       end of ts_oauth_prop .
 
   constants C_FIELD_NONE type FIELDNAME value '###' ##NO_TEXT.
@@ -165,6 +166,7 @@ private section.
     importing
       !I_SERVICENAME type TY_SERVICENAME
       !I_INSTANCE_ID type TY_INSTANCE_ID optional
+      !I_PREFIX type STRING optional
     changing
       !C_REQUEST_PROP type ANY .
   "! <p class="shorttext synchronized" lang="en">Method for internal use.</p>
@@ -206,6 +208,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 * +-------------------------------------------------------------------------------------------------+
 * | [--->] I_SERVICENAME                  TYPE        TY_SERVICENAME
 * | [--->] I_INSTANCE_ID                  TYPE        TY_INSTANCE_ID(optional)
+* | [--->] I_PREFIX                       TYPE        STRING(optional)
 * | [<-->] C_REQUEST_PROP                 TYPE        ANY
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method add_config_prop.
@@ -215,6 +218,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
       lv_type     type char,
       ls_config   type ZIBMX_config,
       lt_config   type standard table of ZIBMX_config,
+      lv_param    type ZIBMX_config-param,
       lt_ref      type standard table of ref to data,
       lr_data     type ref to data,
       lv_index    type i value 0,
@@ -281,7 +285,12 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
           append lr_data to lt_ref.
         else.
           if <lv_comp_val> is initial.
-            read table lt_config into ls_config with key param = <lv_compname>  ##WARN_OK.
+            if i_prefix is supplied.
+              lv_param = i_prefix && `-` && <lv_compname>.
+            else.
+              lv_param = <lv_compname>.
+            endif.
+            read table lt_config into ls_config with key param = lv_param  ##WARN_OK.
             if sy-subrc = 0.
               condense ls_config-value.
               <lv_comp_val> = ls_config-value.
@@ -393,6 +402,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
         ls_token_request_prop type ts_request_prop.
 
       ls_token_request_prop-url = p_oauth_prop-url.
+      ls_token_request_prop-destination = p_oauth_prop-destination.
       " set to tribool_false to distinguish between false and inital
       ls_token_request_prop-auth_basic    = c_tribool_false.
       ls_token_request_prop-auth_oauth    = c_tribool_false.
@@ -400,7 +410,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
       ls_token_request_prop-header_accept = ZCL_IBMX_service=>ZIF_IBMX_service_arch~c_mediatype-appl_json.
 
 
-      if i_request_prop-auth_name eq 'IAM' or i_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
+      if i_request_prop-auth_name eq 'IAM' or i_request_prop-auth_name eq 'Bearer' or i_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
 
         " write urlencoded parameters
         if not ls_token-refresh_token is initial.
@@ -416,6 +426,10 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
             lv_grand_urlencoded = escape( val = 'urn:ibm:params:oauth:grant-type:password' format = cl_abap_format=>e_uri_full ) ##NO_TEXT.
             lv_key_urlencoded = escape( val = p_oauth_prop-password format = cl_abap_format=>e_uri_full ).
             ls_token_request_prop-body = `grant_type=` && lv_grand_urlencoded && `&username=` && p_oauth_prop-username && `&password=` &&  p_oauth_prop-password ##NO_TEXT.
+          elseif not p_oauth_prop-destination is initial.
+            data(lv_full_url) = get_full_url( ls_token_request_prop-url ).
+            data(lv_token_endpoint_urlencoded) = escape( val = lv_full_url format = cl_abap_format=>e_uri_full ) ##NO_TEXT.
+            ls_token_request_prop-body = `token_endpoint=` && lv_token_endpoint_urlencoded ##NO_TEXT.
           else.
             ls_token_request_prop-username = p_oauth_prop-username.
             ls_token_request_prop-password = p_oauth_prop-password.
@@ -885,13 +899,20 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 
     " Set OAuth properties
     lo_instance->p_oauth_prop = i_oauth_prop.
+    add_config_prop(
+      exporting
+        i_servicename  = lo_instance->p_servicename
+        i_instance_id  = lo_instance->p_instance_id
+        i_prefix       = 'OAUTH'
+      changing
+        c_request_prop = lo_instance->p_oauth_prop ).
     normalize_url(
       changing
         c_url = lo_instance->p_oauth_prop-url ).
-    if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'ICP4D' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
+    if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'ICP4D' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
       if lo_instance->p_oauth_prop-url-host is initial.
         lo_instance->p_oauth_prop-url-protocol = 'https' ##NO_TEXT.
-        if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
+        if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
           lo_instance->p_oauth_prop-url-host = c_iam_token_host.
         else.
           lo_instance->p_oauth_prop-url-host = lo_instance->p_request_prop_default-url-host.
@@ -899,7 +920,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
       endif.
       if lo_instance->p_oauth_prop-url-path_base is initial and lo_instance->p_oauth_prop-url-path is initial.
         " Set path_base (not path), otherwise the default service path_base would be added, which is not correct
-        if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
+        if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
           lo_instance->p_oauth_prop-url-path_base = c_iam_token_path.
         elseif ls_request_prop-auth_name eq 'WATSONX'.
           lo_instance->p_oauth_prop-url-path_base = c_watsonx_token_path.
@@ -971,7 +992,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20240325'.
+    e_sdk_version_date = '20240625'.
 
   endmethod.
 

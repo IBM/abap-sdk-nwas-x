@@ -92,6 +92,19 @@ class ZCL_IBMX_SERVICE_ARCH definition
         !e_client       type ts_client
       raising
         ZCX_IBMX_service_exception .
+    "! <p class="shorttext synchronized" lang="en">Returns a HTTP/REST client based on an DESTINATION.</p>
+    "!
+    "! @parameter I_REQUEST_PROP | Request parameters
+    "! @parameter E_CLIENT | HTTP/REST client
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+    CLASS-METHODS create_client_by_destination
+      IMPORTING
+        !i_request_prop TYPE ts_request_prop
+      EXPORTING
+        !e_client       TYPE ts_client
+      RAISING
+        ZCX_IBMX_service_exception .
     "! <p class="shorttext synchronized" lang="en">Generates a multi-part request body.</p>
     "!
     "! @parameter I_CLIENT | HTTP/REST client
@@ -264,6 +277,11 @@ class ZCL_IBMX_SERVICE_ARCH definition
         value(e_subrc)     type sysubrc .
   protected section.
   private section.
+
+    class-methods http_patch
+      importing
+        !i_client type ts_client .
+
 ENDCLASS.
 
 
@@ -427,6 +445,59 @@ CLASS ZCL_IBMX_SERVICE_ARCH IMPLEMENTATION.
 
 
 * <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Static Public Method ZCL_IBMX_SERVICE_ARCH=>CREATE_CLIENT_BY_DESTINATION
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_REQUEST_PROP                 TYPE        TS_REQUEST_PROP
+* | [<---] E_CLIENT                       TYPE        TS_CLIENT
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  method create_client_by_destination.
+
+    data:
+      lv_text type string.
+
+    cl_http_client=>create_by_destination(
+      exporting
+        destination              = i_request_prop-destination
+      importing
+        client                   = e_client-http
+      exceptions
+        argument_not_found       = 1
+        destination_not_found    = 2
+        destination_no_authority = 3
+        plugin_not_active        = 4
+        internal_error           = 5
+        others                   = 99 )  ##NUMBER_OK.
+    if sy-subrc <> 0.
+      case sy-subrc.
+        when 1.
+          lv_text = 'Argument not found'  ##NO_TEXT.
+        when 2.
+          lv_text = 'Destination not found'  ##NO_TEXT.
+        when 3.
+          lv_text = 'Destination no authority'  ##NO_TEXT.
+        when 4.
+          lv_text = 'Plugin not active'  ##NO_TEXT.
+        when others.
+          lv_text = 'Internal error'  ##NO_TEXT.
+      endcase.
+      lv_text = `HTTP client cannot be created: ` && lv_text  ##NO_TEXT.
+      ZCL_IBMX_service=>raise_exception( i_text = lv_text ).
+    endif.
+
+    " set http protocol version
+    e_client-http->request->set_version( if_http_request=>co_protocol_version_1_1 ).
+    e_client-http->propertytype_logon_popup = if_http_client=>co_disabled.
+
+    " create REST client instance from http client instance
+    create object e_client-rest
+      exporting
+        io_http_client = e_client-http.
+
+  endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
 * | Static Public Method ZCL_IBMX_SERVICE_ARCH=>EXECUTE
 * +-------------------------------------------------------------------------------------------------+
 * | [--->] I_CLIENT                       TYPE        TS_CLIENT
@@ -458,6 +529,9 @@ CLASS ZCL_IBMX_SERVICE_ARCH IMPLEMENTATION.
           when ZIF_IBMX_SERVICE_ARCH~c_method_delete.
             lv_method = 'DELETE'  ##NO_TEXT.
             i_client-rest->if_rest_client~delete( ).
+          when ZIF_IBMX_SERVICE_ARCH~c_method_patch.
+            lv_method = 'PATCH'  ##NO_TEXT.
+            http_patch( i_client = i_client ).
           when others.
             lv_method = ZIF_IBMX_SERVICE_ARCH~c_not_supported.
         endcase.
@@ -608,6 +682,56 @@ CLASS ZCL_IBMX_SERVICE_ARCH IMPLEMENTATION.
   method get_timezone.
 
     e_timezone = sy-zonlo.
+
+  endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Static Private Method ZCL_IBMX_SERVICE_ARCH=>HTTP_PATCH
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_CLIENT                       TYPE        TS_CLIENT
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  method http_patch.
+
+    i_client-http->request->set_method( 'PATCH' ).
+
+    i_client-http->send(
+      exceptions
+        http_communication_failure = 1
+        http_invalid_state         = 2
+        http_processing_failed     = 3
+        http_invalid_timeout       = 4
+        others                     = 5 ).
+
+    if sy-subrc = 0.
+      i_client-http->receive(
+        exceptions
+          http_communication_failure = 1
+          http_invalid_state         = 2
+          http_processing_failed     = 3
+          others                     = 5 ).
+    endif.
+
+    if sy-subrc <> 0.
+
+      data lv_textid like cx_rest_client_exception=>http_client_comm_failure.
+
+      case sy-subrc.
+        when 1.
+          lv_textid = cx_rest_client_exception=>http_client_comm_failure.
+        when 2.
+          lv_textid = cx_rest_client_exception=>http_client_invalid_state.
+        when 3.
+          lv_textid = cx_rest_client_exception=>http_client_processing_failed.
+        when 4.
+          lv_textid = cx_rest_client_exception=>http_client_invalid_timeout.
+        when 5.
+          raise exception type cx_rest_client_exception.
+      endcase.
+
+      raise exception type cx_rest_client_exception exporting textid = lv_textid.
+
+    endif.
 
   endmethod.
 

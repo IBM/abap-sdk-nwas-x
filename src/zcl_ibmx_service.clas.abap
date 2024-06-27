@@ -1108,7 +1108,7 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
       lv_url type string.
 
     if not i_url-host cp 'http*'.
-      if i_url-protocol is initial.
+      if i_url-protocol is initial and not i_url-host is initial.
         lv_url = 'http://'.
       else.
         lv_url = i_url-protocol && `://`.
@@ -1165,19 +1165,29 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
         c_request_prop = ls_request_prop ).
 
     " create http client instance
-    lv_url = ls_request_prop-url-protocol && `://` && ls_request_prop-url-host.
-    create_client_by_url(
-      exporting
-        i_url          = lv_url
-        i_request_prop = ls_request_prop
-      importing
-        e_client       = e_client ).
+    if not ls_request_prop-destination is initial.
+      create_client_by_destination(
+        exporting
+          i_request_prop = ls_request_prop
+        importing
+          e_client       = e_client ).
+    else.
+      lv_url = ls_request_prop-url-protocol && `://` && ls_request_prop-url-host.
+      create_client_by_url(
+        exporting
+          i_url          = lv_url
+          i_request_prop = ls_request_prop
+        importing
+          e_client       = e_client ).
+    endif.
 
     " set URI and authorization
     lv_url = set_uri_and_authorization( i_client = e_client i_request_prop = ls_request_prop ).
 
     " set request uri
-    set_request_uri( i_client = e_client i_uri = lv_url ).
+    if ls_request_prop-destination is initial.
+      set_request_uri( i_client = e_client i_uri = lv_url ).
+    endif.
 
     " set 'Content-Type' header
     if not i_request_prop-header_content_type is initial.

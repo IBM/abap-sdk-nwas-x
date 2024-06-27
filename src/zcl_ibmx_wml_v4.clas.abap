@@ -66,25 +66,6 @@ public section.
       HYPER_PARAMETERS type JSONOBJECT,
     end of T_TRAINING_STATUS_HPO.
   types:
-    "! No documentation available.
-    begin of T_ERROR_ITEM,
-      "!   A simple code that should convey the general sense of the error.
-      CODE type STRING,
-      "!   The message that describes the error.
-      MESSAGE type STRING,
-      "!   A reference to a more detailed explanation when available.
-      MORE_INFO type STRING,
-    end of T_ERROR_ITEM.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    The data returned when an error is encountered.</p>
-    begin of T_ERROR,
-      "!   An identifier that can be used to trace the request.
-      TRACE type STRING,
-      "!   The list of errors.
-      ERRORS type STANDARD TABLE OF T_ERROR_ITEM WITH NON-UNIQUE DEFAULT KEY,
-    end of T_ERROR.
-  types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The location of the intermediate model.</p>
     begin of T_MODEL_LOCATION,
@@ -405,6 +386,37 @@ public section.
     end of T_TRAINING_STATUS_MESSAGE.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The target of the error.</p>
+    begin of T_API_ERROR_TARGET,
+      "!   The type of the problematic field.
+      TYPE type STRING,
+      "!   The name of the problematic field.
+      NAME type STRING,
+    end of T_API_ERROR_TARGET.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    An error message.</p>
+    begin of T_API_ERROR,
+      "!   A simple code that should convey the general sense of the error.
+      CODE type STRING,
+      "!   The message that describes the error.
+      MESSAGE type STRING,
+      "!   A reference to a more detailed explanation when available.
+      MORE_INFO type STRING,
+      "!   The target of the error.
+      TARGET type T_API_ERROR_TARGET,
+    end of T_API_ERROR.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The data returned when an error is encountered.</p>
+    begin of T_API_ERROR_RESPONSE,
+      "!   An identifier that can be used to trace the request.
+      TRACE type STRING,
+      "!   The list of errors.
+      ERRORS type STANDARD TABLE OF T_API_ERROR WITH NON-UNIQUE DEFAULT KEY,
+    end of T_API_ERROR_RESPONSE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Status of the model.</p>
     begin of T_TRAINING_STATUS,
       "!   Date and Time in which current training state has started.
@@ -428,7 +440,7 @@ public section.
       "!   Metrics that can be returned by an operation.
       METRICS type STANDARD TABLE OF T_METRIC WITH NON-UNIQUE DEFAULT KEY,
       "!   The data returned when an error is encountered.
-      FAILURE type T_ERROR,
+      FAILURE type T_API_ERROR_RESPONSE,
     end of T_TRAINING_STATUS.
   types:
     "! No documentation available.
@@ -567,7 +579,7 @@ public section.
       "!    for all pipelines.
       LOCALIZED_EXTREME type JSONOBJECT,
       "!   trend anomaly refers to a segment of time series, which has a trend change
-      "!    compared to the time series before the segment.  Includes scores for all
+      "!    compared to the time series before the segment. Includes scores for all
       "!    pipelines.
       TREND type JSONOBJECT,
       "!   variance anomaly refers to a segment of time series in which the variance of a
@@ -851,7 +863,7 @@ public section.
       "!   An optional message related to the job status.
       MESSAGE type T_JOB_STATUS_MESSAGE,
       "!   The data returned when an error is encountered.
-      FAILURE type T_ERROR,
+      FAILURE type T_API_ERROR_RESPONSE,
     end of T_JOB_STATUS.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -968,13 +980,11 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    A hardware specification.</p>
     begin of T_HARDWARE_SPEC,
-      "!   The id of the hardware specification. One, and only one, of `id` or `name` must
-      "!    be set.
+      "!   The id of the hardware specification.
       ID type STRING,
-      "!   The revision of the hardware specification if `id` is used.
+      "!   The revision of the hardware specification.
       REV type STRING,
-      "!   The name of the hardware specification. One, and only one, of `id` or `name`
-      "!    must be set.
+      "!   The name of the hardware specification.
       NAME type STRING,
       "!   The number of nodes applied to a computation.
       NUM_NODES type INTEGER,
@@ -1115,13 +1125,11 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    A software specification.</p>
     begin of T_SOFTWARE_SPEC_REL,
-      "!   The id of the software specification. One, and only one, of `id` or `name` must
-      "!    be set.
+      "!   The id of the software specification.
       ID type STRING,
       "!   The revision of the software specification.
       REV type STRING,
-      "!   The name of the software specification. One, and only one, of `id` or `name`
-      "!    must be set.
+      "!   The name of the software specification.
       NAME type STRING,
     end of T_SOFTWARE_SPEC_REL.
   types:
@@ -1200,6 +1208,8 @@ public section.
       MESSAGE type STRING,
       "!   An `id` associated with the message.
       ID type STRING,
+      "!   A reference to a more detailed explanation when available.
+      MORE_INFO type STRING,
       "!   Additional key-value pairs that depend on the specific warning.
       ADDITIONAL_PROPERTIES type JSONOBJECT,
     end of T_WARNING.
@@ -1414,13 +1424,22 @@ public section.
     end of T_MODEL_DEFINITION_ID.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Optional messages related to the deployment.</p>
+    "!    Optional messages related to the resource.</p>
     begin of T_MESSAGE,
       "!   The level of the message, normally one of `debug`, `info` or `warning`.
       LEVEL type STRING,
       "!   The message.
       TEXT type STRING,
     end of T_MESSAGE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Parameters that can be used to control the prediction</p>
+    "!     request.
+    begin of T_SCORING_PARAMETERS,
+      "!   The forecast window to use for the prediction. If no value is set then the value
+      "!    used during training will be used.
+      FORECAST_WINDOW type INTEGER,
+    end of T_SCORING_PARAMETERS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The input data.</p>
@@ -1441,6 +1460,8 @@ public section.
     begin of T_SYNC_SCORING_DATA,
       "!   The input data.
       INPUT_DATA type STANDARD TABLE OF T_SYNC_SCORING_DATA_ITEM WITH NON-UNIQUE DEFAULT KEY,
+      "!   Parameters that can be used to control the prediction request.
+      SCORING_PARAMETERS type T_SCORING_PARAMETERS,
     end of T_SYNC_SCORING_DATA.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -2304,10 +2325,10 @@ public section.
     begin of T_INSTNC_RESOURCE_ENTITY_PLAN,
       "!   The payment plan ID.
       ID type STRING,
-      "!   The payment plan name.
+      "!   The payment plan name, this can be one of<br/>
+      "!   `lite`, `v2-standard` or `v2-professional`.
       NAME type STRING,
-      "!   1 - for v1 plans, 2 - for the v2 plans where v2 plan means an instance is space
-      "!    / project aware.
+      "!   2 - for the v2 plans where v2 plan means an instance is space / project aware.
       VERSION type INTEGER,
     end of T_INSTNC_RESOURCE_ENTITY_PLAN.
   types:
@@ -2340,7 +2361,7 @@ public section.
   types:
     "! No documentation available.
     begin of T_INSTANCE_RESOURCE_ENTITY,
-      "!   Status of the service instance (active|inactive).
+      "!   Status of the service instance.
       STATUS type STRING,
       "!   No documentation available.
       PLAN type T_INSTNC_RESOURCE_ENTITY_PLAN,
@@ -2355,6 +2376,8 @@ public section.
       "!   Cloud Service Endpoints (CSE) the instance is enabled for. Possible values are
       "!    `public`, `private` and `public-and-private`.
       SERVICE_ENDPOINTS type STRING,
+      "!   The `id` of the resource group that contains this instance.
+      RESOURCE_GROUP_ID type STRING,
     end of T_INSTANCE_RESOURCE_ENTITY.
   types:
     "! No documentation available.
@@ -2510,7 +2533,7 @@ public section.
       REQUESTED_REPLICAS type INTEGER,
       "!   The number of replicas currently deployed.
       DEPLOYED_REPLICAS type INTEGER,
-      "!   Optional messages related to the deployment.
+      "!   Optional messages related to the resource.
       MESSAGE type T_MESSAGE,
     end of T_DEPLOYMENT_SCALING.
   types:
@@ -2520,10 +2543,10 @@ public section.
     begin of T_DEPLOYMENT_STATUS,
       "!   Specifies the current state of the deployment.
       STATE type STRING,
-      "!   Optional messages related to the deployment.
+      "!   Optional messages related to the resource.
       MESSAGE type T_MESSAGE,
       "!   The data returned when an error is encountered.
-      FAILURE type T_ERROR,
+      FAILURE type T_API_ERROR_RESPONSE,
       "!   The URLs that can be used to submit online prediction API requests. These URLs
       "!    will contain the<br/>
       "!   `deployment_id` and the `serving_name`, if the `serving_name` was set.
@@ -3064,7 +3087,7 @@ public section.
     end of T_MODEL_RESOURCE_ENTITY_SIZE.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    The model id of the base model for this prompt tuning.</p>
+    "!    The model id of the base model for this job.</p>
     begin of T_BASE_MODEL,
       "!   The model id of the base model.
       MODEL_ID type STRING,
@@ -3075,7 +3098,7 @@ public section.
     begin of T_TRAINING_DETAILS,
       "!   The `id` of the training job that produced this model.
       ID type STRING,
-      "!   The model id of the base model for this prompt tuning.
+      "!   The model id of the base model for this job.
       BASE_MODEL type T_BASE_MODEL,
       "!   The task that is targeted for this model.
       TASK_ID type STRING,
@@ -3214,6 +3237,11 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    A list of evaluation specifications.</p>
       T_EVALUATIONS_SPEC type STANDARD TABLE OF T_EVALUATIONS_SPEC_ITEM WITH NON-UNIQUE DEFAULT KEY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The forecast window to use for the prediction. If no value</p>
+    "!     is set then the value used during training will be used.
+      T_SCRNG_PARAM_FORECAST_WINDOW type Integer.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The details for the revision.</p>
@@ -4430,8 +4458,6 @@ constants:
     T_DATA_SCHEMA type string value '|ID|FIELDS|',
     T_MODEL_ENTITY_SCHEMAS type string value '|',
     T_TRAINING_STATUS_HPO type string value '|HYPER_PARAMETERS|',
-    T_ERROR_ITEM type string value '|CODE|MESSAGE|',
-    T_ERROR type string value '|TRACE|ERRORS|',
     T_MODEL_LOCATION type string value '|',
     T_INTERMEDIATE_MODEL type string value '|NAME|PROCESS|',
     T_FEATURE_IMPORTANCE type string value '|FEATURES|',
@@ -4454,6 +4480,9 @@ constants:
     T_COMPUTE_USAGE_METRICS type string value '|TIMESTAMP|',
     T_METRIC type string value '|TIMESTAMP|',
     T_TRAINING_STATUS_MESSAGE type string value '|',
+    T_API_ERROR_TARGET type string value '|TYPE|NAME|',
+    T_API_ERROR type string value '|CODE|MESSAGE|',
+    T_API_ERROR_RESPONSE type string value '|TRACE|ERRORS|',
     T_TRAINING_STATUS type string value '|STATE|',
     T_CONSUMPTION_GPU_COUNT type string value '|',
     T_TOKEN_COUNT type string value '|CURRENT|',
@@ -4518,6 +4547,7 @@ constants:
     T_REMOTE_TRAIN_SYSTEM_RESOURCE type string value '|METADATA|ENTITY|',
     T_MODEL_DEFINITION_ID type string value '|',
     T_MESSAGE type string value '|',
+    T_SCORING_PARAMETERS type string value '|',
     T_SYNC_SCORING_DATA_ITEM type string value '|',
     T_SYNC_SCORING_DATA type string value '|INPUT_DATA|',
     T_MODEL_REFERENCE type string value '|ID|',
@@ -4836,6 +4866,7 @@ constants:
      CODE type string value 'code',
      MESSAGE type string value 'message',
      MORE_INFO type string value 'more_info',
+     TARGET type string value 'target',
      TRACE type string value 'trace',
      ERRORS type string value 'errors',
      RUNNING_AT type string value 'running_at',
@@ -4873,7 +4904,9 @@ constants:
      PATH type string value 'path',
      VALUE type string value 'value',
      VALUES type string value 'values',
+     FORECAST_WINDOW type string value 'forecast_window',
      INPUT_DATA type string value 'input_data',
+     SCORING_PARAMETERS type string value 'scoring_parameters',
      TARGETS type string value 'targets',
      PREDICTIONS type string value 'predictions',
      INPUT_DATA_REFERENCES type string value 'input_data_references',
@@ -4905,6 +4938,7 @@ constants:
      ACCOUNT type string value 'account',
      CONSUMPTION type string value 'consumption',
      SERVICE_ENDPOINTS type string value 'service_endpoints',
+     RESOURCE_GROUP_ID type string value 'resource_group_id',
      MAXIMIZE type string value 'maximize',
      METHOD type string value 'method',
      ITEMS type string value 'items',
@@ -5154,15 +5188,13 @@ constants:
     "!    parameter is not currently supported.<br/>
     "!   &lt;br /&gt;<br/>
     "!   When &apos;asset&apos; is patched with id/rev:<br/>
-    "!   - Deployment with the patched id/rev is started. - If the deployment is
-    "!    asynchronous, 202 response code will be returned and<br/>
-    "!     one can poll the deployment status thereafter.<br/>
-    "!   - If the deployment is synchronous, 200 response code will be returned with<br/>
-    "!     patched deployment response.<br/>
+    "!   - Deployment with the patched id/rev is started. - With an asynchronous
+    "!    deployment (`version` greater than [2021-05-01](#vd-2021-05-01)), 202 response
+    "!    code will be returned and<br/>
+    "!     one can poll the deployment for the status.<br/>
     "!   - If any failures, deployment will be reverted back to the previous id/rev<br/>
-    "!     and the failure message will be captured in &apos;failures&apos; field in
-    "!    the<br/>
-    "!     response.<br/>
+    "!     and the failure message will be captured in &apos;failures&apos; field in the
+    "!    response.<br/>
     "!   <br/>
     "!   In the case of an online deployment, the PATCH operation with path specified as
     "!    `/online/parameters` can be used to update the `serving_name`.<br/>
@@ -6012,11 +6044,11 @@ constants:
     "!   eploy-py-function.html?context=cpdaas$&#123;content_description&#125;audience=wd
     "!   p) for more details.         This is illustrated in the example below:
     "!    &lt;pre&gt; &lt;br /&gt;     ...python code used to set up the environment...
-    "!    &lt;br /&gt;     &lt;br /&gt;     def score(payload): &lt;br /&gt;
+    "!    &lt;br /&gt; &lt;br /&gt;     def score(payload): &lt;br /&gt;
     "!    df_payload = pd.DataFrame(payload[values]) &lt;br /&gt;
     "!    df_payload.columns = payload[fields] &lt;br /&gt;         ... &lt;br /&gt;
     "!       output = &#123;result : res&#125; &lt;br /&gt;         return output &lt;br
-    "!    /&gt;     &lt;br /&gt;     return score &lt;br /&gt;     &lt;/pre&gt;<br/>
+    "!    /&gt;     &lt;br /&gt;     return score &lt;br /&gt; &lt;/pre&gt;<br/>
     "!
     "!
     "! @parameter I_FUNCTION_ID |
@@ -6060,17 +6092,17 @@ constants:
     "!    when the function     is deployed, and the environment is then frozen and ready
     "!    to be used whenever     the online scoring or batch inline job processing API
     "!    is called. The code that     sits in the inner score function runs when the
-    "!    online scoring or batch inline     job processing API is called, in the
-    "!    environment customized by the outer function.     See [Deploying Python
+    "!    online scoring or batch inline job processing API is called, in the environment
+    "!    customized by the outer function.     See [Deploying Python
     "!    function](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/ml-d
     "!   eploy-py-function.html?context=cpdaas$&#123;content_description&#125;audience=wd
     "!   p) for more details.         This is illustrated in the example below:
     "!    &lt;pre&gt; &lt;br /&gt;     ...python code used to set up the environment...
-    "!    &lt;br /&gt;     &lt;br /&gt;     def score(payload): &lt;br /&gt;
+    "!    &lt;br /&gt; &lt;br /&gt;     def score(payload): &lt;br /&gt;
     "!    df_payload = pd.DataFrame(payload[values]) &lt;br /&gt;
     "!    df_payload.columns = payload[fields] &lt;br /&gt;         ... &lt;br /&gt;
     "!       output = &#123;result : res&#125; &lt;br /&gt;         return output &lt;br
-    "!    /&gt;     &lt;br /&gt;     return score &lt;br /&gt;     &lt;/pre&gt;<br/>
+    "!    /&gt;     &lt;br /&gt;     return score &lt;br /&gt; &lt;/pre&gt;<br/>
     "!
     "!
     "! @parameter I_FUNCTION_ID |
@@ -7702,14 +7734,14 @@ method GET_REQUEST_PROP.
 
   lv_auth_method = i_auth_method.
   if lv_auth_method eq c_default.
-    lv_auth_method = 'BearerToken'.
+    lv_auth_method = 'Bearer'.
   endif.
   if lv_auth_method is initial.
     e_request_prop-auth_basic      = c_boolean_false.
     e_request_prop-auth_oauth      = c_boolean_false.
     e_request_prop-auth_apikey     = c_boolean_false.
-  elseif lv_auth_method eq 'BearerToken'.
-    e_request_prop-auth_name       = 'BearerToken'.
+  elseif lv_auth_method eq 'Bearer'.
+    e_request_prop-auth_name       = 'Bearer'.
     e_request_prop-auth_type       = 'http'.
     e_request_prop-auth_oauth      = c_boolean_true.
   else.
@@ -7729,7 +7761,7 @@ endmethod.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20240325'.
+    e_sdk_version_date = '20240625'.
 
   endmethod.
 

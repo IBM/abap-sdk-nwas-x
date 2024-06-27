@@ -51,8 +51,11 @@ interface ZIF_IBMX_SERVICE_ARCH
   types:
     ty_ssl_id(6) type c .
   types:
+    ty_http_destination(32) type c .
+  types:
     begin of ts_request_prop,
       url                 type ts_url,
+      destination         type ty_http_destination,
       proxy_host          type string,
       proxy_port          type string,
       auth_name           type string,
