@@ -11,7 +11,7 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-"! <p class="shorttext synchronized" lang="en">Watson Machine Learning</p>
+"! <p class="shorttext synchronized" lang="en">watsonx.ai Runtime</p>
 "! No documentation available.<br/>
 class ZCL_IBMX_WML_V4 DEFINITION
   public
@@ -475,47 +475,6 @@ public section.
     end of T_TOKEN_COUNT.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Information related to the revision.</p>
-    begin of T_RESOURCE_COMMIT_INFO,
-      "!   The time when the revision was committed.
-      COMMITTED_AT type DATETIME,
-      "!   The message that was provided when the revision was created.
-      COMMIT_MESSAGE type STRING,
-    end of T_RESOURCE_COMMIT_INFO.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_MODEL_DEF_RESOURCE_METADATA,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_MODEL_DEF_RESOURCE_METADATA.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    Common metadata for a simple resource.</p>
     begin of T_RESOURCE_META_SIMPLE,
       "!   The id of the resource.
@@ -788,6 +747,15 @@ public section.
       "!    is not between 0 and 1. A higher value indicates a stronger score.
       AGGREGATED_SCORE type STANDARD TABLE OF T_TSD_HLDT_AGGRGTD_SCORE_ITEM WITH NON-UNIQUE DEFAULT KEY,
     end of T_MTRC_TSD_MTRCS_TSAD_HOLDOUT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Information related to the revision.</p>
+    begin of T_RESOURCE_COMMIT_INFO,
+      "!   The time when the revision was committed.
+      COMMITTED_AT type DATETIME,
+      "!   The message that was provided when the revision was created.
+      COMMIT_MESSAGE type STRING,
+    end of T_RESOURCE_COMMIT_INFO.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A reference to a resource.</p>
@@ -1234,7 +1202,7 @@ public section.
     "!    The definition of a model. The `software_spec` is used only</p>
     "!     for training. Either space_id or project_id has to be provided and is
     "!     mandatory.
-    begin of T_MODEL_DEF_RESOURCE_ENTITY,
+    begin of T_MODEL_DEFINITION_ENTITY,
       "!   The package version.
       VERSION type STRING,
       "!   No documentation available.
@@ -1245,18 +1213,18 @@ public section.
       SOFTWARE_SPEC type T_SOFTWARE_SPEC_REL,
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
-    end of T_MODEL_DEF_RESOURCE_ENTITY.
+    end of T_MODEL_DEFINITION_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The information for a model definition.</p>
     begin of T_MODEL_DEFINITION_RESOURCE,
       "!   Common metadata for a resource where `project_id` or `space_id` must be present.
       "!
-      METADATA type T_MODEL_DEF_RESOURCE_METADATA,
+      METADATA type T_RESOURCE_META,
       "!   The definition of a model.<br/>
       "!   The `software_spec` is used only for training.<br/>
       "!   Either space_id or project_id has to be provided and is mandatory.
-      ENTITY type T_MODEL_DEF_RESOURCE_ENTITY,
+      ENTITY type T_MODEL_DEFINITION_ENTITY,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
@@ -1360,7 +1328,7 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    The definition of a remote system used by Federated</p>
     "!     Learning.
-    begin of T_RMT_TRAIN_SYS_RSRC_ENTITY,
+    begin of T_REMOTE_TRAIN_SYSTEM_ENTITY,
       "!   The list of allowed identities that are allowed to access the remote system.
       ALLOWED_IDENTITIES type STANDARD TABLE OF T_ALLOWED_IDENTITY WITH NON-UNIQUE DEFAULT KEY,
       "!   A remote organization.
@@ -1369,48 +1337,16 @@ public section.
       REMOTE_ADMIN type T_REMOTE_ADMIN,
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
-    end of T_RMT_TRAIN_SYS_RSRC_ENTITY.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_RMT_TRAIN_SYS_RSRC_METADATA,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_RMT_TRAIN_SYS_RSRC_METADATA.
+    end of T_REMOTE_TRAIN_SYSTEM_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The information for a remote training system.</p>
     begin of T_REMOTE_TRAIN_SYSTEM_RESOURCE,
       "!   Common metadata for a resource where `project_id` or `space_id` must be present.
       "!
-      METADATA type T_RMT_TRAIN_SYS_RSRC_METADATA,
+      METADATA type T_RESOURCE_META,
       "!   The definition of a remote system used by Federated Learning.
-      ENTITY type T_RMT_TRAIN_SYS_RSRC_ENTITY,
+      ENTITY type T_REMOTE_TRAIN_SYSTEM_ENTITY,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
@@ -1885,42 +1821,10 @@ public section.
     end of T_REMOTE_TRAIN_SYS_ENTITY_REQ.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_TRAIN_DEF_RESOURCE_METADATA,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_TRAIN_DEF_RESOURCE_METADATA.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    The `training_data_references` contain the training datasets</p>
     "!     and the<br/>
     "!    `results_reference` the connection where results will be stored.
-    begin of T_TRAIN_DEF_RESOURCE_ENTITY,
+    begin of T_TRAINING_DEFINITION_ENTITY,
       "!   A reference to a resource.
       EXPERIMENT type T_REL,
       "!   A pipeline.<br/>
@@ -1943,17 +1847,17 @@ public section.
       TEST_DATA_REFERENCES type STANDARD TABLE OF T_DATA_CONNECTION_REFERENCE WITH NON-UNIQUE DEFAULT KEY,
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
-    end of T_TRAIN_DEF_RESOURCE_ENTITY.
+    end of T_TRAINING_DEFINITION_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The information for a training definition.</p>
     begin of T_TRAINING_DEFINITION_RESOURCE,
       "!   Common metadata for a resource where `project_id` or `space_id` must be present.
       "!
-      METADATA type T_TRAIN_DEF_RESOURCE_METADATA,
+      METADATA type T_RESOURCE_META,
       "!   The `training_data_references` contain the training datasets and the<br/>
       "!   `results_reference` the connection where results will be stored.
-      ENTITY type T_TRAIN_DEF_RESOURCE_ENTITY,
+      ENTITY type T_TRAINING_DEFINITION_ENTITY,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
@@ -1990,38 +1894,6 @@ public section.
       "!   The solve state for a Decision Optimization job.
       SOLVE_STATE type T_SOLVE_STATE,
     end of T_FIELD_SOLVE_STATE.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_MODEL_RESOURCE_METADATA,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_MODEL_RESOURCE_METADATA.
   types:
     "! No documentation available.
     begin of T_CNSMPTN_CAPACITY_UNIT_HOURS,
@@ -2222,40 +2094,8 @@ public section.
     end of T_JOB_RESOURCE_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_PIPELINE_RESOURCE_METADATA,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_PIPELINE_RESOURCE_METADATA.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    The details of the pipeline to be created.</p>
-    begin of T_PIPELINE_RESOURCE_ENTITY,
+    begin of T_PIPELINE_ENTITY,
       "!   The pipeline document, see<br/>
       "!   [pipeline-flow-v2-schema](https://raw.githubusercontent.com/elyra-ai/pipeline-sc
       "!   hemas/master/common-pipeline/pipeline-flow/pipeline-flow-v2-schema.json) for the
@@ -2263,16 +2103,16 @@ public section.
       DOCUMENT type JSONOBJECT,
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
-    end of T_PIPELINE_RESOURCE_ENTITY.
+    end of T_PIPELINE_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The information for a pipeline.</p>
     begin of T_PIPELINE_RESOURCE,
       "!   Common metadata for a resource where `project_id` or `space_id` must be present.
       "!
-      METADATA type T_PIPELINE_RESOURCE_METADATA,
+      METADATA type T_RESOURCE_META,
       "!   The details of the pipeline to be created.
-      ENTITY type T_PIPELINE_RESOURCE_ENTITY,
+      ENTITY type T_PIPELINE_ENTITY,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
@@ -2306,20 +2146,6 @@ public section.
       "!   An optional commit message for the revision.
       COMMIT_MESSAGE type STRING,
     end of T_REV_ENTITY_SPACE_REQUEST.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    The definition of a remote system used by Federated</p>
-    "!     Learning.
-    begin of T_REMOTE_TRAIN_SYSTEM_ENTITY,
-      "!   The list of allowed identities that are allowed to access the remote system.
-      ALLOWED_IDENTITIES type STANDARD TABLE OF T_ALLOWED_IDENTITY WITH NON-UNIQUE DEFAULT KEY,
-      "!   A remote organization.
-      ORGANIZATION type T_ORGANIZATION,
-      "!   The details of the remote administrator for the organization and identities.
-      REMOTE_ADMIN type T_REMOTE_ADMIN,
-      "!   User defined properties specified as key-value pairs.
-      CUSTOM type JSONOBJECT,
-    end of T_REMOTE_TRAIN_SYSTEM_ENTITY.
   types:
     "! No documentation available.
     begin of T_INSTNC_RESOURCE_ENTITY_PLAN,
@@ -2559,21 +2385,6 @@ public section.
     end of T_DEPLOYMENT_STATUS.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Optional metadata that can be used to provide information</p>
-    "!     about this model that can be tracked with IBM AI Factsheets. See [Using AI
-    "!     Factsheets](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fa
-    "!    ctsheets-model-inventory.html) for more details.
-    begin of T_MDL_RSRC_ENTITY_MODEL_VER,
-      "!   This is the user-provided version which should follow semantic versioning.
-      NUMBER type STRING,
-      "!   This is the user-provided tag for the model.
-      TAG type STRING,
-      "!   This is the user provided description that provides context for the change in
-      "!    the model version.
-      DESCRIPTION type STRING,
-    end of T_MDL_RSRC_ENTITY_MODEL_VER.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    The `training_data_references` contain the training datasets</p>
     "!     and the<br/>
     "!    `results_reference` the connection where results will be stored.
@@ -2619,55 +2430,6 @@ public section.
       "!   Metric score for the Pipeline 1.
       P1 type NUMBER,
     end of T_MTRC_TSD_MTRCS_TSD_TRAIN_AG1.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    The details of the function to be created.</p>
-    begin of T_FUNCTION_RESOURCE_ENTITY,
-      "!   A software specification.
-      SOFTWARE_SPEC type T_SOFTWARE_SPEC_REL,
-      "!   Type of the function to be created. Only `python` type is supported as of now.
-      "!    If not specified, `python` is the default. Functions expect a gzip file that
-      "!    contains a python file that make up the function. Python functions specify what
-      "!    needs to be run when the function is deployed and what needs to be run when the
-      "!    scoring function is called. In other words, you are able to customize what
-      "!    preparation WML does in the environment when you deploy the function, as well
-      "!    as what steps WML takes to generate the output when you call the API later on.
-      "!    The function consists of the outer function (any place that is not within the
-      "!    score function) and the inner score function. The code that sits in the outer
-      "!    function runs when the function is deployed, and the environment is then frozen
-      "!    and ready to be used whenever the online scoring or batch inline job processing
-      "!    API is called. The code that sits in the inner score function runs when the
-      "!    online scoring or batch inline job processing API is called, in the environment
-      "!    customized by the outer function. See [Deploying Python
-      "!    function](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/ml-d
-      "!   eploy-py-function.html?context=cpdaas&audience=wdp) for more details.<br/>
-      "!   <br/>
-      "!   This is illustrated in the example below:<br/>
-      "!   <br/>
-      "!   &gt;&lt;python code used to set up the environment&gt; \<br/>
-      "!   &gt;\<br/>
-      "!   &gt;def score(payload): \<br/>
-      "!   &gt;&nbsp;&nbsp;&nbsp;&nbsp;df_payload =
-      "!    pd.DataFrame(payload[&quot;values&quot;]) \<br/>
-      "!   &gt;&nbsp;&nbsp;&nbsp;&nbsp;df_payload.columns = payload[&quot;fields&quot;]
-      "!    \<br/>
-      "!   &gt;&nbsp;&nbsp;&nbsp;&nbsp;... \<br/>
-      "!   &gt;&nbsp;&nbsp;&nbsp;&nbsp;output = &#123;&quot;result&quot; : res&#125; \<br/>
-      "!   &gt;&nbsp;&nbsp;&nbsp;&nbsp;return output \<br/>
-      "!   &gt;\<br/>
-      "!   &gt;return score.
-      TYPE type STRING,
-      "!   Scoring data.
-      SAMPLE_SCORING_INPUT type T_SYNC_SCORING_DATA,
-      "!   The schemas of the expected data.
-      SCHEMAS type T_FUNCTION_ENTITY_SCHEMAS,
-      "!   User defined properties specified as key-value pairs.
-      CUSTOM type JSONOBJECT,
-      "!   This is a list of references of the models that are used by this function, if
-      "!    any. These references are provided by the owner of the function and are used
-      "!    for usage tracking only.
-      MODEL_REFERENCES type STANDARD TABLE OF T_MODEL_REFERENCE WITH NON-UNIQUE DEFAULT KEY,
-    end of T_FUNCTION_RESOURCE_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The content information to be uploaded.</p>
@@ -2996,45 +2758,13 @@ public section.
     end of T_METRIC_TS_METRICS_TS_TRAIN.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_FUNCTION_RESOURCE_METADATA,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_FUNCTION_RESOURCE_METADATA.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    The information for a function.</p>
     begin of T_FUNCTION_RESOURCE,
       "!   Common metadata for a resource where `project_id` or `space_id` must be present.
       "!
-      METADATA type T_FUNCTION_RESOURCE_METADATA,
+      METADATA type T_RESOURCE_META,
       "!   The details of the function to be created.
-      ENTITY type T_FUNCTION_RESOURCE_ENTITY,
+      ENTITY type T_FUNCTION_ENTITY,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
@@ -3060,31 +2790,18 @@ public section.
       SYSTEM type T_SYSTEM_DETAILS,
     end of T_FUNCTION_RESOURCES.
   types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    The details of the experiment to be created.</p>
-    begin of T_EXPERIMENT_RESOURCE_ENTITY,
-      "!   The label column.
-      LABEL_COLUMN type STRING,
-      "!   The optional evaluation definition.
-      EVALUATION_DEFINITION type T_EVALUATION_DEFINITION,
-      "!   The optional training references used by the experiment.
-      TRAINING_REFERENCES type STANDARD TABLE OF T_TRAINING_REFERENCE WITH NON-UNIQUE DEFAULT KEY,
-      "!   User defined properties specified as key-value pairs.
-      CUSTOM type JSONOBJECT,
-    end of T_EXPERIMENT_RESOURCE_ENTITY.
-  types:
     "! No documentation available.
       T_SCORING_TARGETS type TT_JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    This will be used by scoring to record the size of the</p>
     "!     model.
-    begin of T_MODEL_RESOURCE_ENTITY_SIZE,
+    begin of T_MODEL_ENTITY_SIZE,
       "!   The memory size of the model.
       IN_MEMORY type NUMBER,
       "!   The size of the model on disk.
       CONTENT type NUMBER,
-    end of T_MODEL_RESOURCE_ENTITY_SIZE.
+    end of T_MODEL_ENTITY_SIZE.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The model id of the base model for this job.</p>
@@ -3092,6 +2809,21 @@ public section.
       "!   The model id of the base model.
       MODEL_ID type STRING,
     end of T_BASE_MODEL.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Optional metadata that can be used to provide information</p>
+    "!     about this model that can be tracked with IBM AI Factsheets. See [Using AI
+    "!     Factsheets](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fa
+    "!    ctsheets-model-inventory.html) for more details.
+    begin of T_MODEL_ENTITY_MODEL_VERSION,
+      "!   This is the user-provided version which should follow semantic versioning.
+      NUMBER type STRING,
+      "!   This is the user-provided tag for the model.
+      TAG type STRING,
+      "!   This is the user provided description that provides context for the change in
+      "!    the model version.
+      DESCRIPTION type STRING,
+    end of T_MODEL_ENTITY_MODEL_VERSION.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Information about the training job that created this model.</p>
@@ -3105,27 +2837,6 @@ public section.
       "!   The optional verbalizer that was used during the training, if appropriate.
       VERBALIZER type STRING,
     end of T_TRAINING_DETAILS.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    If the prediction schemas are provided here then they take</p>
-    "!     precedent over any schemas provided in the data references. Note that data
-    "!     references contain the schema for the associated data and this object contains
-    "!     the schema(s) for the associated prediction, if any. In the case that the
-    "!     prediction input data matches exactly the schema of the training data
-    "!     references then the prediction schema can be omitted. However it is highly
-    "!     recommended to always specify the prediction schemas using this field.
-    begin of T_MDL_RESOURCE_ENTITY_SCHEMAS,
-      "!   The schema of the expected prediction input data, see<br/>
-      "!   [datarecord-metadata-v2-schema](https://raw.githubusercontent.com/elyra-ai/pipel
-      "!   ine-schemas/master/common-pipeline/datarecord-metadata/datarecord-metadata-v2-sc
-      "!   hema.json) for the schema definition.
-      INPUT type STANDARD TABLE OF T_DATA_SCHEMA WITH NON-UNIQUE DEFAULT KEY,
-      "!   The schema of the expected prediction output data, see<br/>
-      "!   [datarecord-metadata-v2-schema](https://raw.githubusercontent.com/elyra-ai/pipel
-      "!   ine-schemas/master/common-pipeline/datarecord-metadata/datarecord-metadata-v2-sc
-      "!   hema.json) for the schema definition.
-      OUTPUT type STANDARD TABLE OF T_DATA_SCHEMA WITH NON-UNIQUE DEFAULT KEY,
-    end of T_MDL_RESOURCE_ENTITY_SCHEMAS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Information related to the upload of the model content.</p>
@@ -3160,7 +2871,7 @@ public section.
       "!   references then the prediction schema can be omitted. However it is highly
       "!    recommended to<br/>
       "!   always specify the prediction schemas using this field.
-      SCHEMAS type T_MDL_RESOURCE_ENTITY_SCHEMAS,
+      SCHEMAS type T_MODEL_ENTITY_SCHEMAS,
       "!   The name of the label column.
       LABEL_COLUMN type STRING,
       "!   The name of the  label column seen by the estimator, which may have been
@@ -3168,7 +2879,7 @@ public section.
       "!    necessarily the same column as the `label_column` in the initial data set.
       TRANSFORMED_LABEL_COLUMN type STRING,
       "!   This will be used by scoring to record the size of the model.
-      SIZE type T_MODEL_RESOURCE_ENTITY_SIZE,
+      SIZE type T_MODEL_ENTITY_SIZE,
       "!   Metrics that can be returned by an operation.
       METRICS type STANDARD TABLE OF T_METRIC WITH NON-UNIQUE DEFAULT KEY,
       "!   User defined properties specified as key-value pairs.
@@ -3179,16 +2890,15 @@ public section.
       "!    specified as the `value`. This is applicable for `Tensorflow 2.X` models
       "!    serialized in `H5` format using the `tf.keras` API.
       USER_DEFINED_OBJECTS type MAP,
-      "!   This is the array which contains information about the software specifications
-      "!    that are used in the hybrid pipeline (if this model includes a hybrid
-      "!    pipeline).
+      "!   The list of the software specifications that are used by the pipeline that
+      "!    generated this model, if the model was generated by a pipeline.
       HYBRID_PIPELINE_SOFTWARE_SPECS type STANDARD TABLE OF T_SOFTWARE_SPEC_REL WITH NON-UNIQUE DEFAULT KEY,
       "!   Optional metadata that can be used to provide information<br/>
       "!   about this model that can be tracked with IBM AI Factsheets.<br/>
       "!   See [Using AI
       "!    Factsheets](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fa
       "!   ctsheets-model-inventory.html) for more details.
-      MODEL_VERSION type T_MDL_RSRC_ENTITY_MODEL_VER,
+      MODEL_VERSION type T_MODEL_ENTITY_MODEL_VERSION,
       "!   Deprecated: this is replaced by `training.id`. This field can be used to store
       "!    the `id` of the training job that was used to produce this model.
       TRAINING_ID type STRING,
@@ -3206,7 +2916,7 @@ public section.
     begin of T_MODEL_RESOURCE,
       "!   Common metadata for a resource where `project_id` or `space_id` must be present.
       "!
-      METADATA type T_MODEL_RESOURCE_METADATA,
+      METADATA type T_RESOURCE_META,
       "!   Information related to the upload of the model content.
       ENTITY type T_MODEL_RESOURCE_ENTITY,
       "!   Optional details coming from the service and related to the API call or the
@@ -3264,16 +2974,6 @@ public section.
       "!   An optional commit message for the revision.
       COMMIT_MESSAGE type STRING,
     end of T_JOB_REVISION_ENTITY_REQUEST.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    This will be used by scoring to record the size of the</p>
-    "!     model.
-    begin of T_MODEL_ENTITY_SIZE,
-      "!   The memory size of the model.
-      IN_MEMORY type NUMBER,
-      "!   The size of the model on disk.
-      CONTENT type NUMBER,
-    end of T_MODEL_ENTITY_SIZE.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The status of the job.</p>
@@ -3369,38 +3069,6 @@ public section.
       "!   No documentation available.
       RESOURCES type STANDARD TABLE OF T_INSTANCE_RESOURCE WITH NON-UNIQUE DEFAULT KEY,
     end of T_INSTANCE_RESOURCES.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_EXPERIMENT_RESOURCE_METADATA,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_EXPERIMENT_RESOURCE_METADATA.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Details about the batch deployment job.</p><br/>
@@ -3541,13 +3209,26 @@ public section.
     end of T_METRIC_TS_METRICS_TS_HOLDOUT.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The details of the experiment to be created.</p>
+    begin of T_EXPERIMENT_ENTITY,
+      "!   The label column.
+      LABEL_COLUMN type STRING,
+      "!   The optional evaluation definition.
+      EVALUATION_DEFINITION type T_EVALUATION_DEFINITION,
+      "!   The optional training references used by the experiment.
+      TRAINING_REFERENCES type STANDARD TABLE OF T_TRAINING_REFERENCE WITH NON-UNIQUE DEFAULT KEY,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+    end of T_EXPERIMENT_ENTITY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The information for an experiment.</p>
     begin of T_EXPERIMENT_RESOURCE,
       "!   Common metadata for a resource where `project_id` or `space_id` must be present.
       "!
-      METADATA type T_EXPERIMENT_RESOURCE_METADATA,
+      METADATA type T_RESOURCE_META,
       "!   The details of the experiment to be created.
-      ENTITY type T_EXPERIMENT_RESOURCE_ENTITY,
+      ENTITY type T_EXPERIMENT_ENTITY,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
@@ -3633,10 +3314,6 @@ public section.
     begin of T_EXTRA_MODEL_ENTITY,
       "!   The upload state.
       CONTENT_IMPORT_STATE type STRING,
-      "!   This is the array which contains information about the software specifications
-      "!    that are used in the hybrid pipeline (if this model includes a hybrid
-      "!    pipeline).
-      HYBRID_PIPELINE_SOFTWARE_SPECS type STANDARD TABLE OF T_SOFTWARE_SPEC_REL WITH NON-UNIQUE DEFAULT KEY,
     end of T_EXTRA_MODEL_ENTITY.
   types:
     "! No documentation available.
@@ -3670,47 +3347,6 @@ public section.
       "!   The predictions.
       PREDICTIONS type STANDARD TABLE OF T_SCORING_PAYLOAD WITH NON-UNIQUE DEFAULT KEY,
     end of T_SYNC_SCORING_DATA_RESULTS.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    The details of the pipeline to be created.</p>
-    begin of T_PIPELINE_ENTITY,
-      "!   The pipeline document, see<br/>
-      "!   [pipeline-flow-v2-schema](https://raw.githubusercontent.com/elyra-ai/pipeline-sc
-      "!   hemas/master/common-pipeline/pipeline-flow/pipeline-flow-v2-schema.json) for the
-      "!    schema definition.
-      DOCUMENT type JSONOBJECT,
-      "!   User defined properties specified as key-value pairs.
-      CUSTOM type JSONOBJECT,
-    end of T_PIPELINE_ENTITY.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    The `training_data_references` contain the training datasets</p>
-    "!     and the<br/>
-    "!    `results_reference` the connection where results will be stored.
-    begin of T_TRAINING_DEFINITION_ENTITY,
-      "!   A reference to a resource.
-      EXPERIMENT type T_REL,
-      "!   A pipeline.<br/>
-      "!   The `hardware_spec` is a reference to the hardware specification.<br/>
-      "!   The `hybrid_pipeline_hardware_specs` are used only when training a hybrid
-      "!    pipeline in order to<br/>
-      "!   specify compute requirement for each pipeline node.
-      PIPELINE type T_PIPELINE_REL,
-      "!   A model.<br/>
-      "!   The `software_spec` is a reference to a software specification.<br/>
-      "!   The `hardware_spec` is a reference to a hardware specification.
-      MODEL_DEFINITION type T_MODEL_DEFINITION_REL,
-      "!   Federated Learning.
-      FEDERATED_LEARNING type T_FEDERATED_LEARNING,
-      "!   Training datasets.
-      TRAINING_DATA_REFERENCES type STANDARD TABLE OF T_DATA_CONNECTION_REFERENCE WITH NON-UNIQUE DEFAULT KEY,
-      "!   The training results.
-      RESULTS_REFERENCE type T_OBJECT_LOCATION,
-      "!   The holdout/test datasets.
-      TEST_DATA_REFERENCES type STANDARD TABLE OF T_DATA_CONNECTION_REFERENCE WITH NON-UNIQUE DEFAULT KEY,
-      "!   User defined properties specified as key-value pairs.
-      CUSTOM type JSONOBJECT,
-    end of T_TRAINING_DEFINITION_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A paginated list of deployment job definitions.</p>
@@ -3815,21 +3451,6 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    The space that contains the resource.</p>
       T_SPACE_ID_ONLY type String.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Optional metadata that can be used to provide information</p>
-    "!     about this model that can be tracked with IBM AI Factsheets. See [Using AI
-    "!     Factsheets](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fa
-    "!    ctsheets-model-inventory.html) for more details.
-    begin of T_MODEL_ENTITY_MODEL_VERSION,
-      "!   This is the user-provided version which should follow semantic versioning.
-      NUMBER type STRING,
-      "!   This is the user-provided tag for the model.
-      TAG type STRING,
-      "!   This is the user provided description that provides context for the change in
-      "!    the model version.
-      DESCRIPTION type STRING,
-    end of T_MODEL_ENTITY_MODEL_VERSION.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The details of the model to be created.</p>
@@ -4081,23 +3702,6 @@ public section.
     end of T_TS_TRAINING.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    The definition of a model. The `software_spec` is used only</p>
-    "!     for training. Either space_id or project_id has to be provided and is
-    "!     mandatory.
-    begin of T_MODEL_DEFINITION_ENTITY,
-      "!   The package version.
-      VERSION type STRING,
-      "!   No documentation available.
-      PLATFORM type T_MODEL_DEF_ENTITY_PLATFORM,
-      "!   The command used to run the model.
-      COMMAND type STRING,
-      "!   A software specification.
-      SOFTWARE_SPEC type T_SOFTWARE_SPEC_REL,
-      "!   User defined properties specified as key-value pairs.
-      CUSTOM type JSONOBJECT,
-    end of T_MODEL_DEFINITION_ENTITY.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    The `training_data_references` contain the training datasets</p>
     "!     and the<br/>
     "!    `results_reference` the connection where results will be stored.
@@ -4174,19 +3778,6 @@ public section.
       "!   An optional commit message for the revision.
       COMMIT_MESSAGE type STRING,
     end of T_PIPELINE_REV_ENTITY_REQUEST.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    The details of the experiment to be created.</p>
-    begin of T_EXPERIMENT_ENTITY,
-      "!   The label column.
-      LABEL_COLUMN type STRING,
-      "!   The optional evaluation definition.
-      EVALUATION_DEFINITION type T_EVALUATION_DEFINITION,
-      "!   The optional training references used by the experiment.
-      TRAINING_REFERENCES type STANDARD TABLE OF T_TRAINING_REFERENCE WITH NON-UNIQUE DEFAULT KEY,
-      "!   User defined properties specified as key-value pairs.
-      CUSTOM type JSONOBJECT,
-    end of T_EXPERIMENT_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The details for the revision.</p>
@@ -4486,8 +4077,6 @@ constants:
     T_TRAINING_STATUS type string value '|STATE|',
     T_CONSUMPTION_GPU_COUNT type string value '|',
     T_TOKEN_COUNT type string value '|CURRENT|',
-    T_RESOURCE_COMMIT_INFO type string value '|COMMITTED_AT|',
-    T_MODEL_DEF_RESOURCE_METADATA type string value '|ID|CREATED_AT|',
     T_RESOURCE_META_SIMPLE type string value '|ID|CREATED_AT|',
     T_VARIANCE type string value '|',
     T_TSAD_HOLDOUT_AGG_PRECISION type string value '|',
@@ -4506,6 +4095,7 @@ constants:
     T_TSD_HLDT_AGG_AVG_PRECISION type string value '|',
     T_TSAD_HOLDOUT_AGG type string value '|',
     T_MTRC_TSD_MTRCS_TSAD_HOLDOUT type string value '|',
+    T_RESOURCE_COMMIT_INFO type string value '|COMMITTED_AT|',
     T_SIMPLE_REL type string value '|ID|',
     T_DATA_CONNECTION_REFERENCE type string value '|TYPE|',
     T_SCORING_PAYLOAD_OPTIM type string value '|ID|',
@@ -4535,15 +4125,14 @@ constants:
     T_WARNING type string value '|MESSAGE|',
     T_SYSTEM_DETAILS type string value '|',
     T_MODEL_DEF_ENTITY_PLATFORM type string value '|NAME|VERSIONS|',
-    T_MODEL_DEF_RESOURCE_ENTITY type string value '|VERSION|PLATFORM|',
+    T_MODEL_DEFINITION_ENTITY type string value '|VERSION|PLATFORM|',
     T_MODEL_DEFINITION_RESOURCE type string value '|METADATA|ENTITY|',
     T_MODEL_DEFINITION_RESOURCES type string value '|LIMIT|FIRST|',
     T_JOB_SCORING_REQUEST type string value '|',
     T_ORGANIZATION type string value '|NAME|',
     T_ALLOWED_IDENTITY type string value '|ID|TYPE|',
     T_REMOTE_ADMIN type string value '|NAME|',
-    T_RMT_TRAIN_SYS_RSRC_ENTITY type string value '|ALLOWED_IDENTITIES|',
-    T_RMT_TRAIN_SYS_RSRC_METADATA type string value '|ID|CREATED_AT|',
+    T_REMOTE_TRAIN_SYSTEM_ENTITY type string value '|ALLOWED_IDENTITIES|',
     T_REMOTE_TRAIN_SYSTEM_RESOURCE type string value '|METADATA|ENTITY|',
     T_MODEL_DEFINITION_ID type string value '|',
     T_MESSAGE type string value '|',
@@ -4572,12 +4161,10 @@ constants:
     T_MODEL_DEFINITION_REL type string value '|ID|',
     T_TRAIN_DEF_ENTITY_REQUEST type string value '|NAME|RESULTS_REFERENCE|',
     T_REMOTE_TRAIN_SYS_ENTITY_REQ type string value '|NAME|ALLOWED_IDENTITIES|',
-    T_TRAIN_DEF_RESOURCE_METADATA type string value '|ID|CREATED_AT|',
-    T_TRAIN_DEF_RESOURCE_ENTITY type string value '|RESULTS_REFERENCE|',
+    T_TRAINING_DEFINITION_ENTITY type string value '|RESULTS_REFERENCE|',
     T_TRAINING_DEFINITION_RESOURCE type string value '|METADATA|ENTITY|',
     T_TRAIN_DEFINITION_RESOURCES type string value '|LIMIT|FIRST|',
     T_FIELD_SOLVE_STATE type string value '|',
-    T_MODEL_RESOURCE_METADATA type string value '|ID|CREATED_AT|',
     T_CNSMPTN_CAPACITY_UNIT_HOURS type string value '|CURRENT|',
     T_CNSMPTN_DEPLOYMENT_JOB_COUNT type string value '|',
     T_CONSUMPTION_DO_JOB_COUNT type string value '|',
@@ -4586,12 +4173,10 @@ constants:
     T_PAGINATION type string value '|LIMIT|FIRST|',
     T_JB_DECISION_OPTIMIZATION_REQ type string value '|',
     T_JOB_RESOURCE_ENTITY type string value '|DEPLOYMENT|',
-    T_PIPELINE_RESOURCE_METADATA type string value '|ID|CREATED_AT|',
-    T_PIPELINE_RESOURCE_ENTITY type string value '|DOCUMENT|',
+    T_PIPELINE_ENTITY type string value '|DOCUMENT|',
     T_PIPELINE_RESOURCE type string value '|METADATA|ENTITY|',
     T_PIPELINE_RESOURCES type string value '|LIMIT|FIRST|',
     T_REV_ENTITY_SPACE_REQUEST type string value '|SPACE_ID|',
-    T_REMOTE_TRAIN_SYSTEM_ENTITY type string value '|ALLOWED_IDENTITIES|',
     T_INSTNC_RESOURCE_ENTITY_PLAN type string value '|ID|NAME|VERSION|',
     T_RESOURCE_META_BASE type string value '|',
     T_BLUEMIX_ACCOUNT type string value '|ID|',
@@ -4610,10 +4195,8 @@ constants:
     T_INFERENCE type string value '|URL|',
     T_DEPLOYMENT_SCALING type string value '|STATE|',
     T_DEPLOYMENT_STATUS type string value '|',
-    T_MDL_RSRC_ENTITY_MODEL_VER type string value '|',
     T_TRAIN_RESOURCE_ENTITY_REQ type string value '|RESULTS_REFERENCE|',
     T_MTRC_TSD_MTRCS_TSD_TRAIN_AG1 type string value '|',
-    T_FUNCTION_RESOURCE_ENTITY type string value '|SOFTWARE_SPEC|',
     T_CONTENT_INFO type string value '|CONTENT_FORMAT|LOCATION|FILE_NAME|',
     T_CONTENT_LOCATION type string value '|CONTENTS|TYPE|',
     T_REMOTE_TRAIN_SYS_RESOURCES type string value '|LIMIT|FIRST|',
@@ -4628,20 +4211,17 @@ constants:
     T_PIPELINE_ENTITY_REQUEST type string value '|NAME|DOCUMENT|',
     T_TS_TRAINING_TRAINING type string value '|',
     T_METRIC_TS_METRICS_TS_TRAIN type string value '|',
-    T_FUNCTION_RESOURCE_METADATA type string value '|ID|CREATED_AT|',
     T_FUNCTION_RESOURCE type string value '|METADATA|ENTITY|',
     T_FUNCTION_RESOURCES type string value '|LIMIT|FIRST|',
-    T_EXPERIMENT_RESOURCE_ENTITY type string value '|',
-    T_MODEL_RESOURCE_ENTITY_SIZE type string value '|',
+    T_MODEL_ENTITY_SIZE type string value '|',
     T_BASE_MODEL type string value '|',
+    T_MODEL_ENTITY_MODEL_VERSION type string value '|',
     T_TRAINING_DETAILS type string value '|',
-    T_MDL_RESOURCE_ENTITY_SCHEMAS type string value '|',
     T_MODEL_RESOURCE_ENTITY type string value '|TYPE|SOFTWARE_SPEC|',
     T_MODEL_RESOURCE type string value '|METADATA|',
     T_MODEL_RESOURCES type string value '|LIMIT|FIRST|',
     T_REV_ENTITY_SPC_PROJECT_REQ type string value '|',
     T_JOB_REVISION_ENTITY_REQUEST type string value '|SPACE_ID|',
-    T_MODEL_ENTITY_SIZE type string value '|',
     T_FIELD_JOB_STATUS type string value '|',
     T_BATCH_REQUEST type string value '|',
     T_DEPLOYMENT_ENTITY type string value '|',
@@ -4649,10 +4229,10 @@ constants:
     T_COMMON_PATCH_REQUEST_HELPER type string value '|',
     T_REMOTE_TRAIN_SYSTEM_METRIC type string value '|ID|',
     T_INSTANCE_RESOURCES type string value '|LIMIT|FIRST|',
-    T_EXPERIMENT_RESOURCE_METADATA type string value '|ID|CREATED_AT|',
     T_JOB_ENTITY_REQUEST type string value '|SPACE_ID|NAME|DEPLOYMENT|',
     T_TS_METRIC_LEVELS type string value '|',
     T_METRIC_TS_METRICS_TS_HOLDOUT type string value '|',
+    T_EXPERIMENT_ENTITY type string value '|',
     T_EXPERIMENT_RESOURCE type string value '|METADATA|ENTITY|',
     T_EXPERIMENT_RESOURCES type string value '|LIMIT|FIRST|',
     T_ENTITY_REQUEST_SPACE_BODY type string value '|SPACE_ID|NAME|',
@@ -4661,14 +4241,11 @@ constants:
     T_EXTRA_MODEL_ENTITY type string value '|',
     T_TS_MTRC_BCKTST_ITRTNS_ITEM type string value '|',
     T_SYNC_SCORING_DATA_RESULTS type string value '|',
-    T_PIPELINE_ENTITY type string value '|DOCUMENT|',
-    T_TRAINING_DEFINITION_ENTITY type string value '|RESULTS_REFERENCE|',
     T_JOB_RESOURCES type string value '|LIMIT|FIRST|',
     T_SYSTEM type string value '|',
     T_MTRC_TSAD_METRICS_TSAD_TRAIN type string value '|',
     T_DEPLOYMENT_PATCH_REQ_HELPER type string value '|',
     T_DEPLOYMENT_ENTITY_REQUEST type string value '|SPACE_ID|',
-    T_MODEL_ENTITY_MODEL_VERSION type string value '|',
     T_MODEL_ENTITY_REQUEST type string value '|NAME|TYPE|SOFTWARE_SPEC|',
     T_TS_METRIC_BACKTEST type string value '|',
     T_TS_BACKTEST type string value '|',
@@ -4682,12 +4259,10 @@ constants:
     T_JSON_PATCH_OPERATION type string value '|OP|PATH|',
     T_DEPLOYMENT_ENTITY_COMMON type string value '|',
     T_TS_TRAINING type string value '|',
-    T_MODEL_DEFINITION_ENTITY type string value '|VERSION|PLATFORM|',
     T_TRAINING_RESOURCE_ENTITY type string value '|RESULTS_REFERENCE|',
     T_TRAINING_RESOURCE type string value '|',
     T_TRAINING_RESOURCES type string value '|LIMIT|FIRST|',
     T_PIPELINE_REV_ENTITY_REQUEST type string value '|',
-    T_EXPERIMENT_ENTITY type string value '|',
     T_MODEL_DEF_REV_ENTITY_REQUEST type string value '|',
     T_CONTENT_LOCATION_FIELD type string value '|',
     T_TRAIN_DEF_PATCH_HELPER type string value '|',
@@ -4987,9 +4562,6 @@ constants:
      QUORUM type string value 'quorum',
      MAX_TIMEOUT type string value 'max_timeout',
      CIPHER_SPEC type string value 'cipher_spec',
-     IN_MEMORY type string value 'in_memory',
-     NUMBER type string value 'number',
-     TAG type string value 'tag',
      NODE_RUNTIME_ID type string value 'node_runtime_id',
      AVERAGE_PRECISION type string value 'average_precision',
      ROC_AUC type string value 'roc_auc',
@@ -5008,6 +4580,9 @@ constants:
      NODE_ID type string value 'node_id',
      INPUT_TARGET type string value 'input_target',
      METRICS_NAMES type string value 'metrics_names',
+     IN_MEMORY type string value 'in_memory',
+     NUMBER type string value 'number',
+     TAG type string value 'tag',
      STATES type string value 'states',
      LEVEL_SHIFT type string value 'level_shift',
      LOCALIZED_EXTREME type string value 'localized_extreme',
@@ -7714,7 +7289,7 @@ class ZCL_IBMX_WML_V4 IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method GET_APPNAME.
 
-    e_appname = 'Watson Machine Learning'.
+    e_appname = 'watsonx.ai Runtime'.
 
   endmethod.
 
@@ -7744,6 +7319,11 @@ method GET_REQUEST_PROP.
     e_request_prop-auth_name       = 'Bearer'.
     e_request_prop-auth_type       = 'http'.
     e_request_prop-auth_oauth      = c_boolean_true.
+  elseif lv_auth_method eq 'ZenApiKey'.
+    e_request_prop-auth_name       = lv_auth_method.
+    e_request_prop-auth_type       = lv_auth_method.
+    e_request_prop-auth_oauth      = c_boolean_false.
+    e_request_prop-auth_header     = c_boolean_true.
   else.
   endif.
 
@@ -7761,7 +7341,7 @@ endmethod.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20240625'.
+    e_sdk_version_date = '20241203'.
 
   endmethod.
 

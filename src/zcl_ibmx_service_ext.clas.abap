@@ -407,6 +407,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
       ls_token_request_prop-auth_basic    = c_tribool_false.
       ls_token_request_prop-auth_oauth    = c_tribool_false.
       ls_token_request_prop-auth_apikey   = c_tribool_false.
+      ls_token_request_prop-auth_header   = c_tribool_false.
       ls_token_request_prop-header_accept = ZCL_IBMX_service=>ZIF_IBMX_service_arch~c_mediatype-appl_json.
 
 
@@ -936,10 +937,25 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
     endif.
 
     if not i_access_token-access_token is initial.
-      lo_instance->p_token_generation =  c_token_generation_never.
+      lo_instance->p_request_prop_default-auth_header = c_boolean_true.
+      lo_instance->p_token_generation = c_token_generation_never.
       lo_instance->set_access_token( i_access_token = i_access_token ).
     else.
-      lo_instance->p_token_generation = i_token_generation.
+      if ls_request_prop-auth_name eq 'ZenApiKey'.
+        if not lo_instance->p_request_prop_default-username is initial and not lo_instance->p_request_prop_default-apikey is initial.
+          data(ls_access_token) = value ts_access_token(
+            access_token = base64_encode(
+              exporting
+                i_unencoded = lo_instance->p_request_prop_default-username && `:` && lo_instance->p_request_prop_default-apikey
+            )
+            token_type = ls_request_prop-auth_type
+          ).
+          lo_instance->p_request_prop_default-auth_header = c_boolean_true.
+          lo_instance->set_access_token( i_access_token = ls_access_token ).
+        endif.
+      else.
+        lo_instance->p_token_generation = i_token_generation.
+      endif.
     endif.
 
     lo_instance->p_version = i_version.
@@ -992,7 +1008,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20240625'.
+    e_sdk_version_date = '20241203'.
 
   endmethod.
 

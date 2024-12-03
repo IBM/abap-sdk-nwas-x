@@ -117,6 +117,19 @@ public section.
     end of T_NOTEBOOK_ORIGIN_FROM_SOURCE.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    Contains a set of location fields specific to each data</p>
+    "!     source.
+    begin of T_COS_DATA_CONNECTION,
+      "!   The id of the connection asset that contains the credentials required to access
+      "!    the data.
+      ID type STRING,
+    end of T_COS_DATA_CONNECTION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The model version (using semantic versioning) if set.</p>
+      T_MODEL_VERSION type String.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The number of epochs is the number of complete passes</p>
     "!     through the training dataset. The quality depends on the number of epochs.
     begin of T_TRAINING_NUM_EPOCHS,
@@ -154,6 +167,34 @@ public section.
     end of T_LIFE_CYCLE_STATE.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The details for a given evidence.</p>
+    begin of T_TXT_DTCTN_EVIDENCE_OBJECT,
+      "!   The name for the evidence.
+      NAME type STRING,
+      "!   The value for the evidence.
+      VALUE type STRING,
+      "!   The threshold probability that this is a real match.
+      SCORE type FLOAT,
+    end of T_TXT_DTCTN_EVIDENCE_OBJECT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Child evidence.</p>
+    begin of T_TXT_DETECTION_CHILD_EVIDENCE,
+      "!   The name for the evidence.
+      NAME type STRING,
+      "!   The value for the evidence.
+      VALUE type STRING,
+      "!   The threshold probability that this is a real match.
+      SCORE type FLOAT,
+      "!   The child evidence details.
+      EVIDENCE type STANDARD TABLE OF T_TXT_DTCTN_EVIDENCE_OBJECT WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TXT_DETECTION_CHILD_EVIDENCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The description of the job.</p>
+      T_RESOURCE_DESCRIPTION type String.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The limits that may be set per request.</p>
     begin of T_CONSUMPTIONS_LIMIT,
       "!   The hard limit on the call time for a request, if set.
@@ -165,6 +206,30 @@ public section.
       "!    zero will disable this feature.
       MAX_OUTPUT_TOKENS type INTEGER,
     end of T_CONSUMPTIONS_LIMIT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The OCR text extraction step.</p>
+    begin of T_TEXT_EXTRACTION_STEP_OCR,
+      "!   Set of languages to be expected in the document. The language codes follow `ISO
+      "!    639`. See the documentation for the currently supported languages.
+      LANGUAGES_LIST type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TEXT_EXTRACTION_STEP_OCR.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The tables processing text extraction step.</p>
+    begin of T_TXT_EXTRCTN_STP_TBLS_PRCSSNG,
+      "!   Should tables be processed for text extraction.
+      ENABLED type BOOLEAN,
+    end of T_TXT_EXTRCTN_STP_TBLS_PRCSSNG.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The steps for the text extraction pipeline.</p>
+    begin of T_TEXT_EXTRACTION_STEPS,
+      "!   The OCR text extraction step.
+      OCR type T_TEXT_EXTRACTION_STEP_OCR,
+      "!   The tables processing text extraction step.
+      TABLES_PROCESSING type T_TXT_EXTRCTN_STP_TBLS_PRCSSNG,
+    end of T_TEXT_EXTRACTION_STEPS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Initialization methods for a training.</p>
@@ -237,6 +302,50 @@ public section.
       "!   even if it is empty, then masking will be applied.
       MASK type T_MASK_PROPERTIES,
     end of T_MDRTN_HAP_INPUT_PROPERTIES.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The chunking details for an AutoAI RAG pattern,.</p>
+    begin of T_AUTO_AIRAGCHUNKING,
+      "!   Text splitting method.
+      METHOD type STRING,
+      "!   The size (tokens) of the piece of text.
+      CHUNK_SIZE type INTEGER,
+      "!   Number of overlapping (across chunks) tokens. Must be less than `chunk_size`.
+      CHUNK_OVERLAP type INTEGER,
+    end of T_AUTO_AIRAGCHUNKING.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The constraint parameters for an AutoAI RAG run.</p>
+    begin of T_AUTO_AIRAGCONSTRAINTS,
+      "!   Chunking methods to be used.
+      CHUNKING type STANDARD TABLE OF T_AUTO_AIRAGCHUNKING WITH NON-UNIQUE DEFAULT KEY,
+      "!   The embedding models to try.
+      EMBEDDING_MODELS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   Retrieval methods to be used.
+      RETRIEVAL_METHODS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   Properties describing the AutoAI RAG generation step.
+      FOUNDATION_MODELS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   The maximum number of RAG patterns to create.
+      MAX_NUMBER_OF_RAG_PATTERNS type INTEGER,
+    end of T_AUTO_AIRAGCONSTRAINTS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The optimization parameters for an AutoAI RAG run.</p>
+    begin of T_AUTO_AIRAGOPTIMIZATION_PARAM,
+      "!   The metric name(s) to be used for optimization.
+      METRICS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+    end of T_AUTO_AIRAGOPTIMIZATION_PARAM.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The parameters for an AutoAI RAG run.</p>
+    begin of T_AUTO_AIRAGPARAMETERS,
+      "!   The constraint parameters for an AutoAI RAG run.
+      CONSTRAINTS type T_AUTO_AIRAGCONSTRAINTS,
+      "!   The optimization parameters for an AutoAI RAG run.
+      OPTIMIZATION type T_AUTO_AIRAGOPTIMIZATION_PARAM,
+      "!   Request that the output logs are also stored as part of the result.
+      OUTPUT_LOGS type BOOLEAN,
+    end of T_AUTO_AIRAGPARAMETERS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The top tokens.</p>
@@ -318,13 +427,9 @@ public section.
     end of T_TEXT_GEN_TOKEN_INFO.
   types:
     "! No documentation available.
-    begin of T_TEXT_GEN_RESULT,
+    begin of T_TXT_GN_RESP_FLDS_RSLTS_ITEM,
       "!   The text that was generated by the model.
       GENERATED_TEXT type STRING,
-      "!   The number of generated tokens.
-      GENERATED_TOKEN_COUNT type INTEGER,
-      "!   The number of input tokens consumed.
-      INPUT_TOKEN_COUNT type INTEGER,
       "!   The reason why the call stopped, can be one of:<br/>
       "!   - not_finished - Possibly more tokens to be streamed.<br/>
       "!   - max_tokens - Maximum requested tokens reached.<br/>
@@ -337,6 +442,10 @@ public section.
       "!   <br/>
       "!   Note that these values will be lower-cased so test for values case insensitive.
       STOP_REASON type STRING,
+      "!   The number of generated tokens.
+      GENERATED_TOKEN_COUNT type INTEGER,
+      "!   The number of input tokens consumed.
+      INPUT_TOKEN_COUNT type INTEGER,
       "!   The seed used, if it exists.
       SEED type INTEGER,
       "!   The list of individual generated tokens. Extra token information is included
@@ -347,7 +456,7 @@ public section.
       INPUT_TOKENS type STANDARD TABLE OF T_TEXT_GEN_TOKEN_INFO WITH NON-UNIQUE DEFAULT KEY,
       "!   The result of any detected moderations.
       MODERATIONS type T_MODERATION_RESULTS,
-    end of T_TEXT_GEN_RESULT.
+    end of T_TXT_GN_RESP_FLDS_RSLTS_ITEM.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    System details.</p>
@@ -356,10 +465,10 @@ public section.
       MODEL_ID type STRING,
       "!   The model version (using semantic versioning) if set.
       MODEL_VERSION type STRING,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The generated tokens.
-      RESULTS type STANDARD TABLE OF T_TEXT_GEN_RESULT WITH NON-UNIQUE DEFAULT KEY,
+      RESULTS type STANDARD TABLE OF T_TXT_GN_RESP_FLDS_RSLTS_ITEM WITH NON-UNIQUE DEFAULT KEY,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
@@ -418,6 +527,19 @@ public section.
       "!   The target of the error.
       TARGET type T_ERROR_TARGET,
     end of T_ERROR.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The metric for a given property.</p>
+    begin of T_AUTO_AIRAGMETRIC,
+      "!   The name of the metric.
+      METRIC_NAME type STRING,
+      "!   The mean value calculated over all records in the dataset.
+      MEAN type NUMBER,
+      "!   High confidence interval calculated over all records in the dataset.
+      CI_HIGH type NUMBER,
+      "!   Low confidence interval calculated over all records in the dataset.
+      CI_LOW type NUMBER,
+    end of T_AUTO_AIRAGMETRIC.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The space that contains the resource. Either `space_id` or</p>
@@ -577,7 +699,7 @@ public section.
       "!   Supply only to replace placeholders. Object content must be key:value pairs
       "!    where the &apos;key&apos; is the parameter to replace and &apos;value&apos; is
       "!    the value to use.
-      PROMPT_VARIABLE type MAP,
+      PROMPT_VARIABLES type MAP,
     end of T_WX_PROMPT_INPUT_REQUEST.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -590,24 +712,20 @@ public section.
     end of T_RESOURCE_COMMIT_INFO.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The embeddings properties for an AutoAI RAG pattern.</p>
+    begin of T_AUTO_AIRAGEMBEDDINGS,
+      "!   Truncate strategy.
+      TRUNCATE_STRATEGY type STRING,
+      "!   Number of input tokens.
+      TRUNCATE_INPUT_TOKENS type INTEGER,
+      "!   The embedding model id.
+      MODEL_ID type STRING,
+    end of T_AUTO_AIRAGEMBEDDINGS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Contains a set of fields specific to each connection. See</p>
     "!     here for [details about specifying connections](#datareferences).
       T_DATA_CONNECTION type JSONOBJECT.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    A reference to data.</p>
-    begin of T_OBJECT_LOCATION,
-      "!   Item identification inside a collection.
-      ID type STRING,
-      "!   The data source type like `connection_asset` or `data_asset`.
-      TYPE type STRING,
-      "!   Contains a set of fields specific to each connection.<br/>
-      "!   See here for [details about specifying connections](#datareferences).
-      CONNECTION type T_DATA_CONNECTION,
-      "!   Contains a set of fields that describe the location of the data with respect to
-      "!    the `connection`.
-      LOCATION type MAP,
-    end of T_OBJECT_LOCATION.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A reference to data with an optional data schema. If</p>
@@ -632,6 +750,22 @@ public section.
       "!   for the schema definition.
       SCHEMA type T_DATA_SCHEMA,
     end of T_DATA_CONNECTION_REFERENCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A reference to data.</p>
+    begin of T_RESULTS_LOCATION,
+      "!   Item identification inside a collection.
+      ID type STRING,
+      "!   The data source type like `connection_asset`, `container` (Service) or `fs`
+      "!    (Software).
+      TYPE type STRING,
+      "!   Contains a set of fields specific to each connection.<br/>
+      "!   See here for [details about specifying connections](#datareferences).
+      CONNECTION type T_DATA_CONNECTION,
+      "!   Contains a set of fields that describe the location of the data with respect to
+      "!    the `connection`.
+      LOCATION type MAP,
+    end of T_RESULTS_LOCATION.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The model id of the base model for this job.</p>
@@ -704,9 +838,10 @@ public section.
       "!   If set to `true` then the result of the training, if successful, will be
       "!    uploaded to the repository as a model.
       AUTO_UPDATE_MODEL type BOOLEAN,
-      "!   The training results. Normally this is specified as `type=container` which<br/>
+      "!   The training results. Normally this is specified as `type=container` (Service)
+      "!    or `type=fs` (Software) which<br/>
       "!   means that it is stored in the space or project.
-      RESULTS_REFERENCE type T_OBJECT_LOCATION,
+      RESULTS_REFERENCE type T_RESULTS_LOCATION,
     end of T_TRAINING_RESOURCE_PROTOTYPE.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -746,6 +881,221 @@ public section.
     end of T_NOTEBOOK_RESOURCE_ENTITY_RT.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The function call.</p>
+    begin of T_TEXT_CHAT_FUNCTION_CALL,
+      "!   The name of the function.
+      NAME type STRING,
+      "!   The arguments to call the function with, as generated by the model in JSON
+      "!    format.<br/>
+      "!   <br/>
+      "!   Note that the model does not always generate valid JSON, and may hallucinate
+      "!    parameters not defined by your function schema. Validate the arguments in your
+      "!    code before calling your function.
+      ARGUMENTS type STRING,
+    end of T_TEXT_CHAT_FUNCTION_CALL.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The tool call.</p>
+    begin of T_TEXT_CHAT_TOOL_CALL,
+      "!   The ID of the tool call.
+      ID type STRING,
+      "!   The type of the tool. Currently, only `function` is supported.
+      TYPE type STRING,
+      "!   The function call.
+      FUNCTION type T_TEXT_CHAT_FUNCTION_CALL,
+    end of T_TEXT_CHAT_TOOL_CALL.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A message result.</p>
+    begin of T_TEXT_CHAT_RESULT_DELTA,
+      "!   The role of the author of this message.
+      ROLE type STRING,
+      "!   The contents of the message.
+      CONTENT type STRING,
+      "!   The refusal message generated by the model.
+      REFUSAL type STRING,
+      "!   The tool calls generated by the model, such as function calls.
+      TOOL_CALLS type STANDARD TABLE OF T_TEXT_CHAT_TOOL_CALL WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TEXT_CHAT_RESULT_DELTA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Usage statistics for the completion request.</p>
+    begin of T_TEXT_CHAT_USAGE,
+      "!   Number of tokens in the generated completion.
+      COMPLETION_TOKENS type INTEGER,
+      "!   Number of tokens in the prompt.
+      PROMPT_TOKENS type INTEGER,
+      "!   Total number of tokens used in the request (prompt + completion).
+      TOTAL_TOKENS type INTEGER,
+    end of T_TEXT_CHAT_USAGE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A tool related result.</p>
+    begin of T_TXT_CHT_RESULT_CHOICE_STREAM,
+      "!   The index of this result.
+      INDEX type INTEGER,
+      "!   A message result.
+      DELTA type T_TEXT_CHAT_RESULT_DELTA,
+      "!   The reason why the call stopped, can be one of:<br/>
+      "!   - `stop` - The model hit a natural stop point or a provided stop sequence.<br/>
+      "!   - `length` - The maximum number of tokens specified in the request was
+      "!    reached.<br/>
+      "!   - `tool_calls` - The model called a tool.<br/>
+      "!   - `time_limit`` - Time limit reached.<br/>
+      "!   - `cancelled`` - Request canceled by the client.<br/>
+      "!   - `error`` - Error encountered.<br/>
+      "!   - `null` - API response still in progress or incomplete.
+      FINISH_REASON type STRING,
+    end of T_TXT_CHT_RESULT_CHOICE_STREAM.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    System details.</p>
+    begin of T_TEXT_CHAT_STREAM_ITEM,
+      "!   A unique identifier for the chat completion.
+      ID type STRING,
+      "!   The model used for the chat completion.
+      MODEL_ID type STRING,
+      "!   The model version (using semantic versioning) if set.
+      MODEL_VERSION type STRING,
+      "!   The Unix timestamp (in seconds) of when the chat completion was created.
+      CREATED type INTEGER,
+      "!   The time when the response was created in ISO 8601 format.
+      CREATED_AT type DATETIME,
+      "!   Usage statistics for the completion request.
+      USAGE type T_TEXT_CHAT_USAGE,
+      "!   A list of chat completion choices. Can be more than one if `n` is greater than
+      "!    1.
+      CHOICES type STANDARD TABLE OF T_TXT_CHT_RESULT_CHOICE_STREAM WITH NON-UNIQUE DEFAULT KEY,
+      "!   Optional details coming from the service and related to the API call or the
+      "!    associated resource.
+      SYSTEM type T_SYSTEM_DETAILS,
+    end of T_TEXT_CHAT_STREAM_ITEM.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A set of server sent events, each event contains a response</p>
+    "!     for one or more tokens. The results will be an array of events of the form
+    "!     `data: &#123;&lt;json event&gt;&#125;` where the schema of the individual `json
+    "!     event` is described below.
+      T_TEXT_CHAT_STREAM_RESPONSE type STANDARD TABLE OF T_TEXT_CHAT_STREAM_ITEM WITH NON-UNIQUE DEFAULT KEY.
+  types:
+    "! No documentation available.
+      T_TEXT_CHAT_USER_CONTENTS type JSONOBJECT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a user message.</p>
+    begin of T_TEXT_CHAT_MESSAGE_USER,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   No documentation available.
+      CONTENT type STANDARD TABLE OF T_TEXT_CHAT_USER_CONTENTS WITH NON-UNIQUE DEFAULT KEY,
+      "!   An optional name for the participant. Provides the model information to
+      "!    differentiate between participants of the same role.
+      NAME type STRING,
+    end of T_TEXT_CHAT_MESSAGE_USER.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A reference to data.</p>
+    begin of T_OBJECT_LOCATION,
+      "!   Item identification inside a collection.
+      ID type STRING,
+      "!   The data source type like `connection_asset` or `data_asset`.
+      TYPE type STRING,
+      "!   Contains a set of fields specific to each connection.<br/>
+      "!   See here for [details about specifying connections](#datareferences).
+      CONNECTION type T_DATA_CONNECTION,
+      "!   Contains a set of fields that describe the location of the data with respect to
+      "!    the `connection`.
+      LOCATION type MAP,
+    end of T_OBJECT_LOCATION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A reference to data.</p>
+    begin of T_OBJECT_LOCATION_GITHUB,
+      "!   The data source type, for now only `github` is supported.
+      TYPE type STRING,
+      "!   Contains a set of fields that describe the location of the data with respect to
+      "!    the `connection`.
+      LOCATION type MAP,
+    end of T_OBJECT_LOCATION_GITHUB.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The properties that are part of a request that supports</p>
+    "!     spaces and projects. Either `space_id` or `project_id` has to be provided and
+    "!     is mandatory.
+    begin of T_DOCUMENT_EXTRACTION_REQUEST,
+      "!   The name of the document.
+      NAME type STRING,
+      "!   The documents for text extraction.
+      DOCUMENT_REFERENCES type STANDARD TABLE OF T_OBJECT_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A reference to data.
+      RESULTS_REFERENCE type T_OBJECT_LOCATION_GITHUB,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+    end of T_DOCUMENT_EXTRACTION_REQUEST.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The named function.</p>
+    begin of T_TEXT_CHAT_TOOL_FUNCTION,
+      "!   The name of the function.
+      NAME type STRING,
+    end of T_TEXT_CHAT_TOOL_FUNCTION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Set of languages to be expected in the document. The</p>
+    "!     language codes follow `ISO 639`. See the documentation for the currently
+    "!     supported languages.
+      T_TXT_EXTRACTION_LANGUAGES_LST type TT_String.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The documentation of the AI service request body and</p>
+    "!     response body.
+    begin of T_AISERVICE_DOCUMENTATION,
+      "!   The schema for a given content type. Each property defines the content type and
+      "!    the sub-object is the JSON schema that describes the content.
+      REQUEST type MAP,
+      "!   The schema for a given content type. Each property defines the content type and
+      "!    the sub-object is the JSON schema that describes the content.
+      RESPONSE type MAP,
+    end of T_AISERVICE_DOCUMENTATION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A software specification.</p>
+    begin of T_SOFTWARE_SPEC_REL,
+      "!   The id of the software specification.
+      ID type STRING,
+      "!   The revision of the software specification.
+      REV type STRING,
+      "!   The name of the software specification.
+      NAME type STRING,
+    end of T_SOFTWARE_SPEC_REL.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The details of the AI service to be created.</p>
+    begin of T_AISERVICE_REQUEST,
+      "!   The space that contains the resource.
+      SPACE_ID type STRING,
+      "!   The name of the resource.
+      NAME type STRING,
+      "!   A description of the resource.
+      DESCRIPTION type STRING,
+      "!   A list of tags for this resource.
+      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   A software specification.
+      SOFTWARE_SPEC type T_SOFTWARE_SPEC_REL,
+      "!   The type that allows the deployment service to know how to setup the code during
+      "!    deployment.
+      CODE_TYPE type STRING,
+      "!   The documentation of the AI service request body and response body.
+      DOCUMENTATION type T_AISERVICE_DOCUMENTATION,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+    end of T_AISERVICE_REQUEST.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The tokens that are inferred from the prompt.</p><br/>
     "!    <br/>
     "!    Note that the events are different between a request with moderation and a
@@ -757,11 +1107,121 @@ public section.
       MODEL_ID type STRING,
       "!   The model version (using semantic versioning) if set.
       MODEL_VERSION type STRING,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The generated tokens.
-      RESULTS type STANDARD TABLE OF T_TEXT_GEN_RESULT WITH NON-UNIQUE DEFAULT KEY,
+      RESULTS type STANDARD TABLE OF T_TXT_GN_RESP_FLDS_RSLTS_ITEM WITH NON-UNIQUE DEFAULT KEY,
     end of T_TEXT_GEN_RESPONSE_FIELDS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Detection details.</p>
+    begin of T_TXT_DETECTION_DETECTION_ITEM,
+      "!   The type of the detection identified.
+      DETECTION_TYPE type STRING,
+      "!   The detected string.
+      DETECTION type STRING,
+      "!   The threshold probability that this is a real match.
+      SCORE type FLOAT,
+    end of T_TXT_DETECTION_DETECTION_ITEM.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a user image content.</p>
+    begin of T_TEXT_CHAT_USER_IMAGE_URL,
+      "!   The url of the image. This must be a base64 encoded image.
+      URL type STRING,
+      "!   This parameter controls how the model processes the image and generates its
+      "!    textual understanding. The `auto` setting which will look at the image input
+      "!    size and decide if it should use the `low` or `high` setting.
+      DETAIL type STRING,
+    end of T_TEXT_CHAT_USER_IMAGE_URL.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Common metadata for a resource where `project_id` or</p>
+    "!     `space_id` must be present.
+    begin of T_RESOURCE_META,
+      "!   The id of the resource.
+      ID type STRING,
+      "!   The time when the resource was created.
+      CREATED_AT type DATETIME,
+      "!   The revision of the resource.
+      REV type STRING,
+      "!   The user id which created this resource.
+      OWNER type STRING,
+      "!   The time when the resource was last modified.
+      MODIFIED_AT type DATETIME,
+      "!   The id of the parent resource where applicable.
+      PARENT_ID type STRING,
+      "!   The name of the resource.
+      NAME type STRING,
+      "!   A description of the resource.
+      DESCRIPTION type STRING,
+      "!   A list of tags for this resource.
+      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   Information related to the revision.
+      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+    end of T_RESOURCE_META.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The details of the AI service to be created.</p>
+    begin of T_AISERVICE_RESOURCE_ENTITY,
+      "!   A software specification.
+      SOFTWARE_SPEC type T_SOFTWARE_SPEC_REL,
+      "!   The type that allows the deployment service to know how to setup the code during
+      "!    deployment.
+      CODE_TYPE type STRING,
+      "!   The documentation of the AI service request body and response body.
+      DOCUMENTATION type T_AISERVICE_DOCUMENTATION,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+    end of T_AISERVICE_RESOURCE_ENTITY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The information for a flow.</p>
+    begin of T_AISERVICE_RESOURCE,
+      "!   Common metadata for a resource where `project_id` or `space_id` must be present.
+      "!
+      METADATA type T_RESOURCE_META,
+      "!   The details of the AI service to be created.
+      ENTITY type T_AISERVICE_RESOURCE_ENTITY,
+      "!   Optional details coming from the service and related to the API call or the
+      "!    associated resource.
+      SYSTEM type T_SYSTEM_DETAILS,
+    end of T_AISERVICE_RESOURCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A service error message.</p>
+    begin of T_SERVICE_ERROR,
+      "!   A simple code that should convey the general sense of the error.
+      CODE type STRING,
+      "!   The message that describes the error.
+      MESSAGE type STRING,
+      "!   A URL to a more detailed explanation when available.
+      MORE_INFO type STRING,
+    end of T_SERVICE_ERROR.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The current status of the text extraction.</p>
+    begin of T_TEXT_EXTRACTION_RESULTS,
+      "!   The status of the request.
+      STATUS type STRING,
+      "!   The time when the request is successfully running on the processor.
+      RUNNING_AT type DATETIME,
+      "!   The time when the request completed or failed.
+      COMPLETED_AT type DATETIME,
+      "!   The number of pages that have been processed in the document. If the status is
+      "!    `completed` then this is the number of pages that will be billed.
+      NUMBER_PAGES_PROCESSED type INTEGER,
+      "!   The total number of pages to be processed.
+      TOTAL_PAGES type INTEGER,
+      "!   A service error message.
+      ERROR type T_SERVICE_ERROR,
+    end of T_TEXT_EXTRACTION_RESULTS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Properties that control what is returned.</p>
@@ -800,12 +1260,23 @@ public section.
     end of T_MODERATION_HAP_PROPERTIES.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    Properties that control the moderation on the text.</p>
+    begin of T_TXT_MDRTN_WITHOUT_THRESHOLD,
+      "!   Should this moderation be enabled on the text.<br/>
+      "!   <br/>
+      "!   <br/>
+      "!   The default value is `true` which means that if the parent object exists but the
+      "!    `enabled` field does not exist then this is considered to be enabled.
+      ENABLED type BOOLEAN,
+    end of T_TXT_MDRTN_WITHOUT_THRESHOLD.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The properties specific to PII.</p>
     begin of T_MODERATION_PII_PROPERTIES,
       "!   Properties that control the moderation on the text.
-      INPUT type T_TEXT_MODERATION,
+      INPUT type T_TXT_MDRTN_WITHOUT_THRESHOLD,
       "!   Properties that control the moderation on the text.
-      OUTPUT type T_TEXT_MODERATION,
+      OUTPUT type T_TXT_MDRTN_WITHOUT_THRESHOLD,
       "!   The properties specific to masking. If this object exists,<br/>
       "!   even if it is empty, then masking will be applied.
       MASK type T_MASK_PROPERTIES,
@@ -896,7 +1367,7 @@ public section.
       "!    the end of the input will remain the same. If this value exceeds the `maximum
       "!    sequence length` (refer to the documentation to find this value for the model)
       "!    then the call will fail if the total number of tokens exceeds the `maximum
-      "!    sequence length`. Zero means don&apos;t truncate.
+      "!    sequence length`.
       TRUNCATE_INPUT_TOKENS type INTEGER,
       "!   Properties that control what is returned.
       RETURN_OPTIONS type T_RETURN_OPTION_PROPERTIES,
@@ -964,7 +1435,7 @@ public section.
       MODEL_ID type STRING,
       "!   The embedding values for a given text.
       RESULTS type STANDARD TABLE OF T_EMBEDDING WITH NON-UNIQUE DEFAULT KEY,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The number of input tokens that were consumed.
       INPUT_TOKEN_COUNT type INTEGER,
@@ -1081,21 +1552,273 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    Parameters for text embedding requests.</p>
     begin of T_EMBEDDING_PARAMETERS,
-      "!   Represents the maximum number of input tokens accepted. This can be used to
-      "!    avoid requests failing due to input being longer than configured limits. If the
-      "!    text is truncated, then it truncates the end of the input (on the right), so
-      "!    the start of the input will remain the same. If this value exceeds the `maximum
-      "!    sequence length` (refer to the documentation to find this value for the model)
-      "!    then the call will fail if the total number of tokens exceeds the `maximum
-      "!    sequence length`. Zero means don&apos;t truncate.
+      "!   Represents the maximum number of tokens accepted per input.<br/>
+      "!   <br/>
+      "!   This can be used to avoid requests failing due to input being longer than
+      "!    configured limits. If the text is truncated, then it truncates the end of the
+      "!    input (on the right), so the start of the input will remain the same.<br/>
+      "!   <br/>
+      "!   If this value exceeds the `maximum sequence length` (refer to the documentation
+      "!    to find this value for the model) then the call will fail if the total number
+      "!    of tokens exceeds the `maximum sequence length`.
       TRUNCATE_INPUT_TOKENS type INTEGER,
       "!   The return options for text embeddings.
       RETURN_OPTIONS type T_EMBEDDING_RETURN_OPTIONS,
     end of T_EMBEDDING_PARAMETERS.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    Contains a set of fields specific to each connection.</p>
+    begin of T_COS_DATA_LOCATION,
+      "!   The name of the file.
+      FILE_NAME type STRING,
+      "!   Can be used to overide the bucket name from the connection asset.
+      BUCKET type STRING,
+    end of T_COS_DATA_LOCATION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A reference to data.</p>
+    begin of T_TXT_EXTRCTN_DATA_REFERENCE,
+      "!   The data source type.
+      TYPE type STRING,
+      "!   Contains a set of location fields specific to each data source.
+      CONNECTION type T_COS_DATA_CONNECTION,
+      "!   Contains a set of fields specific to each connection.
+      LOCATION type T_COS_DATA_LOCATION,
+    end of T_TXT_EXTRCTN_DATA_REFERENCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The properties that are part of a request that supports</p>
+    "!     spaces and projects. Either `space_id` or `project_id` has to be provided and
+    "!     is mandatory.
+    begin of T_TEXT_EXTRACTION_REQUEST,
+      "!   A reference to data.
+      DOCUMENT_REFERENCE type T_TXT_EXTRCTN_DATA_REFERENCE,
+      "!   A reference to data.
+      RESULTS_REFERENCE type T_TXT_EXTRCTN_DATA_REFERENCE,
+      "!   The steps for the text extraction pipeline.
+      STEPS type T_TEXT_EXTRACTION_STEPS,
+      "!   Set this as an empty object to speify `json` output.<br/>
+      "!   <br/>
+      "!   Note that this is not strictly required because if an<br/>
+      "!   `assembly_md` object is not found then the default will be `json`.
+      ASSEMBLY_JSON type JSONOBJECT,
+      "!   Set this as an empty object to specify `markdown` output.
+      ASSEMBLY_MD type JSONOBJECT,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+    end of T_TEXT_EXTRACTION_REQUEST.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Metrics that can be returned by an operation.</p>
       T_TRAINING_METRICS type STANDARD TABLE OF T_TRAINING_METRIC WITH NON-UNIQUE DEFAULT KEY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The properties for the moderation. Each type of moderation</p>
+    "!     may have additional properties that are specific to that moderation.
+    begin of T_MODERATION_PROPERTIES,
+      "!   Properties that control the moderation on the text.
+      INPUT type T_TEXT_MODERATION,
+      "!   Properties that control the moderation on the text.
+      OUTPUT type T_TEXT_MODERATION,
+    end of T_MODERATION_PROPERTIES.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Properties that control the model and response that are only</p>
+    "!     supported in caikit.
+    begin of T_TEXT_GEN_PARAMETERS2,
+      "!   Represents the strategy used for picking the tokens during generation of the
+      "!    output text.<br/>
+      "!   <br/>
+      "!   During text generation when parameter value is set to greedy, each successive
+      "!    token corresponds to the highest probability token given the text that has
+      "!    already been generated. This strategy can lead to repetitive results especially
+      "!    for longer output sequences. The alternative sample strategy generates text by
+      "!    picking subsequent tokens based on the probability distribution of possible
+      "!    next tokens defined by (i.e., conditioned on) the already-generated text and
+      "!    the top_k and top_p parameters described below. See this
+      "!    [url](https://huggingface.co/blog/how-to-generate) for an informative article
+      "!    about text generation.
+      DECODING_METHOD type STRING,
+      "!   It can be used to exponentially increase the likelihood of the text generation
+      "!    terminating once a specified number of tokens have been generated.
+      LENGTH_PENALTY type T_TEXT_GEN_LENGTH_PENALTY,
+      "!   The maximum number of new tokens to be generated. The maximum supported value
+      "!    for this field depends on the model being used.<br/>
+      "!   <br/>
+      "!   How the &quot;token&quot; is defined depends on the tokenizer and vocabulary
+      "!    size, which in turn depends on the model. Often the tokens are a mix of full
+      "!    words and sub-words. To learn more about tokenization, [see
+      "!    here](https://huggingface.co/course/chapter2/4).<br/>
+      "!   <br/>
+      "!   Depending on the users plan, and on the model being used, there may be an
+      "!    enforced maximum number of new tokens.
+      MAX_NEW_TOKENS type INTEGER,
+      "!   If stop sequences are given, they are ignored until minimum tokens are
+      "!    generated.
+      MIN_NEW_TOKENS type INTEGER,
+      "!   Random number generator seed to use in sampling mode for experimental
+      "!    repeatability.
+      RANDOM_SEED type INTEGER,
+      "!   Stop sequences are one or more strings which will cause the text generation to
+      "!    stop if/when they are produced as part of the output. Stop sequences
+      "!    encountered prior to the minimum number of tokens being generated will be
+      "!    ignored.
+      STOP_SEQUENCES type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   A value used to modify the next-token probabilities in sampling mode. Values
+      "!    less than 1.0 sharpen the probability distribution, resulting in &quot;less
+      "!    random&quot; output. Values greater than 1.0 flatten the probability
+      "!    distribution, resulting in &quot;more random&quot; output. A value of 1.0 has
+      "!    no effect.
+      TEMPERATURE type NUMBER,
+      "!   Time limit in milliseconds - if not completed within this time, generation will
+      "!    stop. The text generated so far will be returned along with the TIME_LIMIT stop
+      "!    reason.<br/>
+      "!   <br/>
+      "!   Depending on the users plan, and on the model being used, there may be an
+      "!    enforced maximum time limit.
+      TIME_LIMIT type INTEGER,
+      "!   The number of highest probability vocabulary tokens to keep for top-k-filtering.
+      "!    Only applies for sampling mode. When decoding_strategy is set to sample, only
+      "!    the top_k most likely tokens are considered as candidates for the next
+      "!    generated token.
+      TOP_K type INTEGER,
+      "!   Similar to top_k except the candidates to generate the next token are the most
+      "!    likely tokens with probabilities that add up to at least top_p. Also known as
+      "!    nucleus sampling. A value of 1.0 is equivalent to disabled.
+      TOP_P type NUMBER,
+      "!   Represents the penalty for penalizing tokens that have already been generated or
+      "!    belong to the context. The value 1.0 means that there is no penalty.
+      REPETITION_PENALTY type NUMBER,
+      "!   Represents the maximum number of input tokens accepted. This can be used to
+      "!    avoid requests failing due to input being longer than configured limits. If the
+      "!    text is truncated, then it truncates the start of the input (on the left), so
+      "!    the end of the input will remain the same. If this value exceeds the `maximum
+      "!    sequence length` (refer to the documentation to find this value for the model)
+      "!    then the call will fail if the total number of tokens exceeds the `maximum
+      "!    sequence length`.
+      TRUNCATE_INPUT_TOKENS type INTEGER,
+      "!   Properties that control what is returned.
+      RETURN_OPTIONS type T_RETURN_OPTION_PROPERTIES,
+      "!   Pass `false` to omit matched stop sequences from the end of the output text. The
+      "!    default is `true`, meaning that the output will end with the stop sequence text
+      "!    when matched.
+      INCLUDE_STOP_SEQUENCE type BOOLEAN,
+      "!   Local typicality measures how similar the conditional probability of predicting
+      "!    a target token next is to the expected conditional probability of predicting a
+      "!    random token next, given the partial text already generated. If less than 1,
+      "!    the smallest set of the most locally typical tokens with probabilities that add
+      "!    up to typical_p or higher are kept for generation.
+      TYPICAL_P type NUMBER,
+    end of T_TEXT_GEN_PARAMETERS2.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Properties describing the AutoAI RAG generation.</p>
+    begin of T_AT_ARGGNRTN_PROPERTIES,
+      "!   The foundation model id. Either `model_id` or `deployment_id` has to be given.
+      MODEL_ID type STRING,
+      "!   The foundation model deployment id. Either `model_id` or `deployment_id` has to
+      "!    be given.
+      DEPLOYMENT_ID type STRING,
+      "!   Properties that control the model and response that are only supported in
+      "!    caikit.
+      PARAMETERS type T_TEXT_GEN_PARAMETERS2,
+      "!   The properties for the moderation. Each type of moderation<br/>
+      "!   may have additional properties that are specific to that moderation.
+      MODERATIONS type T_MODERATION_PROPERTIES,
+      "!   The foundation model prompt template text (free form). Must contain variables:
+      "!    `question` and `reference_documents`. `reference_documents` variable is a
+      "!    placeholder for retrieved document(s) defined by context_template_text. If not
+      "!    provided default one is used.
+      PROMPT_TEMPLATE_TEXT type STRING,
+      "!   The retrieved chunks template text (free form). Must contain variable:
+      "!    `document` representing single document chunk retrieved. &gt; If not provided
+      "!    default one is used.
+      CONTEXT_TEMPLATE_TEXT type STRING,
+    end of T_AT_ARGGNRTN_PROPERTIES.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Properties that describe the AutoAI RAG vector store that</p>
+    "!     contains the results.
+    begin of T_AUTO_AIRAGVECTOR_STORE,
+      "!   The vector database type.
+      DATASOURCE_TYPE type STRING,
+      "!   The database index name.
+      INDEX_NAME type STRING,
+      "!   The distance metric name.
+      DISTANCE_METRIC type STRING,
+      "!   The operation type (either insert or upsert).
+      OPERATION type STRING,
+      "!   The schema of the expected data, see<br/>
+      "!   [datarecord-metadata-v2-schema](https://raw.githubusercontent.com/elyra-ai/pipel
+      "!   ine-schemas/master/common-pipeline/datarecord-metadata/datarecord-metadata-v2-sc
+      "!   hema.json)<br/>
+      "!   for the schema definition.
+      SCHEMA type T_DATA_SCHEMA,
+    end of T_AUTO_AIRAGVECTOR_STORE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The retrieval details for an AutoAI RAG pattern,.</p>
+    begin of T_AUTO_AIRAGRETRIEVAL,
+      "!   Chunks retrieval method.
+      METHOD type STRING,
+      "!   The number of retrieved chunks.
+      NUMBER_OF_CHUNKS type INTEGER,
+      "!   The size of the window. Applies only to window method.
+      WINDOW_SIZE type INTEGER,
+    end of T_AUTO_AIRAGRETRIEVAL.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The RAG pattern configuration settings that were found</p>
+    "!     during the optimization process.
+    begin of T_AUTO_AIRAGSETTINGS,
+      "!   Properties that describe the AutoAI RAG vector store that contains the results.
+      VECTOR_STORE type T_AUTO_AIRAGVECTOR_STORE,
+      "!   The chunking details for an AutoAI RAG pattern,.
+      CHUNKING type T_AUTO_AIRAGCHUNKING,
+      "!   The embeddings properties for an AutoAI RAG pattern.
+      EMBEDDINGS type T_AUTO_AIRAGEMBEDDINGS,
+      "!   The retrieval details for an AutoAI RAG pattern,.
+      RETRIEVAL type T_AUTO_AIRAGRETRIEVAL,
+      "!   Properties describing the AutoAI RAG generation.
+      GENERATION type T_AT_ARGGNRTN_PROPERTIES,
+    end of T_AUTO_AIRAGSETTINGS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The location of the different result files.</p>
+    begin of T_AUTO_AIRAGRESULT_LOCATION,
+      "!   The json file with questions, answers, retrieved contexts, correct answers and
+      "!    metric scores.
+      EVALUATION_RESULTS type STRING,
+      "!   A Jupyter notebook with code required to build the index in the vector database.
+      "!
+      INDEXING_NOTEBOOK type STRING,
+      "!   The Jupyter notebook with the python function code and steps required to store
+      "!    and deploy the Q&A chain.
+      INFERENCE_NOTEBOOK type STRING,
+    end of T_AUTO_AIRAGRESULT_LOCATION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Describes the elements and settings found during the</p>
+    "!     optimization of the RAG pattern.
+    begin of T_AUTO_AIRAGPATTERN,
+      "!   The list of RAG Pattern nodes (steps).
+      COMPOSITION_STEPS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   The duration of the optimization step in seconds.
+      DURATION_SECONDS type INTEGER,
+      "!   The location of the different result files.
+      LOCATION type T_AUTO_AIRAGRESULT_LOCATION,
+      "!   The RAG Pattern name.
+      NAME type STRING,
+      "!   The RAG pattern configuration settings that were found during the optimization
+      "!    process.
+      SETTINGS type T_AUTO_AIRAGSETTINGS,
+    end of T_AUTO_AIRAGPATTERN.
   types:
     "! No documentation available.
       T_PROMPT_VARIABLE type JSONOBJECT.
@@ -1104,9 +1827,152 @@ public section.
       T_NOTEBOOK_VERSIONS_LST_RESP type JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The details needed to create document extraction job.</p>
+    begin of T_DOCUMENT_EXTRACTION_COMMON,
+      "!   The name of the document.
+      NAME type STRING,
+      "!   The documents for text extraction.
+      DOCUMENT_REFERENCES type STANDARD TABLE OF T_OBJECT_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A reference to data.
+      RESULTS_REFERENCE type T_OBJECT_LOCATION_GITHUB,
+    end of T_DOCUMENT_EXTRACTION_COMMON.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Contains a set of fields that describe the location of the</p>
     "!     data with respect to the `connection`.
       T_DATA_LOCATION type MAP.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The document details for the text extraction.</p>
+    begin of T_TXT_EXTRCTN_RESOURCE_ENTITY,
+      "!   A reference to data.
+      DOCUMENT_REFERENCE type T_TXT_EXTRCTN_DATA_REFERENCE,
+      "!   A reference to data.
+      RESULTS_REFERENCE type T_TXT_EXTRCTN_DATA_REFERENCE,
+      "!   The steps for the text extraction pipeline.
+      STEPS type T_TEXT_EXTRACTION_STEPS,
+      "!   Set this as an empty object to speify `json` output.<br/>
+      "!   <br/>
+      "!   Note that this is not strictly required because if an<br/>
+      "!   `assembly_md` object is not found then the default will be `json`.
+      ASSEMBLY_JSON type JSONOBJECT,
+      "!   Set this as an empty object to specify `markdown` output.
+      ASSEMBLY_MD type JSONOBJECT,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+      "!   The current status of the text extraction.
+      RESULTS type T_TEXT_EXTRACTION_RESULTS,
+    end of T_TXT_EXTRCTN_RESOURCE_ENTITY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Common metadata for a resource where `project_id` or</p>
+    "!     `space_id` must be present.
+    begin of T_TEXT_EXTRACTION_METADATA,
+      "!   The id of the resource.
+      ID type STRING,
+      "!   The time when the resource was created.
+      CREATED_AT type DATETIME,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+    end of T_TEXT_EXTRACTION_METADATA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The text extraction response.</p>
+    begin of T_TEXT_EXTRACTION_RESPONSE,
+      "!   Common metadata for a resource where `project_id` or `space_id` must be present.
+      "!
+      METADATA type T_TEXT_EXTRACTION_METADATA,
+      "!   The document details for the text extraction.
+      ENTITY type T_TXT_EXTRCTN_RESOURCE_ENTITY,
+      "!   Optional details coming from the service and related to the API call or the
+      "!    associated resource.
+      SYSTEM type T_SYSTEM_DETAILS,
+    end of T_TEXT_EXTRACTION_RESPONSE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The specific fields for the geospatial transformation</p>
+    "!     metadata fields.
+    begin of T_GSPTL_TRNSFRMTN_METADATA,
+      "!   The id of the resource.
+      ID type STRING,
+      "!   The time when the resource was created.
+      CREATED_AT type DATETIME,
+      "!   The space that contains the resource.
+      SPACE_ID type STRING,
+    end of T_GSPTL_TRNSFRMTN_METADATA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The parameters for the forecast request.</p>
+    begin of T_TSFORECAST_PARAMETERS,
+      "!   The prediction length for the forecast. The service will return this many
+      "!    periods beyond the last timestamp in the inference data payload. If specified,
+      "!    `prediction_length` must be an integer &gt;=1 and no more than the model
+      "!    default prediction length. When omitted the model default prediction_length
+      "!    will be used.
+      PREDICTION_LENGTH type INTEGER,
+    end of T_TSFORECAST_PARAMETERS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Contains metadata about your timeseries data input.</p>
+    begin of T_TSFORECAST_INPUT_SCHEMA,
+      "!   A valid column in the data that should be treated as the timestamp. Although not
+      "!    absolutely necessary, if using calendar dates  (simple integer time offsets are
+      "!    also allowed), users should consider using a format such as ISO 8601 that
+      "!    includes a UTC offset (e.g.,<br/>
+      "!   &apos;2024-10-18T01:09:21.454746+00:00&apos;). This will avoid potential issues
+      "!    such as duplicate dates appearing due to daylight savings change overs. There
+      "!    are many date formats in existence and inferring the correct one can be a
+      "!    challenge so please do consider adhering to ISO 8601.
+      TIMESTAMP_COLUMN type STRING,
+      "!   Columns that define a unique key for timeseries. This is similar to a compound
+      "!    primary key in a database table.
+      ID_COLUMNS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   A frequency indicator for the given timestamp_column. See
+      "!    https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#period-
+      "!   aliases for a description of the allowed values. If not provided, we will
+      "!    attempt to infer it from the data.
+      FREQ type STRING,
+      "!   An array of column headings which constitute the target variables in the data.
+      "!    These are the data that will be forecasted.
+      TARGET_COLUMNS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TSFORECAST_INPUT_SCHEMA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Input necessary for performing inference. These inputs</p>
+    "!     identify things like which model to use, the data payload you are passing to
+    "!     the model, and other parameters which affect the behavior of the inference
+    "!     operation.
+    begin of T_TSFORECAST_REQUEST,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   The model to be used for generating a forecast.
+      MODEL_ID type STRING,
+      "!   The parameters for the forecast request.
+      PARAMETERS type T_TSFORECAST_PARAMETERS,
+      "!   A payload of data matching `schema`. We assume the following about your
+      "!    data:<br/>
+      "!     * All timeseries are of equal length and are uniform in nature (the time
+      "!    difference between two successive rows is constant). This implies that there
+      "!    are no missing rows of data;<br/>
+      "!     * The data meet the minimum model-dependent historical context length
+      "!    which<br/>
+      "!     can be 512 or more rows per timeseries;<br/>
+      "!   <br/>
+      "!   Note that the example payloads shown are for illustration purposes only. An
+      "!    actual payload would necessary be much larger to meet minimum model-specific
+      "!    context lengths.
+      DATA type JSONOBJECT,
+      "!   Contains metadata about your timeseries data input.
+      SCHEMA type T_TSFORECAST_INPUT_SCHEMA,
+    end of T_TSFORECAST_REQUEST.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A set of key-value pairs that are used to configure the</p>
@@ -1149,6 +2015,15 @@ public section.
     end of T_REL.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The requested hardware for deployment.</p>
+    begin of T_HARDWARE_REQUEST,
+      "!   The size of GPU requested for the deployment.
+      SIZE type STRING,
+      "!   The number of nodes for the GPU requested for deployment.
+      NUM_NODES type NUMBER,
+    end of T_HARDWARE_REQUEST.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The deployment request entity (this description is not</p>
     "!     used).
     begin of T_DPLYMNT_RESOURCE_PROTOTYPE,
@@ -1167,8 +2042,6 @@ public section.
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
       "!   A reference to a resource.
-      ASSET type T_REL,
-      "!   A reference to a resource.
       PROMPT_TEMPLATE type T_SIMPLE_REL,
       "!   Indicates that this is an online deployment. An object has to be specified but
       "!    can be empty.<br/>
@@ -1176,6 +2049,10 @@ public section.
       ONLINE type T_ONLINE_DEPLOYMENT,
       "!   A hardware specification.
       HARDWARE_SPEC type T_HARDWARE_SPEC,
+      "!   The requested hardware for deployment.
+      HARDWARE_REQUEST type T_HARDWARE_REQUEST,
+      "!   A reference to a resource.
+      ASSET type T_REL,
       "!   The base model that is required for this deployment if this is for a prompt
       "!    template or a prompt tune for an IBM foundation model.
       BASE_MODEL_ID type STRING,
@@ -1234,6 +2111,84 @@ public section.
     end of T_PROMPT_MODEL_PARAMETERS.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    A JSON schema, see the [JSON Schema</p>
+    "!     reference](https://json-schema.org/learn/getting-started-step-by-step) for
+    "!     documentation about the format.
+      T_JSONCONTENT_SCHEMA type JSONOBJECT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A reference to a resource.</p>
+    begin of T_MODEL_REL,
+      "!   The id of the referenced resource.
+      ID type STRING,
+      "!   The revision of the referenced resource.
+      REV type STRING,
+      "!   The resource key for this asset if it exists.
+      RESOURCE_KEY type STRING,
+    end of T_MODEL_REL.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The field that identifies the asset.</p>
+    begin of T_MODEL_ASSET_REF,
+      "!   A reference to a resource.
+      ASSET type T_MODEL_REL,
+    end of T_MODEL_ASSET_REF.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The text extraction resource.</p>
+    begin of T_TEXT_EXTRACTION_RESOURCE,
+      "!   Common metadata for a resource where `project_id` or `space_id` must be present.
+      "!
+      METADATA type T_TEXT_EXTRACTION_METADATA,
+      "!   The document details for the text extraction.
+      ENTITY type T_TXT_EXTRCTN_RESOURCE_ENTITY,
+    end of T_TEXT_EXTRACTION_RESOURCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The AutoAI RAG metrics, this contains the list of calculated</p>
+    "!     metrics on test data (provided in the request) and (optionally) synthetic data
+    "!     autogenerated. Metric value is mean value calculated over all records in the
+    "!     dataset.
+    begin of T_AUTO_AIRAGMETRICS,
+      "!   List of evaluation metrics.
+      TEST_DATA type STANDARD TABLE OF T_AUTO_AIRAGMETRIC WITH NON-UNIQUE DEFAULT KEY,
+    end of T_AUTO_AIRAGMETRICS.
+  types:
+    "! No documentation available.
+    begin of T_AUTO_AIRAGCONTEXT,
+      "!   Describes the elements and settings found during the optimization of the RAG
+      "!    pattern.
+      RAG_PATTERN type T_AUTO_AIRAGPATTERN,
+      "!   The iteration of the optimization run in which the particular pattern has been
+      "!    built.
+      ITERATION type INTEGER,
+      "!   Maximum number of possible parameter settings (search space cardinality).
+      MAX_COMBINATIONS type INTEGER,
+      "!   A software specification.
+      SOFTWARE_SPEC type T_SOFTWARE_SPEC_REL,
+    end of T_AUTO_AIRAGCONTEXT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The AutoAI RAG results.</p>
+    begin of T_AUTO_AIRAGRESULTS,
+      "!   The AutoAI RAG metrics, this contains the list of calculated metrics on test
+      "!    data (provided in the request) and (optionally) synthetic data autogenerated.
+      "!    Metric value is mean value calculated over all records in the dataset.
+      METRICS type T_AUTO_AIRAGMETRICS,
+      "!   No documentation available.
+      CONTEXT type T_AUTO_AIRAGCONTEXT,
+    end of T_AUTO_AIRAGRESULTS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The AutoAI RAG results.</p>
+    begin of T_AUTO_AIRAGRESPONSE_RESULTS,
+      "!   The list of results.
+      RESULTS type STANDARD TABLE OF T_AUTO_AIRAGRESULTS WITH NON-UNIQUE DEFAULT KEY,
+      "!   The timestamp when the results were created.
+      TIMESTAMP type DATETIME,
+    end of T_AUTO_AIRAGRESPONSE_RESULTS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The reference to the first item in the current page.</p>
     begin of T_PAGINATION_FIRST,
       "!   The uri of the first resource returned.
@@ -1263,43 +2218,41 @@ public section.
     end of T_PAGINATION.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Common metadata for a resource where `project_id` or</p>
-    "!     `space_id` must be present.
-    begin of T_RESOURCE_META,
-      "!   The id of the resource.
-      ID type STRING,
-      "!   The time when the resource was created.
-      CREATED_AT type DATETIME,
-      "!   The revision of the resource.
-      REV type STRING,
-      "!   The user id which created this resource.
-      OWNER type STRING,
-      "!   The time when the resource was last modified.
-      MODIFIED_AT type DATETIME,
-      "!   The id of the parent resource where applicable.
-      PARENT_ID type STRING,
-      "!   The name of the resource.
-      NAME type STRING,
-      "!   A description of the resource.
-      DESCRIPTION type STRING,
-      "!   A list of tags for this resource.
-      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   Information related to the revision.
-      COMMIT_INFO type T_RESOURCE_COMMIT_INFO,
-      "!   The space that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      SPACE_ID type STRING,
-      "!   The project that contains the resource. Either `space_id` or `project_id` has to
-      "!    be given.
-      PROJECT_ID type STRING,
-    end of T_RESOURCE_META.
+    "!    The schema for a given content type. Each property defines</p>
+    "!     the content type and the sub-object is the JSON schema that describes the
+    "!     content.
+      T_JSONCONTENT_DEFINITION type MAP.
   types:
     "! No documentation available.
     begin of T_RESULTS_REFERENCE_INPUT,
-      "!   The training results. Normally this is specified as `type=container` which<br/>
+      "!   The training results. Normally this is specified as `type=container` (Service)
+      "!    or `type=fs` (Software) which<br/>
       "!   means that it is stored in the space or project.
-      RESULTS_REFERENCE type T_OBJECT_LOCATION,
+      RESULTS_REFERENCE type T_RESULTS_LOCATION,
     end of T_RESULTS_REFERENCE_INPUT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a user message.</p>
+    begin of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_4,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   No documentation available.
+      CONTENT type STANDARD TABLE OF T_TEXT_CHAT_USER_CONTENTS WITH NON-UNIQUE DEFAULT KEY,
+      "!   An optional name for the participant. Provides the model information to
+      "!    differentiate between participants of the same role.
+      NAME type STRING,
+    end of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_4.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a tool message.</p>
+    begin of T_TEXT_CHAT_MESSAGE_TOOL,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   The contents of the tool message.
+      CONTENT type STRING,
+      "!   Tool call that this message is responding to.
+      TOOL_CALL_ID type STRING,
+    end of T_TEXT_CHAT_MESSAGE_TOOL.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Notebook version metadata.</p>
@@ -1364,6 +2317,17 @@ public section.
     end of T_NOTEBOOK_IN_PROJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a tool message.</p>
+    begin of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_3,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   The contents of the tool message.
+      CONTENT type STRING,
+      "!   Tool call that this message is responding to.
+      TOOL_CALL_ID type STRING,
+    end of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_3.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The limits that are applied for the model, for all the</p>
     "!     plans.
     begin of T_MODEL_LIMITS,
@@ -1419,6 +2383,14 @@ public section.
       CHAT_ITEMS type STANDARD TABLE OF T_CHAT_ITEM WITH NON-UNIQUE DEFAULT KEY,
     end of T_PROMPT.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The specific fields for the geospatial transformation</p>
+    "!     metadata fields.
+    begin of T_GSPTL_TRNSFRMTN_MTDT_FIELDS,
+      "!   The space that contains the resource.
+      SPACE_ID type STRING,
+    end of T_GSPTL_TRNSFRMTN_MTDT_FIELDS.
+  types:
     "! No documentation available.
     begin of T_PROMPT_LOCK,
       "!   True if the prompt is currently locked.
@@ -1461,6 +2433,38 @@ public section.
       T_EMBEDDING_MODEL_ID type String.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    A message result.</p>
+    begin of T_TEXT_CHAT_RESULT_MESSAGE,
+      "!   The role of the author of this message.
+      ROLE type STRING,
+      "!   The contents of the message.
+      CONTENT type STRING,
+      "!   The refusal message generated by the model.
+      REFUSAL type STRING,
+      "!   The tool calls generated by the model, such as function calls.
+      TOOL_CALLS type STANDARD TABLE OF T_TEXT_CHAT_TOOL_CALL WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TEXT_CHAT_RESULT_MESSAGE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A tool related result.</p>
+    begin of T_TEXT_CHAT_RESULT_CHOICE,
+      "!   The index of this result.
+      INDEX type INTEGER,
+      "!   A message result.
+      MESSAGE type T_TEXT_CHAT_RESULT_MESSAGE,
+      "!   The reason why the call stopped, can be one of:<br/>
+      "!   - `stop` - The model hit a natural stop point or a provided stop sequence.<br/>
+      "!   - `length` - The maximum number of tokens specified in the request was
+      "!    reached.<br/>
+      "!   - `tool_calls` - The model called a tool.<br/>
+      "!   - `time_limit`` - Time limit reached.<br/>
+      "!   - `cancelled`` - Request canceled by the client.<br/>
+      "!   - `error`` - Error encountered.<br/>
+      "!   - `null` - API response still in progress or incomplete.
+      FINISH_REASON type STRING,
+    end of T_TEXT_CHAT_RESULT_CHOICE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The batch size is a number of samples processed before the</p>
     "!     model is updated.
     begin of T_TRAINING_BATCH_SIZE,
@@ -1471,6 +2475,18 @@ public section.
       "!   The maximum value.
       MAX type INTEGER,
     end of T_TRAINING_BATCH_SIZE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The reason why the call stopped, can be one of:</p><br/>
+    "!    - `stop` - The model hit a natural stop point or a provided stop sequence.<br/>
+    "!    - `length` - The maximum number of tokens specified in the request was
+    "!     reached.<br/>
+    "!    - `tool_calls` - The model called a tool.<br/>
+    "!    - `time_limit`` - Time limit reached.<br/>
+    "!    - `cancelled`` - Request canceled by the client.<br/>
+    "!    - `error`` - Error encountered.<br/>
+    "!    - `null` - API response still in progress or incomplete.
+      T_TEXT_CHAT_FINISH_REASON type String.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The text input for a given model to be used to generate the</p>
@@ -1492,12 +2508,75 @@ public section.
       PARAMETERS type T_EMBEDDING_PARAMETERS,
     end of T_EMBEDDINGS_REQUEST.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The return options for text reranking.</p>
+    begin of T_RERANK_RETURN_OPTIONS,
+      "!   Just show the top `n` results if set.
+      TOP_N type INTEGER,
+      "!   If `true` then the inputs will be returned in the response.
+      INPUTS type BOOLEAN,
+      "!   If `true` then the queries will be returned in the response.
+      QUERY type BOOLEAN,
+    end of T_RERANK_RETURN_OPTIONS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A input text.</p>
+    begin of T_RERANK_INPUT,
+      "!   The input text.
+      TEXT type STRING,
+    end of T_RERANK_INPUT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The properties used for reranking.</p>
+    begin of T_RERANK_PARAMETERS,
+      "!   Represents the maximum number of tokens accepted per input.<br/>
+      "!   <br/>
+      "!   This can be used to avoid requests failing due to input being longer than
+      "!    configured limits. If the text is truncated, then it truncates the end of the
+      "!    input (on the right), so the start of the input will remain the same.<br/>
+      "!   <br/>
+      "!   If this value exceeds the `maximum sequence length` (refer to the documentation
+      "!    to find this value for the model) then the call will fail if the total number
+      "!    of tokens exceeds the `maximum sequence length`.
+      TRUNCATE_INPUT_TOKENS type INTEGER,
+      "!   The return options for text reranking.
+      RETURN_OPTIONS type T_RERANK_RETURN_OPTIONS,
+    end of T_RERANK_PARAMETERS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The request to rerank texts.</p>
+    begin of T_RERANK_REQUEST,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The `id` of the model to be used for this request. Please refer to the [list of
+      "!    models](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-mod
+      "!   els-embed.html?context=wx&audience=wdp).
+      MODEL_ID type STRING,
+      "!   The rank input strings.
+      INPUTS type STANDARD TABLE OF T_RERANK_INPUT WITH NON-UNIQUE DEFAULT KEY,
+      "!   The rank query.
+      QUERY type STRING,
+      "!   The properties used for reranking.
+      PARAMETERS type T_RERANK_PARAMETERS,
+    end of T_RERANK_REQUEST.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The base definition of a text chat user content.</p>
+    begin of T_TEXT_CHAT_USER_CONTENT,
+      "!   The type of the user content.
+      TYPE type STRING,
+    end of T_TEXT_CHAT_USER_CONTENT.
+  types:
     "! No documentation available.
       T_NOTEBOOK_VER_RETRIEVE_RESP type JSONOBJECT.
   types:
     "! No documentation available.
     begin of T_WX_PROMPT_POST_MODEL_VERSION,
-      "!   User provided semvar version for tracking in IBM AI Factsheets.
+      "!   User provided semantic version for tracking in IBM AI Factsheets.
       NUMBER type STRING,
       "!   User provived tag.
       TAG type STRING,
@@ -1531,19 +2610,32 @@ public section.
     end of T_NOTEBOOK_REVERT_BODY.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    A text to rank.</p>
-    begin of T_RERANK_INPUT,
-      "!   The text to rank.
-      TEXT type STRING,
-    end of T_RERANK_INPUT.
+    "!    The transformation results.</p>
+    begin of T_GSPTL_TRANSFORMATION_RESULTS,
+      "!   The status of the transformation.
+      STATUS type STRING,
+      "!   The time when the job is successfully submitted to the processor.
+      RUNNING_AT type DATETIME,
+      "!   The time when the job completed or failed.
+      COMPLETED_AT type DATETIME,
+    end of T_GSPTL_TRANSFORMATION_RESULTS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The transformation results.</p>
+    begin of T_GSPTL_TRNSFRMTN_RESP_FIELDS,
+      "!   The transformation results.
+      RESULTS type T_GSPTL_TRANSFORMATION_RESULTS,
+    end of T_GSPTL_TRNSFRMTN_RESP_FIELDS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The ranking score for the input.</p>
     begin of T_RERANKED_RESULTS,
-      "!   A text to rank.
-      INPUT type T_RERANK_INPUT,
+      "!   The index of the text from the input in the original request `inputs` array.
+      INDEX type INTEGER,
       "!   The score of the input.
       SCORE type NUMBER,
+      "!   A input text.
+      INPUT type T_RERANK_INPUT,
     end of T_RERANKED_RESULTS.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -1553,15 +2645,74 @@ public section.
       "!    models](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-mod
       "!   els-embed.html?context=wx&audience=wdp).
       MODEL_ID type STRING,
-      "!   The rank query.
-      QUERY type STRING,
+      "!   The model version (using semantic versioning) if set.
+      MODEL_VERSION type STRING,
       "!   The ranked results.
       RESULTS type STANDARD TABLE OF T_RERANKED_RESULTS WITH NON-UNIQUE DEFAULT KEY,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The number of input tokens that were consumed.
       INPUT_TOKEN_COUNT type INTEGER,
+      "!   The rank query, if requested.
+      QUERY type STRING,
     end of T_RERANK_RESPONSE_FIELDS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The details for the revision.</p>
+    begin of T_REV_ENTITY_SPC_PROJECT_REQ,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   An optional commit message for the revision.
+      COMMIT_MESSAGE type STRING,
+    end of T_REV_ENTITY_SPC_PROJECT_REQ.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a user image content.</p>
+    begin of T_TEXT_CHAT_USR_IMG_URLCONTENT,
+      "!   The type of the user content.
+      TYPE type STRING,
+      "!   The definition of a user image content.
+      IMAGE_URL type T_TEXT_CHAT_USER_IMAGE_URL,
+    end of T_TEXT_CHAT_USR_IMG_URLCONTENT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A data location of the input or output data.</p>
+    begin of T_GSPTL_TRANSFORMATION_DATA,
+      "!   A signed url for the data in COS or elsewhere. This url will be used to download
+      "!    if this is input, or upload if this is output.
+      URL type STRING,
+    end of T_GSPTL_TRANSFORMATION_DATA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The inputs and outputs required to create a transformation</p>
+    "!     for the given model.
+    begin of T_GSPTL_TRANSFORMATION_REQ,
+      "!   The `id` of the model to be used for this request.
+      MODEL_ID type STRING,
+      "!   The input text.
+      INPUTS type STANDARD TABLE OF T_GSPTL_TRANSFORMATION_DATA WITH NON-UNIQUE DEFAULT KEY,
+      "!   A data location of the input or output data.
+      OUTPUT type T_GSPTL_TRANSFORMATION_DATA,
+      "!   The space that contains the resource.
+      SPACE_ID type STRING,
+    end of T_GSPTL_TRANSFORMATION_REQ.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Specifying a particular tool via `&#123;&quot;type&quot;:</p>
+    "!     &quot;function&quot;, &quot;function&quot;: &#123;&quot;name&quot;:
+    "!     &quot;my_function&quot;&#125;&#125;` forces the model to call that tool.
+    "!     Specify either `tool_choice_option` to allow the model to pick or `tool_choice`
+    "!     to force the model to call a tool.
+    begin of T_TEXT_CHAT_TOOL_CHOICE_TOOL,
+      "!   The tool type.
+      TYPE type STRING,
+      "!   The named function.
+      FUNCTION type T_TEXT_CHAT_TOOL_FUNCTION,
+    end of T_TEXT_CHAT_TOOL_CHOICE_TOOL.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The similarity results.</p>
@@ -1579,7 +2730,7 @@ public section.
       MODEL_ID type STRING,
       "!   The similarity scores.
       RESULTS type STANDARD TABLE OF T_SIMILARITY_RESULT WITH NON-UNIQUE DEFAULT KEY,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The number of input tokens that were consumed.
       INPUT_TOKEN_COUNT type INTEGER,
@@ -1612,8 +2763,6 @@ public section.
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
       "!   A reference to a resource.
-      ASSET type T_REL,
-      "!   A reference to a resource.
       PROMPT_TEMPLATE type T_SIMPLE_REL,
       "!   Indicates that this is an online deployment. An object has to be specified but
       "!    can be empty.<br/>
@@ -1621,12 +2770,21 @@ public section.
       ONLINE type T_ONLINE_DEPLOYMENT,
       "!   A hardware specification.
       HARDWARE_SPEC type T_HARDWARE_SPEC,
+      "!   The requested hardware for deployment.
+      HARDWARE_REQUEST type T_HARDWARE_REQUEST,
+      "!   A reference to a resource.
+      ASSET type T_MODEL_REL,
       "!   The base model that is required for this deployment if this is for a prompt
       "!    template or a prompt tune for an IBM foundation model.
       BASE_MODEL_ID type STRING,
-      "!   The type of the deployed model. The possible values are the following: 1.
-      "!    `prompt_tune` - when a prompt tuned model is deployed. 2. `foundation_model` -
-      "!    when a prompt template is used on a pre-deployed IBM provided model.
+      "!   The type of the deployed model. The possible values are the following:<br/>
+      "!   <br/>
+      "!   1. `prompt_tune` - when a prompt tuned model is deployed.<br/>
+      "!   <br/>
+      "!   2. `foundation_model` - when a prompt template is used on a pre-deployed IBM
+      "!    provided model.<br/>
+      "!   <br/>
+      "!   3. `custom_foundation_model` - when a custom foundation model is deployed.
       DEPLOYED_ASSET_TYPE type STRING,
       "!   The verbalizer that was used to train this model if the deployment has
       "!    `deployed_asset_type` of `prompt_tune`.
@@ -1834,6 +2992,8 @@ public section.
       LONG_DESCRIPTION type STRING,
       "!   Limits per plan that may be set per request.
       LIMITS type T_FOUNDATION_MODEL_LIMITS,
+      "!   Languages supported by the model.
+      SUPPORTED_LANGUAGES type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
       "!   Deprecated: please use `tasks` instead.
       TASK_IDS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
       "!   The tasks that are supported by this model.
@@ -1861,11 +3021,30 @@ public section.
       TRAINING_PARAMETERS type T_TRAINING_PARAMETERS,
       "!   The information related to the minor versions of this model.
       VERSIONS type STANDARD TABLE OF T_FOUNDATION_MODEL_VERSION WITH NON-UNIQUE DEFAULT KEY,
+      "!   If `true` then this model is only available in the `Tech Preview`.
+      TECH_PREVIEW type BOOLEAN,
     end of T_FOUNDATION_MODEL.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The supported foundation models.</p>
       T_FOUNDATION_MODELS_ARRAY type STANDARD TABLE OF T_FOUNDATION_MODEL WITH NON-UNIQUE DEFAULT KEY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The parameters specific to chat.</p>
+    begin of T_TEXT_CHAT_PARAMETER_FUNCTION,
+      "!   The name of the function.
+      NAME type STRING,
+      "!   A description of what the function does, used by the model to choose when and
+      "!    how to call the function.
+      DESCRIPTION type STRING,
+      "!   The parameters the functions accepts, described as a JSON Schema object. See the
+      "!    [JSON Schema
+      "!    reference](https://json-schema.org/learn/getting-started-step-by-step) for
+      "!    documentation about the format.<br/>
+      "!   <br/>
+      "!   Omitting parameters defines a function with an empty parameter list.
+      PARAMETERS type JSONOBJECT,
+    end of T_TEXT_CHAT_PARAMETER_FUNCTION.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The common fields that can be patched. This is a helper for</p>
@@ -1880,6 +3059,29 @@ public section.
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
     end of T_COMMON_PATCH_REQUEST_HELPER.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Status of the document extraction job.</p>
+    begin of T_DOCUMENT_EXTRACTION_STATUS,
+      "!   Current state of document extraction.
+      STATE type STRING,
+      "!   The hash of the git commit when the results were saved.
+      COMMIT_SHA type STRING,
+    end of T_DOCUMENT_EXTRACTION_STATUS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The reason why the call stopped, can be one of:</p><br/>
+    "!    - not_finished - Possibly more tokens to be streamed.<br/>
+    "!    - max_tokens - Maximum requested tokens reached.<br/>
+    "!    - eos_token - End of sequence token encountered.<br/>
+    "!    - cancelled - Request canceled by the client.<br/>
+    "!    - time_limit - Time limit reached.<br/>
+    "!    - stop_sequence - Stop sequence encountered.<br/>
+    "!    - token_limit - Token limit reached.<br/>
+    "!    - error - Error encountered.<br/>
+    "!    <br/>
+    "!    Note that these values will be lower-cased so test for values case insensitive.
+      T_TEXT_GEN_STOP_REASON type String.
   types:
     "! No documentation available.
     begin of T_EXTRNL_PRMPT_ADDTNL_INFRMTN1,
@@ -1917,14 +3119,109 @@ public section.
     end of T_DPLYMNT_RESOURCE_COLLECTION.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    Detection evidence.</p>
+    begin of T_TEXT_DETECTION_CONTEXT_ITEM,
+      "!   The type of the detection identified.
+      DETECTION_TYPE type STRING,
+      "!   The detected string.
+      DETECTION type STRING,
+      "!   The threshold probability that this is a real match.
+      SCORE type FLOAT,
+      "!   The evidence details.
+      EVIDENCE type STANDARD TABLE OF T_TXT_DETECTION_CHILD_EVIDENCE WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TEXT_DETECTION_CONTEXT_ITEM.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Represents the maximum number of input tokens accepted. This</p>
     "!     can be used to avoid requests failing due to input being longer than configured
     "!     limits. If the text is truncated, then it truncates the start of the input (on
     "!     the left), so the end of the input will remain the same. If this value exceeds
     "!     the `maximum sequence length` (refer to the documentation to find this value
     "!     for the model) then the call will fail if the total number of tokens exceeds
-    "!     the `maximum sequence length`. Zero means don&apos;t truncate.
+    "!     the `maximum sequence length`.
       T_PRM_TRNCT_INPT_TKNS_FRM_STRT type Integer.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The name of the job.</p>
+      T_RESOURCE_NAME type String.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The properties that are part of a request that supports</p>
+    "!     spaces.
+    begin of T_ENTITY_REQUEST_SPACE_BODY,
+      "!   The space that contains the resource.
+      SPACE_ID type STRING,
+      "!   The name of the resource.
+      NAME type STRING,
+      "!   A description of the resource.
+      DESCRIPTION type STRING,
+      "!   A list of tags for this resource.
+      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+    end of T_ENTITY_REQUEST_SPACE_BODY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The chat response format parameters.</p>
+    begin of T_TEXT_CHAT_RESPONSE_FORMAT,
+      "!   Used to enable JSON mode, which guarantees the message the model generates is
+      "!    valid JSON.<br/>
+      "!   <br/>
+      "!   **Important:** when using JSON mode, you must also instruct the model to produce
+      "!    JSON yourself via a system or user message. Without this, the model may
+      "!    generate an unending stream of whitespace until the generation reaches the
+      "!    token limit, resulting in a long-running and seemingly &quot;stuck&quot;
+      "!    request. Also note that the message content may be partially cut off if
+      "!    `finish_reason=&quot;length&quot;`, which indicates the generation exceeded
+      "!    `max_tokens` or the conversation exceeded the max context length.
+      TYPE type STRING,
+    end of T_TEXT_CHAT_RESPONSE_FORMAT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The parameters specific to chat.</p>
+    begin of T_TEXT_CHAT_PARAMETERS,
+      "!   Positive values penalize new tokens based on their existing frequency in the
+      "!    text so far, decreasing the model&apos;s likelihood to repeat the same line
+      "!    verbatim.
+      FREQUENCY_PENALTY type NUMBER,
+      "!   Whether to return log probabilities of the output tokens or not. If true,
+      "!    returns the log probabilities of each output token returned in the content of
+      "!    message.
+      LOGPROBS type BOOLEAN,
+      "!   An integer specifying the number of most likely tokens to return at each token
+      "!    position, each with an associated log probability. The option `logprobs` must
+      "!    be set to `true` if this parameter is used.
+      TOP_LOGPROBS type INTEGER,
+      "!   The maximum number of tokens that can be generated in the chat completion. The
+      "!    total length of input tokens and generated tokens is limited by the
+      "!    model&apos;s context length.
+      MAX_TOKENS type INTEGER,
+      "!   How many chat completion choices to generate for each input message. Note that
+      "!    you will be charged based on the number of generated tokens across all of the
+      "!    choices. Keep n as 1 to minimize costs.
+      N type INTEGER,
+      "!   Positive values penalize new tokens based on whether they appear in the text so
+      "!    far, increasing the model&apos;s likelihood to talk about new topics.
+      PRESENCE_PENALTY type NUMBER,
+      "!   The chat response format parameters.
+      RESPONSE_FORMAT type T_TEXT_CHAT_RESPONSE_FORMAT,
+      "!   What sampling temperature to use,. Higher values like 0.8 will make the output
+      "!    more random, while lower values like 0.2 will make it more focused and
+      "!    deterministic.<br/>
+      "!   <br/>
+      "!   We generally recommend altering this or `top_p` but not both.
+      TEMPERATURE type NUMBER,
+      "!   An alternative to sampling with temperature, called nucleus sampling, where the
+      "!    model considers the results of the tokens with top_p probability mass. So 0.1
+      "!    means only the tokens comprising the top 10% probability mass are
+      "!    considered.<br/>
+      "!   <br/>
+      "!   We generally recommend altering this or `temperature` but not both.
+      TOP_P type NUMBER,
+      "!   Time limit in milliseconds - if not completed within this time, generation will
+      "!    stop. The text generated so far will be returned along with the `TIME_LIMIT``
+      "!    stop reason. Depending on the users plan, and on the model being used, there
+      "!    may be an enforced maximum time limit.
+      TIME_LIMIT type INTEGER,
+    end of T_TEXT_CHAT_PARAMETERS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A task that is covered by some of the foundation models that</p>
@@ -1959,14 +3256,58 @@ public section.
     end of T_FOUNDATION_MODEL_TASKS.
   types:
     "! No documentation available.
+      T_TEXT_CHAT_MESSAGES type JSONOBJECT.
+  types:
+    "! No documentation available.
     begin of T_WX_PROMPT_RESP_MODEL_VERSION,
-      "!   User provided semvar version for tracking in IBM AI Factsheets.
+      "!   User provided semantic version for tracking in IBM AI Factsheets.
       NUMBER type STRING,
       "!   User provived tag.
       TAG type STRING,
       "!   Description of the version.
       DESCRIPTION type STRING,
     end of T_WX_PROMPT_RESP_MODEL_VERSION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A reference to data.</p>
+    begin of T_AUTO_AIDATA_LOCATION,
+      "!   The data source type like `connection_asset`, `data_asset` or `container`
+      "!    (Service only).
+      TYPE type STRING,
+      "!   Contains a set of fields specific to each connection.<br/>
+      "!   See here for [details about specifying connections](#datareferences).
+      CONNECTION type T_DATA_CONNECTION,
+      "!   Contains a set of fields that describe the location of the data with respect to
+      "!    the `connection`.
+      LOCATION type MAP,
+    end of T_AUTO_AIDATA_LOCATION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A reference to connection.</p>
+    begin of T_CONNECTION_ASSET,
+      "!   The data source type `connection_asset`.
+      TYPE type STRING,
+      "!   Contains a set of fields specific to each connection.<br/>
+      "!   See here for [details about specifying connections](#datareferences).
+      CONNECTION type T_DATA_CONNECTION,
+    end of T_CONNECTION_ASSET.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The request entity for an AutoAI RAG run.</p>
+    begin of T_AUTO_AIRAGREQUEST_ENTITY,
+      "!   A hardware specification.
+      HARDWARE_SPEC type T_HARDWARE_SPEC,
+      "!   The parameters for an AutoAI RAG run.
+      PARAMETERS type T_AUTO_AIRAGPARAMETERS,
+      "!   A set of input data references.
+      INPUT_DATA_REFERENCES type STANDARD TABLE OF T_AUTO_AIDATA_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A set of test data references.
+      TEST_DATA_REFERENCES type STANDARD TABLE OF T_AUTO_AIDATA_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A set of vector store references. Milvus vector database is supported.
+      VECTOR_STORE_REFERENCES type STANDARD TABLE OF T_CONNECTION_ASSET WITH NON-UNIQUE DEFAULT KEY,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+    end of T_AUTO_AIRAGREQUEST_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A list of notebook versions in a project.</p>
@@ -2066,6 +3407,15 @@ public section.
       T_FOUNDATION_MODEL_TASKS_ARRAY type STANDARD TABLE OF T_FOUNDATION_MODEL_TASK WITH NON-UNIQUE DEFAULT KEY.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a user text content.</p>
+    begin of T_TXT_CHT_USR_CNTNTS_TXT_CHT_1,
+      "!   The type of the user content.
+      TYPE type STRING,
+      "!   The text content.
+      TEXT type STRING,
+    end of T_TXT_CHT_USR_CNTNTS_TXT_CHT_1.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Common metadata for a resource.</p>
     begin of T_RESOURCE_META_BASE,
       "!   The revision of the resource.
@@ -2113,7 +3463,7 @@ public section.
   types:
     "! No documentation available.
     begin of T_WX_PROMPT_PATCH_MODEL_VER,
-      "!   User provided semvar version for tracking in IBM AI Factsheets.
+      "!   User provided semantic version for tracking in IBM AI Factsheets.
       NUMBER type STRING,
       "!   User provived tag.
       TAG type STRING,
@@ -2122,14 +3472,19 @@ public section.
     end of T_WX_PROMPT_PATCH_MODEL_VER.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    The properties for the moderation. Each type of moderation</p>
-    "!     may have additional properties that are specific to that moderation.
-    begin of T_MODERATION_PROPERTIES,
-      "!   Properties that control the moderation on the text.
-      INPUT type T_TEXT_MODERATION,
-      "!   Properties that control the moderation on the text.
-      OUTPUT type T_TEXT_MODERATION,
-    end of T_MODERATION_PROPERTIES.
+    "!    The text that was detected.</p>
+    begin of T_TEXT_DETECTION_CONTENT_ITEM,
+      "!   The type of the detection identified.
+      DETECTION_TYPE type STRING,
+      "!   The detected string.
+      DETECTION type STRING,
+      "!   The threshold probability that this is a real match.
+      SCORE type FLOAT,
+      "!   The position in the content where the detected text starts.
+      START type INTEGER,
+      "!   The position in the content where the detected text ends.
+      END type INTEGER,
+    end of T_TEXT_DETECTION_CONTENT_ITEM.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Status of the training job.</p>
@@ -2137,6 +3492,22 @@ public section.
       "!   Status of the training job.
       STATUS type T_TRAINING_STATUS,
     end of T_TRAINING_STATUS_OUTPUT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a system message.</p>
+    begin of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_2,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   The contents of the system message.
+      CONTENT type STRING,
+      "!   An optional name for the participant. Provides the model information to
+      "!    differentiate between participants of the same role.
+      NAME type STRING,
+    end of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_2.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The `id` of the model to be used for this request.</p>
+      T_GSPTL_TRNSFRMTN_MODEL_ID type String.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Entity of notebook info returned in a listing.</p>
@@ -2156,13 +3527,25 @@ public section.
     end of T_SYSTEM.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Represents the maximum number of input tokens accepted. This</p>
-    "!     can be used to avoid requests failing due to input being longer than configured
-    "!     limits. If the text is truncated, then it truncates the end of the input (on
-    "!     the right), so the start of the input will remain the same. If this value
-    "!     exceeds the `maximum sequence length` (refer to the documentation to find this
-    "!     value for the model) then the call will fail if the total number of tokens
-    "!     exceeds the `maximum sequence length`. Zero means don&apos;t truncate.
+    "!    The definition of a user image content.</p>
+    begin of T_TXT_CHT_USR_CNTNTS_TXT_CHT_2,
+      "!   The type of the user content.
+      TYPE type STRING,
+      "!   The definition of a user image content.
+      IMAGE_URL type T_TEXT_CHAT_USER_IMAGE_URL,
+    end of T_TXT_CHT_USR_CNTNTS_TXT_CHT_2.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Represents the maximum number of tokens accepted per</p>
+    "!     input.<br/>
+    "!    <br/>
+    "!    This can be used to avoid requests failing due to input being longer than
+    "!     configured limits. If the text is truncated, then it truncates the end of the
+    "!     input (on the right), so the start of the input will remain the same.<br/>
+    "!    <br/>
+    "!    If this value exceeds the `maximum sequence length` (refer to the documentation
+    "!     to find this value for the model) then the call will fail if the total number
+    "!     of tokens exceeds the `maximum sequence length`.
       T_PRM_TRNCT_INPT_TKNS_FROM_END type Integer.
   types:
     "! No documentation available.
@@ -2177,6 +3560,24 @@ public section.
       ORIGINATES_FROM type T_NOTEBOOK_ORIGIN_FROM_SOURCE,
     end of T_NOTEBOOK_ENTITY_DEF_FOR_COPY.
   types:
+    "! No documentation available.
+    begin of T_TEXT_GEN_RESULT,
+      "!   The text that was generated by the model.
+      GENERATED_TEXT type STRING,
+      "!   The reason why the call stopped, can be one of:<br/>
+      "!   - not_finished - Possibly more tokens to be streamed.<br/>
+      "!   - max_tokens - Maximum requested tokens reached.<br/>
+      "!   - eos_token - End of sequence token encountered.<br/>
+      "!   - cancelled - Request canceled by the client.<br/>
+      "!   - time_limit - Time limit reached.<br/>
+      "!   - stop_sequence - Stop sequence encountered.<br/>
+      "!   - token_limit - Token limit reached.<br/>
+      "!   - error - Error encountered.<br/>
+      "!   <br/>
+      "!   Note that these values will be lower-cased so test for values case insensitive.
+      STOP_REASON type STRING,
+    end of T_TEXT_GEN_RESULT.
+  types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Notebook info returned in a listing.</p>
     begin of T_NOTEBOOK_RESOURCE,
@@ -2187,8 +3588,36 @@ public section.
     end of T_NOTEBOOK_RESOURCE.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The space that contains the resource.</p>
+      T_SPACE_ID_ONLY type String.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The metadata related to the attachment.</p>
+    begin of T_AISERVICE_CONTENT_METADATA,
+      "!   The content id for the attachment.
+      ATTACHMENT_ID type STRING,
+    end of T_AISERVICE_CONTENT_METADATA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The transformation results.</p>
+    begin of T_GSPTL_TRNSFRMTN_RESP_ENTITY,
+      "!   The `id` of the model to be used for this request.
+      MODEL_ID type STRING,
+      "!   The input text.
+      INPUTS type STANDARD TABLE OF T_GSPTL_TRANSFORMATION_DATA WITH NON-UNIQUE DEFAULT KEY,
+      "!   A data location of the input or output data.
+      OUTPUT type T_GSPTL_TRANSFORMATION_DATA,
+      "!   The transformation results.
+      RESULTS type T_GSPTL_TRANSFORMATION_RESULTS,
+    end of T_GSPTL_TRNSFRMTN_RESP_ENTITY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The number of input tokens that were consumed.</p>
       T_INPUT_TOKEN_COUNT type Integer.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Prediction results.</p>
+      T_TSFORECAST_RESULTS type JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The properties for the moderation. Each type of moderation</p>
@@ -2209,6 +3638,10 @@ public section.
     end of T_NTBK_RVRT_RESP_NTBK_IN_PRJCT.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The threshold probability that this is a real match.</p>
+      T_TEXT_DETECTION_SCORE type Float.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    A list of notebook info as returned by a list query.</p>
     begin of T_NOTEBOOKS_RESOURCE_LIST,
       "!   The number of items in the resources list.
@@ -2216,6 +3649,34 @@ public section.
       "!   An array of notebooks.
       RESOURCES type STANDARD TABLE OF T_NOTEBOOK_RESOURCE WITH NON-UNIQUE DEFAULT KEY,
     end of T_NOTEBOOKS_RESOURCE_LIST.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The time series forecast response.</p>
+    begin of T_TSFORECAST_RESPONSE,
+      "!   The model used to generate the forecast.
+      MODEL_ID type STRING,
+      "!   The time when the response was created in ISO 8601 format.
+      CREATED_AT type DATETIME,
+      "!   The list of prediction results. There will be a forecast for each time series in
+      "!    the input data. The `prediction_length` field in the request specifies the
+      "!    number of predictions in the results. The actual number of rows in the results
+      "!    will be equal to the `prediction length` multiplied by the number of unique ids
+      "!    in `id_columns`. The `timestamp_column` field in the request indicates the name
+      "!    of the timestamp column in the results.
+      RESULTS type STANDARD TABLE OF JSONOBJECT WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TSFORECAST_RESPONSE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a system message.</p>
+    begin of T_TEXT_CHAT_MESSAGE_SYSTEM,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   The contents of the system message.
+      CONTENT type STRING,
+      "!   An optional name for the participant. Provides the model information to
+      "!    differentiate between participants of the same role.
+      NAME type STRING,
+    end of T_TEXT_CHAT_MESSAGE_SYSTEM.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    System details.</p>
@@ -2226,7 +3687,7 @@ public section.
       MODEL_ID type STRING,
       "!   The embedding values for a given text.
       RESULTS type STANDARD TABLE OF T_EMBEDDING WITH NON-UNIQUE DEFAULT KEY,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The number of input tokens that were consumed.
       INPUT_TOKEN_COUNT type INTEGER,
@@ -2234,6 +3695,18 @@ public section.
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
     end of T_EMBEDDINGS_RESPONSE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The inputs and outputs required to create a transformation</p>
+    "!     for the given model.
+    begin of T_GSPTL_TRANSFORMATION_ENTITY,
+      "!   The `id` of the model to be used for this request.
+      MODEL_ID type STRING,
+      "!   The input text.
+      INPUTS type STANDARD TABLE OF T_GSPTL_TRANSFORMATION_DATA WITH NON-UNIQUE DEFAULT KEY,
+      "!   A data location of the input or output data.
+      OUTPUT type T_GSPTL_TRANSFORMATION_DATA,
+    end of T_GSPTL_TRANSFORMATION_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A set of server sent events, each event contains a response</p>
@@ -2249,6 +3722,31 @@ public section.
       "!   The prompt variables.
       PROMPT_VARIABLES type MAP,
     end of T_PROMPT_TEMPLATE_VARIABLES.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of an assistant message.</p>
+    begin of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_1,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   The contents of the assistant message. Required unless `tool_calls` is
+      "!    specified.
+      CONTENT type STRING,
+      "!   An optional name for the participant. Provides the model information to
+      "!    differentiate between participants of the same role.
+      NAME type STRING,
+      "!   The refusal message by the assistant.
+      REFUSAL type STRING,
+      "!   The tool calls generated by the model, such as function calls.
+      TOOL_CALLS type STANDARD TABLE OF T_TEXT_CHAT_TOOL_CALL WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TXT_CHT_MSSGS_TXT_CHT_MSSG_1.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A chat completion choices.</p>
+    begin of T_TEXT_CHAT_RESPONSE_FIELDS,
+      "!   A list of chat completion choices. Can be more than one if `n` is greater than
+      "!    1.
+      CHOICES type STANDARD TABLE OF T_TEXT_CHAT_RESULT_CHOICE WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TEXT_CHAT_RESPONSE_FIELDS.
   types:
     "! No documentation available.
     begin of T_WX_PROMPT_SESSION_ENTRY,
@@ -2295,6 +3793,42 @@ public section.
     end of T_WX_PROMPT_SESSION.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    Common metadata for a resource where `project_id` or</p>
+    "!     `space_id` must be present.
+    begin of T_RSRC_SPC_PROJECT_METADATA,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+    end of T_RSRC_SPC_PROJECT_METADATA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Detection evidence.</p>
+    begin of T_TXT_DTCTN_EVIDENCE_REFERENCE,
+      "!   The evidence details.
+      EVIDENCE type STANDARD TABLE OF T_TXT_DETECTION_CHILD_EVIDENCE WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TXT_DTCTN_EVIDENCE_REFERENCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The request fields that are not part of the returned entity.</p>
+    begin of T_RESOURCE_REQUEST_FIELDS,
+      "!   The name of the job.
+      NAME type STRING,
+      "!   The description of the job.
+      DESCRIPTION type STRING,
+      "!   A list of tags for this resource.
+      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+    end of T_RESOURCE_REQUEST_FIELDS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Entity of a notebook copied from a source.</p>
     begin of T_NOTEBOOK_ENTITY_FOR_COPY,
       "!   Definition part of a notebook entity copied from a source.
@@ -2316,97 +3850,106 @@ public section.
     end of T_NTBK_CRE_RESP_NTBK_FOR_COPY.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The text that was detected.</p>
+    begin of T_TXT_DTCTN_CONTEXT_POSITION,
+      "!   The position in the content where the detected text starts.
+      START type INTEGER,
+      "!   The position in the content where the detected text ends.
+      END type INTEGER,
+    end of T_TXT_DTCTN_CONTEXT_POSITION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    A prompt to be used to infer the next tokens.</p>
       T_DEPLOYMENT_TEXT_GEN_REQUEST type T_DEPLOYMENT_TEXT_GEN.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Properties that control the model and response that are only</p>
-    "!     supported in caikit.
-    begin of T_TEXT_GEN_PARAMETERS2,
-      "!   Represents the strategy used for picking the tokens during generation of the
-      "!    output text.<br/>
+    "!    The request fields that are not part of the returned entity.</p>
+    begin of T_AUTO_AIRAGMETADATA,
+      "!   The id of the resource.
+      ID type STRING,
+      "!   The time when the resource was created.
+      CREATED_AT type DATETIME,
+      "!   The name of the job.
+      NAME type STRING,
+      "!   The description of the job.
+      DESCRIPTION type STRING,
+      "!   A list of tags for this resource.
+      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+    end of T_AUTO_AIRAGMETADATA.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The inputs and outputs required to create a transformation</p>
+    "!     for the given model.
+    begin of T_GSPTL_TRNSFRMTN_RSRC_ENTITY,
+      "!   The `id` of the model to be used for this request.
+      MODEL_ID type STRING,
+      "!   The input text.
+      INPUTS type STANDARD TABLE OF T_GSPTL_TRANSFORMATION_DATA WITH NON-UNIQUE DEFAULT KEY,
+      "!   A data location of the input or output data.
+      OUTPUT type T_GSPTL_TRANSFORMATION_DATA,
+      "!   The transformation results.
+      RESULTS type T_GSPTL_TRANSFORMATION_RESULTS,
+    end of T_GSPTL_TRNSFRMTN_RSRC_ENTITY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Input necessary for performing inference. These inputs</p>
+    "!     identify things like which model to use, the data payload you are passing to
+    "!     the model, and other parameters which affect the behavior of the inference
+    "!     operation.
+    begin of T_TSFORECAST_RESOURCE,
+      "!   The model to be used for generating a forecast.
+      MODEL_ID type STRING,
+      "!   The parameters for the forecast request.
+      PARAMETERS type T_TSFORECAST_PARAMETERS,
+      "!   A payload of data matching `schema`. We assume the following about your
+      "!    data:<br/>
+      "!     * All timeseries are of equal length and are uniform in nature (the time
+      "!    difference between two successive rows is constant). This implies that there
+      "!    are no missing rows of data;<br/>
+      "!     * The data meet the minimum model-dependent historical context length
+      "!    which<br/>
+      "!     can be 512 or more rows per timeseries;<br/>
       "!   <br/>
-      "!   During text generation when parameter value is set to greedy, each successive
-      "!    token corresponds to the highest probability token given the text that has
-      "!    already been generated. This strategy can lead to repetitive results especially
-      "!    for longer output sequences. The alternative sample strategy generates text by
-      "!    picking subsequent tokens based on the probability distribution of possible
-      "!    next tokens defined by (i.e., conditioned on) the already-generated text and
-      "!    the top_k and top_p parameters described below. See this
-      "!    [url](https://huggingface.co/blog/how-to-generate) for an informative article
-      "!    about text generation.
-      DECODING_METHOD type STRING,
-      "!   It can be used to exponentially increase the likelihood of the text generation
-      "!    terminating once a specified number of tokens have been generated.
-      LENGTH_PENALTY type T_TEXT_GEN_LENGTH_PENALTY,
-      "!   The maximum number of new tokens to be generated. The maximum supported value
-      "!    for this field depends on the model being used.<br/>
-      "!   <br/>
-      "!   How the &quot;token&quot; is defined depends on the tokenizer and vocabulary
-      "!    size, which in turn depends on the model. Often the tokens are a mix of full
-      "!    words and sub-words. To learn more about tokenization, [see
-      "!    here](https://huggingface.co/course/chapter2/4).<br/>
-      "!   <br/>
-      "!   Depending on the users plan, and on the model being used, there may be an
-      "!    enforced maximum number of new tokens.
-      MAX_NEW_TOKENS type INTEGER,
-      "!   If stop sequences are given, they are ignored until minimum tokens are
-      "!    generated.
-      MIN_NEW_TOKENS type INTEGER,
-      "!   Random number generator seed to use in sampling mode for experimental
-      "!    repeatability.
-      RANDOM_SEED type INTEGER,
-      "!   Stop sequences are one or more strings which will cause the text generation to
-      "!    stop if/when they are produced as part of the output. Stop sequences
-      "!    encountered prior to the minimum number of tokens being generated will be
-      "!    ignored.
-      STOP_SEQUENCES type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
-      "!   A value used to modify the next-token probabilities in sampling mode. Values
-      "!    less than 1.0 sharpen the probability distribution, resulting in &quot;less
-      "!    random&quot; output. Values greater than 1.0 flatten the probability
-      "!    distribution, resulting in &quot;more random&quot; output. A value of 1.0 has
-      "!    no effect.
-      TEMPERATURE type NUMBER,
-      "!   Time limit in milliseconds - if not completed within this time, generation will
-      "!    stop. The text generated so far will be returned along with the TIME_LIMIT stop
-      "!    reason.<br/>
-      "!   <br/>
-      "!   Depending on the users plan, and on the model being used, there may be an
-      "!    enforced maximum time limit.
-      TIME_LIMIT type INTEGER,
-      "!   The number of highest probability vocabulary tokens to keep for top-k-filtering.
-      "!    Only applies for sampling mode. When decoding_strategy is set to sample, only
-      "!    the top_k most likely tokens are considered as candidates for the next
-      "!    generated token.
-      TOP_K type INTEGER,
-      "!   Similar to top_k except the candidates to generate the next token are the most
-      "!    likely tokens with probabilities that add up to at least top_p. Also known as
-      "!    nucleus sampling. A value of 1.0 is equivalent to disabled.
-      TOP_P type NUMBER,
-      "!   Represents the penalty for penalizing tokens that have already been generated or
-      "!    belong to the context. The value 1.0 means that there is no penalty.
-      REPETITION_PENALTY type NUMBER,
-      "!   Represents the maximum number of input tokens accepted. This can be used to
-      "!    avoid requests failing due to input being longer than configured limits. If the
-      "!    text is truncated, then it truncates the start of the input (on the left), so
-      "!    the end of the input will remain the same. If this value exceeds the `maximum
-      "!    sequence length` (refer to the documentation to find this value for the model)
-      "!    then the call will fail if the total number of tokens exceeds the `maximum
-      "!    sequence length`. Zero means don&apos;t truncate.
-      TRUNCATE_INPUT_TOKENS type INTEGER,
-      "!   Properties that control what is returned.
-      RETURN_OPTIONS type T_RETURN_OPTION_PROPERTIES,
-      "!   Pass `false` to omit matched stop sequences from the end of the output text. The
-      "!    default is `true`, meaning that the output will end with the stop sequence text
-      "!    when matched.
-      INCLUDE_STOP_SEQUENCE type BOOLEAN,
-      "!   Local typicality measures how similar the conditional probability of predicting
-      "!    a target token next is to the expected conditional probability of predicting a
-      "!    random token next, given the partial text already generated. If less than 1,
-      "!    the smallest set of the most locally typical tokens with probabilities that add
-      "!    up to typical_p or higher are kept for generation.
-      TYPICAL_P type NUMBER,
-    end of T_TEXT_GEN_PARAMETERS2.
+      "!   Note that the example payloads shown are for illustration purposes only. An
+      "!    actual payload would necessary be much larger to meet minimum model-specific
+      "!    context lengths.
+      DATA type JSONOBJECT,
+      "!   Contains metadata about your timeseries data input.
+      SCHEMA type T_TSFORECAST_INPUT_SCHEMA,
+    end of T_TSFORECAST_RESOURCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The details of the AI service to be created.</p>
+    begin of T_AISERVICE_ENTITY,
+      "!   A software specification.
+      SOFTWARE_SPEC type T_SOFTWARE_SPEC_REL,
+      "!   The type that allows the deployment service to know how to setup the code during
+      "!    deployment.
+      CODE_TYPE type STRING,
+      "!   The documentation of the AI service request body and response body.
+      DOCUMENTATION type T_AISERVICE_DOCUMENTATION,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+    end of T_AISERVICE_ENTITY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The properties that are part of a request that supports</p>
+    "!     spaces and projects. Either `space_id` or `project_id` has to be provided and
+    "!     is mandatory.
+    begin of T_ENTITY_REQ_SPC_PROJECT_ONLY,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+    end of T_ENTITY_REQ_SPC_PROJECT_ONLY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The properties that are part of a request that supports</p>
@@ -2428,6 +3971,23 @@ public section.
     end of T_ENTITY_REQ_SPC_PROJECT_BODY.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    A chat completion.</p>
+    begin of T_TEXT_CHAT_RESP_FIELDS_SHARED,
+      "!   A unique identifier for the chat completion.
+      ID type STRING,
+      "!   The model used for the chat completion.
+      MODEL_ID type STRING,
+      "!   The model version (using semantic versioning) if set.
+      MODEL_VERSION type STRING,
+      "!   The Unix timestamp (in seconds) of when the chat completion was created.
+      CREATED type INTEGER,
+      "!   The time when the response was created in ISO 8601 format.
+      CREATED_AT type DATETIME,
+      "!   Usage statistics for the completion request.
+      USAGE type T_TEXT_CHAT_USAGE,
+    end of T_TEXT_CHAT_RESP_FIELDS_SHARED.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    A prompt to be used to infer the next tokens. Each request</p>
     "!     expects a `project_id` or a `space_id`, and the `project` or `space` must have
     "!     an associated WML instance that will be used for limits and billing (if a paid
@@ -2437,6 +3997,46 @@ public section.
       "!    internally. It is recommended not to leave any trailing spaces.
       INPUT type STRING,
     end of T_TEXT_GEN_COMMON.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The status of an AutoAI RAG run.</p>
+    begin of T_AUTO_AIRAGRESPONSE_ENTITY,
+      "!   A hardware specification.
+      HARDWARE_SPEC type T_HARDWARE_SPEC,
+      "!   The parameters for an AutoAI RAG run.
+      PARAMETERS type T_AUTO_AIRAGPARAMETERS,
+      "!   A set of input data references.
+      INPUT_DATA_REFERENCES type STANDARD TABLE OF T_AUTO_AIDATA_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A set of test data references.
+      TEST_DATA_REFERENCES type STANDARD TABLE OF T_AUTO_AIDATA_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A set of vector store references. Milvus vector database is supported.
+      VECTOR_STORE_REFERENCES type STANDARD TABLE OF T_CONNECTION_ASSET WITH NON-UNIQUE DEFAULT KEY,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+      "!   The list of results.
+      RESULTS type STANDARD TABLE OF T_AUTO_AIRAGRESULTS WITH NON-UNIQUE DEFAULT KEY,
+      "!   The timestamp when the results were created.
+      TIMESTAMP type DATETIME,
+      "!   The training results. Normally this is specified as `type=container` which means
+      "!    that it is stored in the space or project. Note that the training will add some
+      "!    fields that point to the training status, the model request and the
+      "!    assets.<br/>
+      "!   <br/>
+      "!   The `model_request_path` is the request body that should be used when creating
+      "!    the trained model in the API, if this model is to be deployed. If
+      "!    `auto_update_model` was set to `true` then this file is not needed.
+      RESULTS_REFERENCE type T_OBJECT_LOCATION,
+      "!   The status of the job.
+      STATE type STRING,
+      "!   The step type.
+      STEP type STRING,
+      "!   The timestamp when the job started running.
+      RUNNING_AT type DATETIME,
+      "!   The timestamp when the job completed.
+      COMPLETED_AT type DATETIME,
+      "!   Optional messages related to the resource.
+      MESSAGE type T_MESSAGE,
+    end of T_AUTO_AIRAGRESPONSE_ENTITY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Properties that control the model and response.</p>
@@ -2510,7 +4110,7 @@ public section.
       "!    the end of the input will remain the same. If this value exceeds the `maximum
       "!    sequence length` (refer to the documentation to find this value for the model)
       "!    then the call will fail if the total number of tokens exceeds the `maximum
-      "!    sequence length`. Zero means don&apos;t truncate.
+      "!    sequence length`.
       TRUNCATE_INPUT_TOKENS type INTEGER,
       "!   Properties that control what is returned.
       RETURN_OPTIONS type T_RETURN_OPTION_PROPERTIES,
@@ -2519,6 +4119,35 @@ public section.
       "!    when matched.
       INCLUDE_STOP_SEQUENCE type BOOLEAN,
     end of T_TEXT_GEN_PARAMETERS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The geospatial transformation resource.</p>
+    begin of T_GSPTL_TRNSFRMTN_RESOURCE,
+      "!   The specific fields for the geospatial transformation metadata fields.
+      METADATA type T_GSPTL_TRNSFRMTN_METADATA,
+      "!   The inputs and outputs required to create a transformation for the given model.
+      ENTITY type T_GSPTL_TRNSFRMTN_RSRC_ENTITY,
+    end of T_GSPTL_TRNSFRMTN_RESOURCE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A paginated list of resources.</p>
+    begin of T_GSPTL_TRNSFRMTN_RESOURCES,
+      "!   The total number of resources. Computed explicitly only when
+      "!    &apos;total_count=true&apos; query parameter is present. This is in order to
+      "!    avoid performance penalties.
+      TOTAL_COUNT type INTEGER,
+      "!   The number of items to return in each page.
+      LIMIT type INTEGER,
+      "!   The reference to the first item in the current page.
+      FIRST type T_PAGINATION_FIRST,
+      "!   A reference to the first item of the next page, if any.
+      NEXT type T_PAGINATION_NEXT,
+      "!   A list of resources.
+      RESOURCES type STANDARD TABLE OF T_GSPTL_TRNSFRMTN_RESOURCE WITH NON-UNIQUE DEFAULT KEY,
+      "!   Optional details coming from the service and related to the API call or the
+      "!    associated resource.
+      SYSTEM type T_SYSTEM_DETAILS,
+    end of T_GSPTL_TRNSFRMTN_RESOURCES.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A list of notebook versions in a project.</p>
@@ -2553,12 +4182,51 @@ public section.
     end of T_ERROR_RESPONSE.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The document extraction job properties.</p>
+    begin of T_DOCUMENT_EXTRACTION_RESPONSE,
+      "!   The name of the document.
+      NAME type STRING,
+      "!   The documents for text extraction.
+      DOCUMENT_REFERENCES type STANDARD TABLE OF T_OBJECT_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A reference to data.
+      RESULTS_REFERENCE type T_OBJECT_LOCATION_GITHUB,
+      "!   Status of the document extraction job.
+      STATUS type T_DOCUMENT_EXTRACTION_STATUS,
+    end of T_DOCUMENT_EXTRACTION_RESPONSE.
+  types:
+    "! No documentation available.
+    begin of T_TEXT_GEN_RESULT_FIELDS,
+      "!   The number of generated tokens.
+      GENERATED_TOKEN_COUNT type INTEGER,
+      "!   The number of input tokens consumed.
+      INPUT_TOKEN_COUNT type INTEGER,
+      "!   The seed used, if it exists.
+      SEED type INTEGER,
+      "!   The list of individual generated tokens. Extra token information is included
+      "!    based on the other flags in the `return_options` of the request.
+      GENERATED_TOKENS type STANDARD TABLE OF T_TEXT_GEN_TOKEN_INFO WITH NON-UNIQUE DEFAULT KEY,
+      "!   The list of input tokens. Extra token information is included based on the other
+      "!    flags in the `return_options` of the request, but for decoder-only models.
+      INPUT_TOKENS type STANDARD TABLE OF T_TEXT_GEN_TOKEN_INFO WITH NON-UNIQUE DEFAULT KEY,
+      "!   The result of any detected moderations.
+      MODERATIONS type T_MODERATION_RESULTS,
+    end of T_TEXT_GEN_RESULT_FIELDS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The properties for the moderation. Each type of moderation</p>
+    "!     may have additional properties that are specific to that moderation.
+    begin of T_MDRTN_PRPRTS_WTHT_THRESHOLD,
+      "!   Properties that control the moderation on the text.
+      INPUT type T_TXT_MDRTN_WITHOUT_THRESHOLD,
+      "!   Properties that control the moderation on the text.
+      OUTPUT type T_TXT_MDRTN_WITHOUT_THRESHOLD,
+    end of T_MDRTN_PRPRTS_WTHT_THRESHOLD.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The common fields between a request and the response.</p>
     begin of T_DEPLOYMENT_ENTITY_COMMON,
       "!   User defined properties specified as key-value pairs.
       CUSTOM type JSONOBJECT,
-      "!   A reference to a resource.
-      ASSET type T_REL,
       "!   A reference to a resource.
       PROMPT_TEMPLATE type T_SIMPLE_REL,
       "!   Indicates that this is an online deployment. An object has to be specified but
@@ -2567,6 +4235,8 @@ public section.
       ONLINE type T_ONLINE_DEPLOYMENT,
       "!   A hardware specification.
       HARDWARE_SPEC type T_HARDWARE_SPEC,
+      "!   The requested hardware for deployment.
+      HARDWARE_REQUEST type T_HARDWARE_REQUEST,
     end of T_DEPLOYMENT_ENTITY_COMMON.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -2576,18 +4246,24 @@ public section.
       "!    models](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-mod
       "!   els-embed.html?context=wx&audience=wdp).
       MODEL_ID type STRING,
-      "!   The rank query.
-      QUERY type STRING,
+      "!   The model version (using semantic versioning) if set.
+      MODEL_VERSION type STRING,
       "!   The ranked results.
       RESULTS type STANDARD TABLE OF T_RERANKED_RESULTS WITH NON-UNIQUE DEFAULT KEY,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The number of input tokens that were consumed.
       INPUT_TOKEN_COUNT type INTEGER,
+      "!   The rank query, if requested.
+      QUERY type STRING,
       "!   Optional details coming from the service and related to the API call or the
       "!    associated resource.
       SYSTEM type T_SYSTEM_DETAILS,
     end of T_RERANK_RESPONSE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The tool type.</p>
+      T_TEXT_CHAT_PROPERTY_TOOL type String.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Payload for a notebook update request.</p>
@@ -2643,6 +4319,26 @@ public section.
     end of T_TEXT_TOKENIZE_RESPONSE.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The document details for the text extraction.</p>
+    begin of T_TEXT_EXTRACTION_ENTITY,
+      "!   A reference to data.
+      DOCUMENT_REFERENCE type T_TXT_EXTRCTN_DATA_REFERENCE,
+      "!   A reference to data.
+      RESULTS_REFERENCE type T_TXT_EXTRCTN_DATA_REFERENCE,
+      "!   The steps for the text extraction pipeline.
+      STEPS type T_TEXT_EXTRACTION_STEPS,
+      "!   Set this as an empty object to speify `json` output.<br/>
+      "!   <br/>
+      "!   Note that this is not strictly required because if an<br/>
+      "!   `assembly_md` object is not found then the default will be `json`.
+      ASSEMBLY_JSON type JSONOBJECT,
+      "!   Set this as an empty object to specify `markdown` output.
+      ASSEMBLY_MD type JSONOBJECT,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+    end of T_TEXT_EXTRACTION_ENTITY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    A prompt to be used to infer the next tokens. Each request</p>
     "!     expects a `project_id` or a `space_id`, and the `project` or `space` must have
     "!     an associated WML instance that will be used for limits and billing (if a paid
@@ -2687,6 +4383,13 @@ public section.
       SYSTEM type T_SYSTEM_DETAILS,
     end of T_FOUNDATION_MODELS.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Status of the training job.</p>
+    begin of T_FINE_TUNING_ENTITY,
+      "!   Status of the training job.
+      STATUS type T_TRAINING_STATUS,
+    end of T_FINE_TUNING_ENTITY.
+  types:
     "! No documentation available.
     begin of T_WX_PROMPT_PATCH,
       "!   The prompt&apos;s id. This value cannot be set. It is returned in responses
@@ -2703,7 +4406,7 @@ public section.
       "!   No documentation available.
       MODEL_VERSION type T_WX_PROMPT_PATCH_MODEL_VER,
       "!   No documentation available.
-      PROMPT_VARIABLE type MAP,
+      PROMPT_VARIABLES type MAP,
       "!   Input mode in use for the prompt.
       INPUT_MODE type STRING,
       "!   No documentation available.
@@ -2714,8 +4417,103 @@ public section.
     "!    The rank query.</p>
       T_RERANK_QUERY type String.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The request entity for an AutoAI RAG run.</p>
+    begin of T_AUTO_AIRAGREQUEST,
+      "!   The name of the job.
+      NAME type STRING,
+      "!   The description of the job.
+      DESCRIPTION type STRING,
+      "!   A list of tags for this resource.
+      TAGS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   A hardware specification.
+      HARDWARE_SPEC type T_HARDWARE_SPEC,
+      "!   The parameters for an AutoAI RAG run.
+      PARAMETERS type T_AUTO_AIRAGPARAMETERS,
+      "!   A set of input data references.
+      INPUT_DATA_REFERENCES type STANDARD TABLE OF T_AUTO_AIDATA_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A set of test data references.
+      TEST_DATA_REFERENCES type STANDARD TABLE OF T_AUTO_AIDATA_LOCATION WITH NON-UNIQUE DEFAULT KEY,
+      "!   A set of vector store references. Milvus vector database is supported.
+      VECTOR_STORE_REFERENCES type STANDARD TABLE OF T_CONNECTION_ASSET WITH NON-UNIQUE DEFAULT KEY,
+      "!   User defined properties specified as key-value pairs.
+      CUSTOM type JSONOBJECT,
+      "!   The training results. Normally this is specified as `type=container` (Service)
+      "!    or `type=fs` (Software) which<br/>
+      "!   means that it is stored in the space or project.
+      RESULTS_REFERENCE type T_RESULTS_LOCATION,
+    end of T_AUTO_AIRAGREQUEST.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A paginated list of AI services.</p>
+    begin of T_AISERVICE_RESOURCES,
+      "!   The total number of resources. Computed explicitly only when
+      "!    &apos;total_count=true&apos; query parameter is present. This is in order to
+      "!    avoid performance penalties.
+      TOTAL_COUNT type INTEGER,
+      "!   The number of items to return in each page.
+      LIMIT type INTEGER,
+      "!   The reference to the first item in the current page.
+      FIRST type T_PAGINATION_FIRST,
+      "!   A reference to the first item of the next page, if any.
+      NEXT type T_PAGINATION_NEXT,
+      "!   A list of AI services.
+      RESOURCES type STANDARD TABLE OF T_AISERVICE_RESOURCE WITH NON-UNIQUE DEFAULT KEY,
+      "!   Optional details coming from the service and related to the API call or the
+      "!    associated resource.
+      SYSTEM type T_SYSTEM_DETAILS,
+    end of T_AISERVICE_RESOURCES.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    An optional name for the participant. Provides the model</p>
+    "!     information to differentiate between participants of the same role.
+      T_TEXT_CHAT_MESSAGE_FIELD_NAME type String.
+  types:
     "! No documentation available.
       T_PROMPT_VARIABLE_STRING type String.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The field that identifies the asset.</p>
+    begin of T_ASSET_REF,
+      "!   A reference to a resource.
+      ASSET type T_REL,
+    end of T_ASSET_REF.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    System details.</p>
+    begin of T_TEXT_CHAT_RESPONSE,
+      "!   A unique identifier for the chat completion.
+      ID type STRING,
+      "!   The model used for the chat completion.
+      MODEL_ID type STRING,
+      "!   The model version (using semantic versioning) if set.
+      MODEL_VERSION type STRING,
+      "!   The Unix timestamp (in seconds) of when the chat completion was created.
+      CREATED type INTEGER,
+      "!   The time when the response was created in ISO 8601 format.
+      CREATED_AT type DATETIME,
+      "!   Usage statistics for the completion request.
+      USAGE type T_TEXT_CHAT_USAGE,
+      "!   A list of chat completion choices. Can be more than one if `n` is greater than
+      "!    1.
+      CHOICES type STANDARD TABLE OF T_TEXT_CHAT_RESULT_CHOICE WITH NON-UNIQUE DEFAULT KEY,
+      "!   Optional details coming from the service and related to the API call or the
+      "!    associated resource.
+      SYSTEM type T_SYSTEM_DETAILS,
+    end of T_TEXT_CHAT_RESPONSE.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The base definition of a text chat message.</p>
+    begin of T_TEXT_CHAT_MESSAGE,
+      "!   The role of the messages author.
+      ROLE type STRING,
+    end of T_TEXT_CHAT_MESSAGE.
   types:
     "! No documentation available.
       T_NOTEBOOK_CREATE_RESPONSE type JSONOBJECT.
@@ -2749,8 +4547,48 @@ public section.
     end of T_CAI_KIT_TEXT_GEN_PROPERTIES.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The chat tool parameters.</p>
+    begin of T_TEXT_CHAT_PARAMETER_TOOLS,
+      "!   The tool type.
+      TYPE type STRING,
+      "!   The parameters specific to chat.
+      FUNCTION type T_TEXT_CHAT_PARAMETER_FUNCTION,
+    end of T_TEXT_CHAT_PARAMETER_TOOLS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of an assistant message.</p>
+    begin of T_TEXT_CHAT_MESSAGE_ASSISTANT,
+      "!   The role of the messages author.
+      ROLE type STRING,
+      "!   The contents of the assistant message. Required unless `tool_calls` is
+      "!    specified.
+      CONTENT type STRING,
+      "!   An optional name for the participant. Provides the model information to
+      "!    differentiate between participants of the same role.
+      NAME type STRING,
+      "!   The refusal message by the assistant.
+      REFUSAL type STRING,
+      "!   The tool calls generated by the model, such as function calls.
+      TOOL_CALLS type STANDARD TABLE OF T_TEXT_CHAT_TOOL_CALL WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TEXT_CHAT_MESSAGE_ASSISTANT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    Array of patch operations as defined in RFC 6902.</p>
       T_JSON_PATCH type STANDARD TABLE OF T_JSON_PATCH_OPERATION WITH NON-UNIQUE DEFAULT KEY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Using `auto` means the model can pick between generating a</p>
+    "!     message or calling one or more tools. Specify either `tool_choice_option` to
+    "!     allow the model to pick or `tool_choice` to force the model to call a tool.
+      T_TEXT_CHAT_TOOL_CHOICE_OPTION type String.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A chat completion choices.</p>
+    begin of T_TEXT_CHAT_RESP_FIELDS_STREAM,
+      "!   A list of chat completion choices. Can be more than one if `n` is greater than
+      "!    1.
+      CHOICES type STANDARD TABLE OF T_TXT_CHT_RESULT_CHOICE_STREAM WITH NON-UNIQUE DEFAULT KEY,
+    end of T_TEXT_CHAT_RESP_FIELDS_STREAM.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A list of tags for this resource.</p>
@@ -2785,6 +4623,12 @@ public section.
       "!    uploaded to the repository as a model.
       AUTO_UPDATE_MODEL type BOOLEAN,
     end of T_TRAIN_RESOURCE_ENTITY_COMMON.
+  types:
+    "! No documentation available.
+    begin of T_GSPTL_TRNSFRMTN_REQ_FIELDS,
+      "!   The space that contains the resource.
+      SPACE_ID type STRING,
+    end of T_GSPTL_TRNSFRMTN_REQ_FIELDS.
   types:
     "! No documentation available.
     begin of T_WX_PROMPT_RESPONSE,
@@ -2823,8 +4667,117 @@ public section.
       PROMPT type T_PROMPT_WITH_EXTERNAL,
     end of T_WX_PROMPT_RESPONSE.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A paginated list of resources.</p>
+    begin of T_TEXT_EXTRACTION_RESOURCES,
+      "!   The total number of resources. Computed explicitly only when
+      "!    &apos;total_count=true&apos; query parameter is present. This is in order to
+      "!    avoid performance penalties.
+      TOTAL_COUNT type INTEGER,
+      "!   The number of items to return in each page.
+      LIMIT type INTEGER,
+      "!   The reference to the first item in the current page.
+      FIRST type T_PAGINATION_FIRST,
+      "!   A reference to the first item of the next page, if any.
+      NEXT type T_PAGINATION_NEXT,
+      "!   A list of resources.
+      RESOURCES type STANDARD TABLE OF T_TEXT_EXTRACTION_RESOURCE WITH NON-UNIQUE DEFAULT KEY,
+      "!   Optional details coming from the service and related to the API call or the
+      "!    associated resource.
+      SYSTEM type T_SYSTEM_DETAILS,
+    end of T_TEXT_EXTRACTION_RESOURCES.
+  types:
     "! No documentation available.
       T_NOTEBOOK_REVERT_RESPONSE type JSONOBJECT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The status of an AutoAI RAG run.</p>
+    begin of T_AUTO_AIRAGSTATUS,
+      "!   The status of the job.
+      STATE type STRING,
+      "!   The step type.
+      STEP type STRING,
+      "!   The timestamp when the job started running.
+      RUNNING_AT type DATETIME,
+      "!   The timestamp when the job completed.
+      COMPLETED_AT type DATETIME,
+      "!   Optional messages related to the resource.
+      MESSAGE type T_MESSAGE,
+    end of T_AUTO_AIRAGSTATUS.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The parameters specific to chat.</p>
+    begin of T_TEXT_CHAT_REQUEST,
+      "!   The model to use for the chat completion.<br/>
+      "!   <br/>
+      "!   Please refer to the [list of
+      "!    models](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-mod
+      "!   els.html?context=wx).
+      MODEL_ID type STRING,
+      "!   The messages for this chat session.
+      MESSAGES type STANDARD TABLE OF T_TEXT_CHAT_MESSAGES WITH NON-UNIQUE DEFAULT KEY,
+      "!   The space that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      SPACE_ID type STRING,
+      "!   The project that contains the resource. Either `space_id` or `project_id` has to
+      "!    be given.
+      PROJECT_ID type STRING,
+      "!   Tool functions that can be called with the response.
+      TOOLS type STANDARD TABLE OF T_TEXT_CHAT_PARAMETER_TOOLS WITH NON-UNIQUE DEFAULT KEY,
+      "!   Using `auto` means the model can pick between generating a message or calling
+      "!    one or more tools. Specify either `tool_choice_option` to allow the model to
+      "!    pick or `tool_choice` to force the model to call a tool.
+      TOOL_CHOICE_OPTION type STRING,
+      "!   Specifying a particular tool via `&#123;&quot;type&quot;: &quot;function&quot;,
+      "!    &quot;function&quot;: &#123;&quot;name&quot;:
+      "!    &quot;my_function&quot;&#125;&#125;` forces the model to call that tool.<br/>
+      "!   Specify either `tool_choice_option` to allow the model to pick or `tool_choice`
+      "!    to force the model to call a tool.
+      TOOL_CHOICE type T_TEXT_CHAT_TOOL_CHOICE_TOOL,
+      "!   Positive values penalize new tokens based on their existing frequency in the
+      "!    text so far, decreasing the model&apos;s likelihood to repeat the same line
+      "!    verbatim.
+      FREQUENCY_PENALTY type NUMBER,
+      "!   Whether to return log probabilities of the output tokens or not. If true,
+      "!    returns the log probabilities of each output token returned in the content of
+      "!    message.
+      LOGPROBS type BOOLEAN,
+      "!   An integer specifying the number of most likely tokens to return at each token
+      "!    position, each with an associated log probability. The option `logprobs` must
+      "!    be set to `true` if this parameter is used.
+      TOP_LOGPROBS type INTEGER,
+      "!   The maximum number of tokens that can be generated in the chat completion. The
+      "!    total length of input tokens and generated tokens is limited by the
+      "!    model&apos;s context length.
+      MAX_TOKENS type INTEGER,
+      "!   How many chat completion choices to generate for each input message. Note that
+      "!    you will be charged based on the number of generated tokens across all of the
+      "!    choices. Keep n as 1 to minimize costs.
+      N type INTEGER,
+      "!   Positive values penalize new tokens based on whether they appear in the text so
+      "!    far, increasing the model&apos;s likelihood to talk about new topics.
+      PRESENCE_PENALTY type NUMBER,
+      "!   The chat response format parameters.
+      RESPONSE_FORMAT type T_TEXT_CHAT_RESPONSE_FORMAT,
+      "!   What sampling temperature to use,. Higher values like 0.8 will make the output
+      "!    more random, while lower values like 0.2 will make it more focused and
+      "!    deterministic.<br/>
+      "!   <br/>
+      "!   We generally recommend altering this or `top_p` but not both.
+      TEMPERATURE type NUMBER,
+      "!   An alternative to sampling with temperature, called nucleus sampling, where the
+      "!    model considers the results of the tokens with top_p probability mass. So 0.1
+      "!    means only the tokens comprising the top 10% probability mass are
+      "!    considered.<br/>
+      "!   <br/>
+      "!   We generally recommend altering this or `temperature` but not both.
+      TOP_P type NUMBER,
+      "!   Time limit in milliseconds - if not completed within this time, generation will
+      "!    stop. The text generated so far will be returned along with the `TIME_LIMIT``
+      "!    stop reason. Depending on the users plan, and on the model being used, there
+      "!    may be an enforced maximum time limit.
+      TIME_LIMIT type INTEGER,
+    end of T_TEXT_CHAT_REQUEST.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Payload for a notebook list request.</p>
@@ -2867,6 +4820,15 @@ public section.
       T_TRAINING_MLMETRICS type MAP.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    The definition of a user text content.</p>
+    begin of T_TEXT_CHAT_USER_TEXT_CONTENT,
+      "!   The type of the user content.
+      TYPE type STRING,
+      "!   The text content.
+      TEXT type STRING,
+    end of T_TEXT_CHAT_USER_TEXT_CONTENT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    System details.</p>
     begin of T_SIMILARITY_RESPONSE,
       "!   The `id` of the model to be used for this request. Please refer to the [list of
@@ -2875,7 +4837,7 @@ public section.
       MODEL_ID type STRING,
       "!   The similarity scores.
       RESULTS type STANDARD TABLE OF T_SIMILARITY_RESULT WITH NON-UNIQUE DEFAULT KEY,
-      "!   The time when the response was created.
+      "!   The time when the response was created in ISO 8601 format.
       CREATED_AT type DATETIME,
       "!   The number of input tokens that were consumed.
       INPUT_TOKEN_COUNT type INTEGER,
@@ -2885,8 +4847,13 @@ public section.
     end of T_SIMILARITY_RESPONSE.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    The time when the response was created.</p>
+    "!    The time when the response was created in ISO 8601 format.</p>
       T_CREATED_AT type DATETIME.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    The id of the foundation model. If not provided AutoAI</p>
+    "!     auto-selects 3 top rated models.
+      T_AUTO_AIRAGFOUNDATION_MODELS type String.
   types:
     "! No documentation available.
     begin of T_RESULTS_REFERENCE_OUTPUT,
@@ -2917,15 +4884,25 @@ constants:
     T_TRAINING_METRIC type string value '|',
     T_TRAINING_STATUS type string value '|STATE|',
     T_NOTEBOOK_ORIGIN_FROM_SOURCE type string value '|',
+    T_COS_DATA_CONNECTION type string value '|ID|',
     T_TRAINING_NUM_EPOCHS type string value '|',
     T_LIFE_CYCLE_STATE type string value '|ID|',
+    T_TXT_DTCTN_EVIDENCE_OBJECT type string value '|NAME|VALUE|SCORE|',
+    T_TXT_DETECTION_CHILD_EVIDENCE type string value '|NAME|VALUE|SCORE|',
     T_CONSUMPTIONS_LIMIT type string value '|',
+    T_TEXT_EXTRACTION_STEP_OCR type string value '|',
+    T_TXT_EXTRCTN_STP_TBLS_PRCSSNG type string value '|',
+    T_TEXT_EXTRACTION_STEPS type string value '|',
     T_TRAINING_INIT_METHOD type string value '|',
     T_DATA_SCHEMA type string value '|ID|FIELDS|',
     T_NTBK_VER_ENTITY_IN_PROJECT type string value '|PROJECT_ID|',
     T_TEXT_MODERATION type string value '|',
     T_MASK_PROPERTIES type string value '|',
     T_MDRTN_HAP_INPUT_PROPERTIES type string value '|',
+    T_AUTO_AIRAGCHUNKING type string value '|METHOD|CHUNK_SIZE|CHUNK_OVERLAP|',
+    T_AUTO_AIRAGCONSTRAINTS type string value '|',
+    T_AUTO_AIRAGOPTIMIZATION_PARAM type string value '|METRICS|',
+    T_AUTO_AIRAGPARAMETERS type string value '|',
     T_TEXT_GEN_TOP_TOKEN_INFO type string value '|',
     T_WARNING type string value '|MESSAGE|',
     T_SYSTEM_DETAILS type string value '|',
@@ -2933,13 +4910,14 @@ constants:
     T_MODERATION_RESULT type string value '|SCORE|INPUT|POSITION|ENTITY|',
     T_MODERATION_RESULTS type string value '|',
     T_TEXT_GEN_TOKEN_INFO type string value '|',
-    T_TEXT_GEN_RESULT type string value '|GENERATED_TEXT|STOP_REASON|',
+    T_TXT_GN_RESP_FLDS_RSLTS_ITEM type string value '|GENERATED_TEXT|STOP_REASON|',
     T_TEXT_GEN_RESPONSE type string value '|MODEL_ID|CREATED_AT|RESULTS|',
     T_STATS type string value '|',
     T_DEPLOYMENT_SYSTEM_DETAILS type string value '|',
     T_DEPLOYMENT_SYSTEM type string value '|',
     T_ERROR_TARGET type string value '|TYPE|NAME|',
     T_ERROR type string value '|CODE|MESSAGE|',
+    T_AUTO_AIRAGMETRIC type string value '|',
     T_NOTEBOOK_KERNEL type string value '|',
     T_NOTEBOOK_METADATA type string value '|',
     T_NOTEBOOK_RUNTIME type string value '|ENVIRONMENT|',
@@ -2955,17 +4933,40 @@ constants:
     T_HAP_PROPERTIES type string value '|',
     T_WX_PROMPT_INPUT_REQUEST type string value '|',
     T_RESOURCE_COMMIT_INFO type string value '|COMMITTED_AT|',
-    T_OBJECT_LOCATION type string value '|TYPE|LOCATION|',
+    T_AUTO_AIRAGEMBEDDINGS type string value '|',
     T_DATA_CONNECTION_REFERENCE type string value '|TYPE|',
+    T_RESULTS_LOCATION type string value '|TYPE|LOCATION|',
     T_BASE_MODEL type string value '|',
     T_PROMPT_TUNING type string value '|TASK_ID|',
     T_TRAINING_RESOURCE_PROTOTYPE type string value '|NAME|RESULTS_REFERENCE|',
     T_TEXT_TOKENIZE_PARAMETERS type string value '|',
     T_TEXT_TOKENIZE_REQUEST type string value '|MODEL_ID|INPUT|',
     T_NOTEBOOK_RESOURCE_ENTITY_RT type string value '|',
+    T_TEXT_CHAT_FUNCTION_CALL type string value '|NAME|ARGUMENTS|',
+    T_TEXT_CHAT_TOOL_CALL type string value '|ID|TYPE|FUNCTION|',
+    T_TEXT_CHAT_RESULT_DELTA type string value '|ROLE|',
+    T_TEXT_CHAT_USAGE type string value '|',
+    T_TXT_CHT_RESULT_CHOICE_STREAM type string value '|',
+    T_TEXT_CHAT_STREAM_ITEM type string value '|ID|MODEL_ID|CREATED|CHOICES|',
+    T_TEXT_CHAT_MESSAGE_USER type string value '|ROLE|CONTENT|',
+    T_OBJECT_LOCATION type string value '|TYPE|LOCATION|',
+    T_OBJECT_LOCATION_GITHUB type string value '|TYPE|LOCATION|',
+    T_DOCUMENT_EXTRACTION_REQUEST type string value '|NAME|DOCUMENT_REFERENCES|RESULTS_REFERENCE|',
+    T_TEXT_CHAT_TOOL_FUNCTION type string value '|NAME|',
+    T_AISERVICE_DOCUMENTATION type string value '|REQUEST|RESPONSE|',
+    T_SOFTWARE_SPEC_REL type string value '|',
+    T_AISERVICE_REQUEST type string value '|SPACE_ID|NAME|SOFTWARE_SPEC|',
     T_TEXT_GEN_RESPONSE_FIELDS type string value '|MODEL_ID|CREATED_AT|RESULTS|',
+    T_TXT_DETECTION_DETECTION_ITEM type string value '|DETECTION_TYPE|DETECTION|SCORE|',
+    T_TEXT_CHAT_USER_IMAGE_URL type string value '|URL|',
+    T_RESOURCE_META type string value '|ID|CREATED_AT|',
+    T_AISERVICE_RESOURCE_ENTITY type string value '|SOFTWARE_SPEC|',
+    T_AISERVICE_RESOURCE type string value '|METADATA|ENTITY|',
+    T_SERVICE_ERROR type string value '|CODE|MESSAGE|',
+    T_TEXT_EXTRACTION_RESULTS type string value '|STATUS|NUMBER_PAGES_PROCESSED|',
     T_RETURN_OPTION_PROPERTIES type string value '|',
     T_MODERATION_HAP_PROPERTIES type string value '|',
+    T_TXT_MDRTN_WITHOUT_THRESHOLD type string value '|',
     T_MODERATION_PII_PROPERTIES type string value '|',
     T_TEXT_GEN_LENGTH_PENALTY type string value '|',
     T_DPLYMNT_TEXT_GEN_PROPERTIES type string value '|',
@@ -2983,39 +4984,82 @@ constants:
     T_SIMPLE_REL type string value '|ID|',
     T_EMBEDDING_RETURN_OPTIONS type string value '|',
     T_EMBEDDING_PARAMETERS type string value '|',
+    T_COS_DATA_LOCATION type string value '|FILE_NAME|',
+    T_TXT_EXTRCTN_DATA_REFERENCE type string value '|TYPE|',
+    T_TEXT_EXTRACTION_REQUEST type string value '|DOCUMENT_REFERENCE|RESULTS_REFERENCE|',
+    T_MODERATION_PROPERTIES type string value '|',
+    T_TEXT_GEN_PARAMETERS2 type string value '|',
+    T_AT_ARGGNRTN_PROPERTIES type string value '|',
+    T_AUTO_AIRAGVECTOR_STORE type string value '|',
+    T_AUTO_AIRAGRETRIEVAL type string value '|',
+    T_AUTO_AIRAGSETTINGS type string value '|',
+    T_AUTO_AIRAGRESULT_LOCATION type string value '|',
+    T_AUTO_AIRAGPATTERN type string value '|',
+    T_DOCUMENT_EXTRACTION_COMMON type string value '|NAME|DOCUMENT_REFERENCES|RESULTS_REFERENCE|',
+    T_TXT_EXTRCTN_RESOURCE_ENTITY type string value '|DOCUMENT_REFERENCE|RESULTS_REFERENCE|RESULTS|',
+    T_TEXT_EXTRACTION_METADATA type string value '|ID|CREATED_AT|',
+    T_TEXT_EXTRACTION_RESPONSE type string value '|',
+    T_GSPTL_TRNSFRMTN_METADATA type string value '|ID|CREATED_AT|SPACE_ID|',
+    T_TSFORECAST_PARAMETERS type string value '|',
+    T_TSFORECAST_INPUT_SCHEMA type string value '|TIMESTAMP_COLUMN|',
+    T_TSFORECAST_REQUEST type string value '|MODEL_ID|DATA|SCHEMA|',
     T_ONLINE_DEPLOYMENT_PARAMETERS type string value '|',
     T_ONLINE_DEPLOYMENT type string value '|',
     T_HARDWARE_SPEC type string value '|',
     T_REL type string value '|ID|',
+    T_HARDWARE_REQUEST type string value '|',
     T_DPLYMNT_RESOURCE_PROTOTYPE type string value '|NAME|ONLINE|',
     T_NOTEBOOK_VERSION_ENTITY type string value '|',
     T_NOTEBOOK_CREATE_BODY_GENERAL type string value '|NAME|FILE_REFERENCE|RUNTIME|',
     T_PROMPT_MODEL_PARAMETERS type string value '|',
+    T_MODEL_REL type string value '|ID|',
+    T_MODEL_ASSET_REF type string value '|',
+    T_TEXT_EXTRACTION_RESOURCE type string value '|',
+    T_AUTO_AIRAGMETRICS type string value '|TEST_DATA|',
+    T_AUTO_AIRAGCONTEXT type string value '|',
+    T_AUTO_AIRAGRESULTS type string value '|',
+    T_AUTO_AIRAGRESPONSE_RESULTS type string value '|RESULTS|TIMESTAMP|',
     T_PAGINATION_FIRST type string value '|HREF|',
     T_PAGINATION_NEXT type string value '|HREF|',
     T_PAGINATION type string value '|LIMIT|FIRST|',
-    T_RESOURCE_META type string value '|ID|CREATED_AT|',
     T_RESULTS_REFERENCE_INPUT type string value '|RESULTS_REFERENCE|',
+    T_TXT_CHT_MSSGS_TXT_CHT_MSSG_4 type string value '|ROLE|CONTENT|',
+    T_TEXT_CHAT_MESSAGE_TOOL type string value '|ROLE|CONTENT|TOOL_CALL_ID|',
     T_NOTEBOOK_VERSION_METADATA type string value '|',
     T_NOTEBOOK_VERSION_IN_PROJECT type string value '|',
     T_NTBK_VER_CRE_RESP_NTBK_VER_1 type string value '|',
     T_NOTEBOOK_METADATA_IN_PROJECT type string value '|PROJECT_ID|',
     T_NOTEBOOK_IN_PROJECT type string value '|',
+    T_TXT_CHT_MSSGS_TXT_CHT_MSSG_3 type string value '|ROLE|CONTENT|TOOL_CALL_ID|',
     T_MODEL_LIMITS type string value '|',
     T_INFERENCE type string value '|URL|',
     T_DEPLOYMENT_STATUS type string value '|',
     T_PROMPT type string value '|MODEL_ID|DATA|',
+    T_GSPTL_TRNSFRMTN_MTDT_FIELDS type string value '|SPACE_ID|',
     T_PROMPT_LOCK type string value '|LOCKED|',
     T_PAGINATION_BASE type string value '|LIMIT|FIRST|',
+    T_TEXT_CHAT_RESULT_MESSAGE type string value '|ROLE|',
+    T_TEXT_CHAT_RESULT_CHOICE type string value '|',
     T_TRAINING_BATCH_SIZE type string value '|',
     T_EMBEDDINGS_REQUEST type string value '|MODEL_ID|INPUTS|',
+    T_RERANK_RETURN_OPTIONS type string value '|',
+    T_RERANK_INPUT type string value '|TEXT|',
+    T_RERANK_PARAMETERS type string value '|',
+    T_RERANK_REQUEST type string value '|MODEL_ID|INPUTS|QUERY|',
+    T_TEXT_CHAT_USER_CONTENT type string value '|TYPE|',
     T_WX_PROMPT_POST_MODEL_VERSION type string value '|',
     T_NOTEBOOK_RESOURCE_METADATA type string value '|',
     T_DEPLOYMENT_RESOURCE_ENTITY type string value '|',
     T_NOTEBOOK_REVERT_BODY type string value '|SOURCE|',
-    T_RERANK_INPUT type string value '|TEXT|',
-    T_RERANKED_RESULTS type string value '|SCORE|',
+    T_GSPTL_TRANSFORMATION_RESULTS type string value '|',
+    T_GSPTL_TRNSFRMTN_RESP_FIELDS type string value '|RESULTS|',
+    T_RERANKED_RESULTS type string value '|INDEX|SCORE|',
     T_RERANK_RESPONSE_FIELDS type string value '|MODEL_ID|RESULTS|CREATED_AT|INPUT_TOKEN_COUNT|',
+    T_REV_ENTITY_SPC_PROJECT_REQ type string value '|',
+    T_TEXT_CHAT_USR_IMG_URLCONTENT type string value '|TYPE|IMAGE_URL|',
+    T_GSPTL_TRANSFORMATION_DATA type string value '|',
+    T_GSPTL_TRANSFORMATION_REQ type string value '|MODEL_ID|INPUTS|OUTPUT|SPACE_ID|',
+    T_TEXT_CHAT_TOOL_CHOICE_TOOL type string value '|TYPE|FUNCTION|',
     T_SIMILARITY_RESULT type string value '|SCORE|',
     T_SIMILARITY_RESPONSE_FIELDS type string value '|MODEL_ID|RESULTS|CREATED_AT|INPUT_TOKEN_COUNT|',
     T_MDRTN_PII_INPUT_PROPERTIES type string value '|',
@@ -3035,13 +5079,22 @@ constants:
     T_FOUNDATION_MODEL_VERSION type string value '|',
     T_FOUNDATION_MODEL_LIMITS type string value '|',
     T_FOUNDATION_MODEL type string value '|MODEL_ID|LABEL|PROVIDER|SHORT_DESCRIPTION|INPUT_TIER|OUTPUT_TIER|SOURCE|NUMBER_PARAMS|',
+    T_TEXT_CHAT_PARAMETER_FUNCTION type string value '|NAME|',
     T_COMMON_PATCH_REQUEST_HELPER type string value '|',
+    T_DOCUMENT_EXTRACTION_STATUS type string value '|STATE|',
     T_EXTRNL_PRMPT_ADDTNL_INFRMTN1 type string value '|',
     T_DEPLOYMENT_RESOURCE type string value '|',
     T_DPLYMNT_RESOURCE_COLLECTION type string value '|LIMIT|FIRST|',
+    T_TEXT_DETECTION_CONTEXT_ITEM type string value '|DETECTION_TYPE|DETECTION|SCORE|EVIDENCE|',
+    T_ENTITY_REQUEST_SPACE_BODY type string value '|SPACE_ID|NAME|',
+    T_TEXT_CHAT_RESPONSE_FORMAT type string value '|TYPE|',
+    T_TEXT_CHAT_PARAMETERS type string value '|',
     T_FOUNDATION_MODEL_TASK type string value '|TASK_ID|LABEL|RANK|',
     T_FOUNDATION_MODEL_TASKS type string value '|LIMIT|FIRST|',
     T_WX_PROMPT_RESP_MODEL_VERSION type string value '|',
+    T_AUTO_AIDATA_LOCATION type string value '|TYPE|LOCATION|',
+    T_CONNECTION_ASSET type string value '|TYPE|CONNECTION|',
+    T_AUTO_AIRAGREQUEST_ENTITY type string value '|HARDWARE_SPEC|INPUT_DATA_REFERENCES|TEST_DATA_REFERENCES|',
     T_NTBK_VRSNS_LST_RESP_NTBK_VR1 type string value '|TOTAL_RESULTS|RESOURCES|',
     T_TRAIN_RSRC_COLLECTION_SYS type string value '|',
     T_TRAINING_RESOURCE_ENTITY type string value '|RESULTS_REFERENCE|STATUS|',
@@ -3049,48 +5102,89 @@ constants:
     T_TRAINING_RESOURCE_COLLECTION type string value '|LIMIT|FIRST|',
     T_PII_PROPERTIES type string value '|',
     T_NTBK_VER_RTRV_RESP_NTBK_VER1 type string value '|',
+    T_TXT_CHT_USR_CNTNTS_TXT_CHT_1 type string value '|TYPE|TEXT|',
     T_RESOURCE_META_BASE type string value '|',
     T_NTBK_RESOURCE_ENTITY_ASSET type string value '|',
     T_WX_PROMPT_PATCH_MODEL_VER type string value '|',
-    T_MODERATION_PROPERTIES type string value '|',
+    T_TEXT_DETECTION_CONTENT_ITEM type string value '|DETECTION_TYPE|DETECTION|SCORE|START|END|',
     T_TRAINING_STATUS_OUTPUT type string value '|STATUS|',
+    T_TXT_CHT_MSSGS_TXT_CHT_MSSG_2 type string value '|ROLE|CONTENT|',
     T_NOTEBOOK_RESOURCE_ENTITY type string value '|',
     T_SYSTEM type string value '|',
+    T_TXT_CHT_USR_CNTNTS_TXT_CHT_2 type string value '|TYPE|IMAGE_URL|',
     T_NOTEBOOK_ENTITY_DEF_FOR_COPY type string value '|',
+    T_TEXT_GEN_RESULT type string value '|GENERATED_TEXT|STOP_REASON|',
     T_NOTEBOOK_RESOURCE type string value '|',
+    T_AISERVICE_CONTENT_METADATA type string value '|ATTACHMENT_ID|',
+    T_GSPTL_TRNSFRMTN_RESP_ENTITY type string value '|MODEL_ID|INPUTS|OUTPUT|RESULTS|',
     T_MODERATION_INPUT_PROPERTIES type string value '|',
     T_NTBK_RVRT_RESP_NTBK_IN_PRJCT type string value '|',
     T_NOTEBOOKS_RESOURCE_LIST type string value '|TOTAL_RESULTS|RESOURCES|',
+    T_TSFORECAST_RESPONSE type string value '|',
+    T_TEXT_CHAT_MESSAGE_SYSTEM type string value '|ROLE|CONTENT|',
     T_EMBEDDINGS_RESPONSE type string value '|MODEL_ID|RESULTS|CREATED_AT|INPUT_TOKEN_COUNT|',
+    T_GSPTL_TRANSFORMATION_ENTITY type string value '|MODEL_ID|INPUTS|OUTPUT|',
     T_PROMPT_TEMPLATE_VARIABLES type string value '|',
+    T_TXT_CHT_MSSGS_TXT_CHT_MSSG_1 type string value '|ROLE|',
+    T_TEXT_CHAT_RESPONSE_FIELDS type string value '|CHOICES|',
     T_WX_PROMPT_SESSION_ENTRY type string value '|NAME|CREATED_AT|PROMPT|',
     T_WX_PROMPT_SESSION type string value '|NAME|',
+    T_RSRC_SPC_PROJECT_METADATA type string value '|',
+    T_TXT_DTCTN_EVIDENCE_REFERENCE type string value '|EVIDENCE|',
+    T_RESOURCE_REQUEST_FIELDS type string value '|NAME|',
     T_NOTEBOOK_ENTITY_FOR_COPY type string value '|',
     T_NTBK_CRE_RESP_NTBK_FOR_COPY type string value '|',
-    T_TEXT_GEN_PARAMETERS2 type string value '|',
+    T_TXT_DTCTN_CONTEXT_POSITION type string value '|START|END|',
+    T_AUTO_AIRAGMETADATA type string value '|ID|CREATED_AT|NAME|',
+    T_GSPTL_TRNSFRMTN_RSRC_ENTITY type string value '|MODEL_ID|INPUTS|OUTPUT|',
+    T_TSFORECAST_RESOURCE type string value '|MODEL_ID|DATA|SCHEMA|',
+    T_AISERVICE_ENTITY type string value '|SOFTWARE_SPEC|',
+    T_ENTITY_REQ_SPC_PROJECT_ONLY type string value '|',
     T_ENTITY_REQ_SPC_PROJECT_BODY type string value '|NAME|',
+    T_TEXT_CHAT_RESP_FIELDS_SHARED type string value '|ID|MODEL_ID|CREATED|',
     T_TEXT_GEN_COMMON type string value '|INPUT|',
+    T_AUTO_AIRAGRESPONSE_ENTITY type string value '|HARDWARE_SPEC|INPUT_DATA_REFERENCES|TEST_DATA_REFERENCES|RESULTS|TIMESTAMP|RESULTS_REFERENCE|STATE|',
     T_TEXT_GEN_PARAMETERS type string value '|',
+    T_GSPTL_TRNSFRMTN_RESOURCE type string value '|',
+    T_GSPTL_TRNSFRMTN_RESOURCES type string value '|LIMIT|FIRST|',
     T_NTBK_VERSIONS_LST_IN_PROJECT type string value '|TOTAL_RESULTS|RESOURCES|',
     T_JSON_PATCH_OPERATION type string value '|OP|PATH|',
     T_ERROR_RESPONSE type string value '|TRACE|ERRORS|',
+    T_DOCUMENT_EXTRACTION_RESPONSE type string value '|NAME|DOCUMENT_REFERENCES|RESULTS_REFERENCE|',
+    T_TEXT_GEN_RESULT_FIELDS type string value '|',
+    T_MDRTN_PRPRTS_WTHT_THRESHOLD type string value '|',
     T_DEPLOYMENT_ENTITY_COMMON type string value '|ONLINE|',
     T_RERANK_RESPONSE type string value '|MODEL_ID|RESULTS|CREATED_AT|INPUT_TOKEN_COUNT|',
     T_NOTEBOOK_UPDATE_BODY type string value '|',
     T_WX_PROMPT_POST type string value '|NAME|PROMPT|',
     T_TEXT_TOKENIZE_RESULT type string value '|TOKEN_COUNT|',
     T_TEXT_TOKENIZE_RESPONSE type string value '|MODEL_ID|RESULT|',
+    T_TEXT_EXTRACTION_ENTITY type string value '|DOCUMENT_REFERENCE|RESULTS_REFERENCE|',
     T_TEXT_GEN_REQUEST type string value '|INPUT|MODEL_ID|',
     T_FOUNDATION_MODELS type string value '|LIMIT|FIRST|',
+    T_FINE_TUNING_ENTITY type string value '|STATUS|',
     T_WX_PROMPT_PATCH type string value '|NAME|PROMPT|',
+    T_AUTO_AIRAGREQUEST type string value '|NAME|HARDWARE_SPEC|INPUT_DATA_REFERENCES|TEST_DATA_REFERENCES|RESULTS_REFERENCE|',
+    T_AISERVICE_RESOURCES type string value '|LIMIT|FIRST|',
+    T_ASSET_REF type string value '|',
+    T_TEXT_CHAT_RESPONSE type string value '|ID|MODEL_ID|CREATED|CHOICES|',
+    T_TEXT_CHAT_MESSAGE type string value '|ROLE|',
     T_DEPLOYMENT_RESOURCE_PATCH type string value '|',
     T_CAI_KIT_TEXT_GEN_PROPERTIES type string value '|',
+    T_TEXT_CHAT_PARAMETER_TOOLS type string value '|TYPE|',
+    T_TEXT_CHAT_MESSAGE_ASSISTANT type string value '|ROLE|',
+    T_TEXT_CHAT_RESP_FIELDS_STREAM type string value '|CHOICES|',
     T_PAGINATION_TC type string value '|LIMIT|FIRST|',
     T_TRAIN_RESOURCE_ENTITY_COMMON type string value '|',
+    T_GSPTL_TRNSFRMTN_REQ_FIELDS type string value '|SPACE_ID|',
     T_WX_PROMPT_RESPONSE type string value '|NAME|PROMPT|',
+    T_TEXT_EXTRACTION_RESOURCES type string value '|LIMIT|FIRST|',
+    T_AUTO_AIRAGSTATUS type string value '|STATE|',
+    T_TEXT_CHAT_REQUEST type string value '|MODEL_ID|MESSAGES|',
     T_NOTEBOOK_LIST_BODY type string value '|',
     T_NOTEBOOK_CRE_BODY_IN_PROJECT type string value '|NAME|FILE_REFERENCE|RUNTIME|PROJECT|',
     T_NOTEBOOK_FOR_COPY type string value '|',
+    T_TEXT_CHAT_USER_TEXT_CONTENT type string value '|TYPE|TEXT|',
     T_SIMILARITY_RESPONSE type string value '|MODEL_ID|RESULTS|CREATED_AT|INPUT_TOKEN_COUNT|',
     T_RESULTS_REFERENCE_OUTPUT type string value '|RESULTS_REFERENCE|',
     __DUMMY type string value SPACE,
@@ -3143,6 +5237,8 @@ constants:
      PROJECT_ID type string value 'project_id',
      PARAMETERS type string value 'parameters',
      MODERATIONS type string value 'moderations',
+     GENERATED_TEXT type string value 'generated_text',
+     STOP_REASON type string value 'stop_reason',
      TEXT type string value 'text',
      LOGPROB type string value 'logprob',
      RANK type string value 'rank',
@@ -3151,10 +5247,8 @@ constants:
      POSITION type string value 'position',
      ENTITY type string value 'entity',
      WORD type string value 'word',
-     GENERATED_TEXT type string value 'generated_text',
      GENERATED_TOKEN_COUNT type string value 'generated_token_count',
      INPUT_TOKEN_COUNT type string value 'input_token_count',
-     STOP_REASON type string value 'stop_reason',
      SEED type string value 'seed',
      MODEL_VERSION type string value 'model_version',
      CREATED_AT type string value 'created_at',
@@ -3212,6 +5306,7 @@ constants:
      SHORT_DESCRIPTION type string value 'short_description',
      LONG_DESCRIPTION type string value 'long_description',
      LIMITS type string value 'limits',
+     SUPPORTED_LANGUAGES type string value 'supported_languages',
      TASK_IDS type string value 'task_ids',
      TASKS type string value 'tasks',
      INPUT_TIER type string value 'input_tier',
@@ -3223,6 +5318,7 @@ constants:
      LIFECYCLE type string value 'lifecycle',
      TRAINING_PARAMETERS type string value 'training_parameters',
      VERSIONS type string value 'versions',
+     TECH_PREVIEW type string value 'tech_preview',
      RESOURCES type string value 'resources',
      TASK_ID type string value 'task_id',
      COMMITTED_AT type string value 'committed_at',
@@ -3234,9 +5330,12 @@ constants:
      COMMIT_INFO type string value 'commit_info',
      SERVING_NAME type string value 'serving_name',
      NUM_NODES type string value 'num_nodes',
+     SIZE type string value 'size',
      PROMPT_TEMPLATE type string value 'prompt_template',
      ONLINE type string value 'online',
      HARDWARE_SPEC type string value 'hardware_spec',
+     HARDWARE_REQUEST type string value 'hardware_request',
+     RESOURCE_KEY type string value 'resource_key',
      BASE_MODEL_ID type string value 'base_model_id',
      LEVEL type string value 'level',
      SSE type string value 'sse',
@@ -3277,7 +5376,107 @@ constants:
      METRICS type string value 'metrics',
      INPUTS type string value 'inputs',
      EMBEDDING type string value 'embedding',
+     TOP_N type string value 'top_n',
      QUERY type string value 'query',
+     INDEX type string value 'index',
+     METHOD type string value 'method',
+     CHUNK_SIZE type string value 'chunk_size',
+     CHUNK_OVERLAP type string value 'chunk_overlap',
+     CHUNKING type string value 'chunking',
+     EMBEDDING_MODELS type string value 'embedding_models',
+     RETRIEVAL_METHODS type string value 'retrieval_methods',
+     FOUNDATION_MODELS type string value 'foundation_models',
+     MAX_NUMBER_OF_RAG_PATTERNS type string value 'max_number_of_rag_patterns',
+     CONSTRAINTS type string value 'constraints',
+     OPTIMIZATION type string value 'optimization',
+     OUTPUT_LOGS type string value 'output_logs',
+     INPUT_DATA_REFERENCES type string value 'input_data_references',
+     TEST_DATA_REFERENCES type string value 'test_data_references',
+     VECTOR_STORE_REFERENCES type string value 'vector_store_references',
+     METRIC_NAME type string value 'metric_name',
+     MEAN type string value 'mean',
+     CI_HIGH type string value 'ci_high',
+     CI_LOW type string value 'ci_low',
+     TEST_DATA type string value 'test_data',
+     EVALUATION_RESULTS type string value 'evaluation_results',
+     INDEXING_NOTEBOOK type string value 'indexing_notebook',
+     INFERENCE_NOTEBOOK type string value 'inference_notebook',
+     DATASOURCE_TYPE type string value 'datasource_type',
+     INDEX_NAME type string value 'index_name',
+     DISTANCE_METRIC type string value 'distance_metric',
+     OPERATION type string value 'operation',
+     TRUNCATE_STRATEGY type string value 'truncate_strategy',
+     NUMBER_OF_CHUNKS type string value 'number_of_chunks',
+     WINDOW_SIZE type string value 'window_size',
+     PROMPT_TEMPLATE_TEXT type string value 'prompt_template_text',
+     CONTEXT_TEMPLATE_TEXT type string value 'context_template_text',
+     VECTOR_STORE type string value 'vector_store',
+     EMBEDDINGS type string value 'embeddings',
+     RETRIEVAL type string value 'retrieval',
+     GENERATION type string value 'generation',
+     COMPOSITION_STEPS type string value 'composition_steps',
+     DURATION_SECONDS type string value 'duration_seconds',
+     SETTINGS type string value 'settings',
+     RAG_PATTERN type string value 'rag_pattern',
+     MAX_COMBINATIONS type string value 'max_combinations',
+     SOFTWARE_SPEC type string value 'software_spec',
+     STEP type string value 'step',
+     FILE_NAME type string value 'file_name',
+     BUCKET type string value 'bucket',
+     LANGUAGES_LIST type string value 'languages_list',
+     OCR type string value 'ocr',
+     TABLES_PROCESSING type string value 'tables_processing',
+     DOCUMENT_REFERENCE type string value 'document_reference',
+     STEPS type string value 'steps',
+     ASSEMBLY_JSON type string value 'assembly_json',
+     ASSEMBLY_MD type string value 'assembly_md',
+     NUMBER_PAGES_PROCESSED type string value 'number_pages_processed',
+     TOTAL_PAGES type string value 'total_pages',
+     ERROR type string value 'error',
+     ROLE type string value 'role',
+     ARGUMENTS type string value 'arguments',
+     FUNCTION type string value 'function',
+     CONTENT type string value 'content',
+     REFUSAL type string value 'refusal',
+     TOOL_CALLS type string value 'tool_calls',
+     TOOL_CALL_ID type string value 'tool_call_id',
+     DETAIL type string value 'detail',
+     IMAGE_URL type string value 'image_url',
+     FREQUENCY_PENALTY type string value 'frequency_penalty',
+     LOGPROBS type string value 'logprobs',
+     TOP_LOGPROBS type string value 'top_logprobs',
+     MAX_TOKENS type string value 'max_tokens',
+     N type string value 'n',
+     PRESENCE_PENALTY type string value 'presence_penalty',
+     RESPONSE_FORMAT type string value 'response_format',
+     MESSAGES type string value 'messages',
+     TOOLS type string value 'tools',
+     TOOL_CHOICE_OPTION type string value 'tool_choice_option',
+     TOOL_CHOICE type string value 'tool_choice',
+     COMPLETION_TOKENS type string value 'completion_tokens',
+     PROMPT_TOKENS type string value 'prompt_tokens',
+     TOTAL_TOKENS type string value 'total_tokens',
+     CREATED type string value 'created',
+     USAGE type string value 'usage',
+     FINISH_REASON type string value 'finish_reason',
+     CHOICES type string value 'choices',
+     DELTA type string value 'delta',
+     REQUEST type string value 'request',
+     RESPONSE type string value 'response',
+     CODE_TYPE type string value 'code_type',
+     DOCUMENTATION type string value 'documentation',
+     ATTACHMENT_ID type string value 'attachment_id',
+     DETECTION_TYPE type string value 'detection_type',
+     DETECTION type string value 'detection',
+     EVIDENCE type string value 'evidence',
+     PREDICTION_LENGTH type string value 'prediction_length',
+     TIMESTAMP_COLUMN type string value 'timestamp_column',
+     ID_COLUMNS type string value 'id_columns',
+     FREQ type string value 'freq',
+     TARGET_COLUMNS type string value 'target_columns',
+     DATA type string value 'data',
+     DOCUMENT_REFERENCES type string value 'document_references',
+     COMMIT_SHA type string value 'commit_sha',
      CREATED_BY type string value 'created_by',
      LAST_UPDATED_AT type string value 'last_updated_at',
      LAST_UPDATED_BY type string value 'last_updated_by',
@@ -3285,13 +5484,10 @@ constants:
      LOCK type string value 'lock',
      INPUT_MODE type string value 'input_mode',
      IS_TEMPLATE type string value 'is_template',
-     RESOURCE_KEY type string value 'resource_key',
      PROMPT type string value 'prompt',
-     PROMPT_VARIABLE type string value 'prompt_variable',
      PROMPTS type string value 'prompts',
      BOOKMARK type string value 'bookmark',
      MODEL_PARAMETERS type string value 'model_parameters',
-     DATA type string value 'data',
      SYSTEM_PROMPT type string value 'system_prompt',
      CHAT_ITEMS type string value 'chat_items',
      EXTERNAL_INFORMATION type string value 'external_information',
@@ -3300,7 +5496,6 @@ constants:
      EXTERNAL_MODEL_PROVIDER type string value 'external_model_provider',
      EXTERNAL_PROMPT type string value 'external_prompt',
      EXTERNAL_MODEL type string value 'external_model',
-     CONTENT type string value 'content',
      INSTRUCTION type string value 'instruction',
      INPUT_PREFIX type string value 'input_prefix',
      OUTPUT_PREFIX type string value 'output_prefix',
@@ -3310,7 +5505,6 @@ constants:
      LOCKED_BY type string value 'locked_by',
      TOTAL_RESULTS type string value 'total_results',
      ASSET_TYPE type string value 'asset_type',
-     CREATED type string value 'created',
      OWNER_ID type string value 'owner_id',
      CATALOG_ID type string value 'catalog_id',
      ASSET_ID type string value 'asset_id',
@@ -3347,28 +5541,43 @@ constants:
 
     "! <p class="shorttext synchronized" lang="en">Create a new watsonx.ai deployment</p>
     "!   Create a new deployment, currently the only supported type is `online`.<br/>
-    "!   If this is a deployment for a prompt tune then the `asset` object must exist and
-    "!    the `id` must be the `id` of the `model` that was created after the prompt
-    "!    training.<br/>
-    "!   If this is a deployment for a prompt template then the `prompt_template` object
-    "!    should exist and the `id` must be the `id` of the prompt template to be
-    "!    deployed.<br/>
+    "!   <br/>
+    "!   If this is a deployment for a prompt tune then the `asset` object must
+    "!    exist<br/>
+    "!   and the `id` must be the `id` of the `model` that was created after the<br/>
+    "!   prompt training.<br/>
+    "!   <br/>
+    "!   If this is a deployment for a prompt template then the `prompt_template`<br/>
+    "!   object should<br/>
+    "!   exist and the `id` must be the `id` of the prompt template to be deployed.<br/>
     "!
     "!
     "! @parameter I_DEPLOYMENTRESOURCEPROTOTYPE |
     "!   The deployment request entity.<br/>
     "!   <br/>
     "!   The following important fields are described for each use case: 1. Prompt
-    "!    template: (`deployed_asset_type` is `foundation_model`)<br/>
+    "!    template:<br/>
     "!      - `base_model_id`: **required**<br/>
     "!      - `promt_template.id`: **required**<br/>
     "!      - `online`: **required**<br/>
-    "!      - `hardware_spec`: **forbidden** 1. Prompt tune: (`deployed_asset_type` is
-    "!    `prompt_tune`)<br/>
+    "!      - `hardware_spec`: **forbidden**<br/>
+    "!      - `hardware_request`: **forbidden**<br/>
+    "!      - response `deployed_asset_type`: `foundation_model` 1. Prompt tune:<br/>
     "!      - `asset.id`: **required**<br/>
     "!      - `online`: **required**<br/>
     "!      - `hardware_spec`: **forbidden**<br/>
-    "!      - `base_model_id`: **forbidden**.
+    "!      - `hardware_request`: **forbidden**<br/>
+    "!      - `base_model_id`: **forbidden**<br/>
+    "!      - response `deployed_asset_type`: `prompt_tune` 1. Custom foundation
+    "!    model:<br/>
+    "!      - `asset.id`: **required**<br/>
+    "!      - `online`: **required**<br/>
+    "!      - `online.parameters.foundation_model`: **optional**<br/>
+    "!      - `hardware_spec`: **forbidden**<br/>
+    "!      - `hardware_request`: **required**<br/>
+    "!      - `base_model_id`: **forbidden**<br/>
+    "!      - `base_deployment_id`: **forbidden**<br/>
+    "!      - response `deployed_asset_type`: `custom_foundation_model`.
     "! @parameter E_RESPONSE |
     "!   Service return value of type T_DEPLOYMENT_RESOURCE
     "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
@@ -3412,7 +5621,8 @@ constants:
     "!    `deployed_asset_type` in the deployment entity):<br/>
     "!   <br/>
     "!   1. `prompt_tune` - when a prompt tuned model is deployed. 2. `foundation_model`
-    "!    - when a prompt template is used on a pre-deployed IBM provided model.<br/>
+    "!    - when a prompt template is used on a pre-deployed IBM provided model. 3.
+    "!    `custom_foundation_model` - when a custom foundation model is deployed.<br/>
     "!   <br/>
     "!   These can be combined with the flag `prompt_template` like this:<br/>
     "!   <br/>
@@ -3486,15 +5696,15 @@ constants:
     "!   - `/tags`<br/>
     "!   - `/custom`<br/>
     "!   - `/online/parameters`<br/>
-    "!   - `/asset`<br/>
-    "!   - `/prompt_template`<br/>
+    "!   - `/asset` - `replace` only<br/>
+    "!   - `/prompt_template` - `replace` only<br/>
     "!   - `/hardware_spec`<br/>
+    "!   - `/hardware_request`<br/>
+    "!   - `/base_model_id` - `replace` only (applicable only to prompt template
+    "!    deployments referring to IBM base foundation models) <br/>
     "!   <br/>
     "!   The PATCH operation with path specified as `/online/parameters` can be used to
     "!    update the `serving_name`.<br/>
-    "!   <br/>
-    "!   Patching `/asset` or `/prompt_template` should normally be used in the case when
-    "!    these fields already exist.<br/>
     "!
     "!
     "! @parameter I_DEPLOYMENT_ID |
@@ -3547,8 +5757,7 @@ constants:
     "! <p class="shorttext synchronized" lang="en">Infer text</p>
     "!   Infer the next tokens for a given deployed model with a set of parameters.<br/>
     "!   If a `serving_name` is used then it must match the `serving_name` that is
-    "!    returned in the `inference`<br/>
-    "!   when the deployment was created.<br/>
+    "!    returned in the `inference` section when the deployment was created.<br/>
     "!   <br/>
     "!   ### Return options<br/>
     "!   <br/>
@@ -3563,8 +5772,8 @@ constants:
     "!    deployment or a `serving_name` that allows a predefined URL to be used to post
     "!    a prediction.<br/>
     "!   <br/>
-    "!   The `project` or `space` for the deployment must have a WML instance that will
-    "!    be used for limits and billing (if a paid plan).
+    "!   The WML instance that is associated with the deployment will be used for limits
+    "!    and billing (if a paid plan).
     "! @parameter I_BODY |
     "!   From a given prompt, infer the next tokens.
     "! @parameter E_RESPONSE |
@@ -3585,8 +5794,7 @@ constants:
     "!   Infer the next tokens for a given deployed model with a set of parameters.<br/>
     "!   This operation will return the output tokens as a stream of events.<br/>
     "!   If a `serving_name` is used then it must match the `serving_name` that is
-    "!    returned in the `inference`<br/>
-    "!   when the deployment was created.<br/>
+    "!    returned in the `inference` section when the deployment was created.<br/>
     "!   <br/>
     "!   ### Return options<br/>
     "!   <br/>
@@ -3603,8 +5811,8 @@ constants:
     "!    deployment or a `serving_name` that allows a predefined URL to be used to post
     "!    a prediction.<br/>
     "!   <br/>
-    "!   The `project` or `space` for the deployment must have a WML instance that will
-    "!    be used for limits and billing (if a paid plan).
+    "!   The WML instance that is associated with the deployment will be used for limits
+    "!    and billing (if a paid plan).
     "! @parameter I_BODY |
     "!   From a given prompt, infer the next tokens in a server-sent events (SSE) stream.
     "!
@@ -3662,10 +5870,12 @@ constants:
     "!      lifecycle_*:   Filters by lifecycle state.<br/>
     "!                     Namely, select all models that are currently in the specified
     "!    lifecycle state.<br/>
-    "!      function_*:    Filters by function.<br/>
+    "!      function_*:    Filters by function. <br/>
     "!                     Namely, select all models that support a specific
     "!    function.<br/>
     "!   ```.
+    "! @parameter I_TECH_PREVIEW |
+    "!   See all the `Tech Preview` models if entitled.
     "! @parameter E_RESPONSE |
     "!   Service return value of type T_FOUNDATION_MODELS
     "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
@@ -3675,6 +5885,7 @@ constants:
       !I_START type STRING optional
       !I_LIMIT type INTEGER default 100
       !I_FILTERS type STRING optional
+      !I_TECH_PREVIEW type BOOLEAN default c_boolean_false
       !I_accept      type string default 'application/json'
     exporting
       !E_RESPONSE type T_FOUNDATION_MODELS
@@ -3705,6 +5916,47 @@ constants:
     raising
       ZCX_IBMX_SERVICE_EXCEPTION .
 
+    "! <p class="shorttext synchronized" lang="en">Infer text</p>
+    "!   Infer the next tokens for a given deployed model with a set of parameters.<br/>
+    "!
+    "!
+    "! @parameter I_TEXTCHATREQUEST |
+    "!   From a given prompt, infer the next tokens.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_TEXT_CHAT_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods TEXT_CHAT
+    importing
+      !I_TEXTCHATREQUEST type T_TEXT_CHAT_REQUEST
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_TEXT_CHAT_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Infer text event stream</p>
+    "!   Infer the next tokens for a given deployed model with a set of parameters.<br/>
+    "!   This operation will return the output tokens as a stream of events.<br/>
+    "!
+    "!
+    "! @parameter I_TEXTCHATREQUEST |
+    "!   From a given prompt, infer the next tokens in a server-sent events (SSE) stream.
+    "!
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_Array
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods TEXT_CHAT_STREAM
+    importing
+      !I_TEXTCHATREQUEST type T_TEXT_CHAT_REQUEST
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'text/event-stream'
+    exporting
+      !E_RESPONSE type T_Array
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+
     "! <p class="shorttext synchronized" lang="en">Generate embeddings</p>
     "!   Generate embeddings from text input.<br/>
     "!   <br/>
@@ -3727,6 +5979,123 @@ constants:
       !I_accept      type string default 'application/json'
     exporting
       !E_RESPONSE type T_EMBEDDINGS_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+
+    "! <p class="shorttext synchronized" lang="en">Start a text extraction request</p>
+    "!   Start a request to extract text and metadata from documents.<br/>
+    "!   <br/>
+    "!   See the
+    "!    [documentation](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-dat
+    "!   a/fm-api-text-extraction.html?context=wx&audience=wdp) for a description of text
+    "!    extraction.<br/>
+    "!
+    "!
+    "! @parameter I_TEXTEXTRACTIONREQUEST |
+    "!   The input for the text extraction request.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_TEXT_EXTRACTION_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods TEXT_EXTRACTION
+    importing
+      !I_TEXTEXTRACTIONREQUEST type T_TEXT_EXTRACTION_REQUEST
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_TEXT_EXTRACTION_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Retrieve the text extraction requests</p>
+    "!   Retrieve the list of text extraction requests for the specified space or
+    "!    project.<br/>
+    "!   <br/>
+    "!   This operation does not save the history, any requests that were deleted or
+    "!    purged<br/>
+    "!   will not appear in this list.<br/>
+    "!
+    "!
+    "! @parameter I_SPACE_ID |
+    "!   The space that contains the resource. Either `space_id` or `project_id` query
+    "!    parameter has to be given.
+    "! @parameter I_PROJECT_ID |
+    "!   The project that contains the resource. Either `space_id` or `project_id` query
+    "!    parameter has to be given.
+    "! @parameter I_START |
+    "!   Token required for token-based pagination. This token cannot be determined by
+    "!    end user. It is generated by the service and it is set in the href available in
+    "!    the `next` field.
+    "! @parameter I_LIMIT |
+    "!   How many resources should be returned. By default limit is 100. Max limit
+    "!    allowed is 200.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_TEXT_EXTRACTION_RESOURCES
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods LIST_TEXT_EXTRACTIONS
+    importing
+      !I_SPACE_ID type STRING optional
+      !I_PROJECT_ID type STRING optional
+      !I_START type STRING optional
+      !I_LIMIT type INTEGER default 100
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_TEXT_EXTRACTION_RESOURCES
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Get the results of the request</p>
+    "!   Retrieve the text extraction request with the specified identifier.<br/>
+    "!   <br/>
+    "!   Note that there is a retention period of 2 days. If this retention<br/>
+    "!   period is exceeded then the request will be deleted and the results<br/>
+    "!   no longer available. In this case this operation will return `404`.<br/>
+    "!
+    "!
+    "! @parameter I_ID |
+    "!   The identifier of the extraction request.
+    "! @parameter I_SPACE_ID |
+    "!   The space that contains the resource. Either `space_id` or `project_id` query
+    "!    parameter has to be given.
+    "! @parameter I_PROJECT_ID |
+    "!   The project that contains the resource. Either `space_id` or `project_id` query
+    "!    parameter has to be given.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_TEXT_EXTRACTION_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods TEXT_EXTRACTION_GET
+    importing
+      !I_ID type STRING
+      !I_SPACE_ID type STRING optional
+      !I_PROJECT_ID type STRING optional
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_TEXT_EXTRACTION_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Delete the request</p>
+    "!   Cancel the specified text extraction request and delete any associated
+    "!    results.<br/>
+    "!
+    "!
+    "! @parameter I_ID |
+    "!   The identifier of the extraction request.
+    "! @parameter I_SPACE_ID |
+    "!   The space that contains the resource. Either `space_id` or `project_id` query
+    "!    parameter has to be given.
+    "! @parameter I_PROJECT_ID |
+    "!   The project that contains the resource. Either `space_id` or `project_id` query
+    "!    parameter has to be given.
+    "! @parameter I_HARD_DELETE |
+    "!   Set to true in order to also delete the job or request metadata.
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods TEXT_EXTRACTION_DELETE
+    importing
+      !I_ID type STRING
+      !I_SPACE_ID type STRING optional
+      !I_PROJECT_ID type STRING optional
+      !I_HARD_DELETE type BOOLEAN optional
     raising
       ZCX_IBMX_SERVICE_EXCEPTION .
 
@@ -3768,6 +6137,26 @@ constants:
       !I_accept      type string default 'text/event-stream'
     exporting
       !E_RESPONSE type T_Array
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+
+    "! <p class="shorttext synchronized" lang="en">Generate rerank</p>
+    "!   Rerank texts based on some queries.<br/>
+    "!
+    "!
+    "! @parameter I_RERANKREQUEST |
+    "!   The input texts and the queries for reranking.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_RERANK_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods TEXT_RERANK
+    importing
+      !I_RERANKREQUEST type T_RERANK_REQUEST
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_RERANK_RESPONSE
     raising
       ZCX_IBMX_SERVICE_EXCEPTION .
 
@@ -3949,8 +6338,9 @@ constants:
       !E_RESPONSE type T_TRAINING_RESOURCE
     raising
       ZCX_IBMX_SERVICE_EXCEPTION .
-    "! <p class="shorttext synchronized" lang="en">Cancel the training</p>
-    "!   Cancel the specified training and remove it.<br/>
+    "! <p class="shorttext synchronized" lang="en">Cancel or delete the training</p>
+    "!   Cancel or delete the specified training, once deleted all trace of the job is
+    "!    gone.<br/>
     "!
     "!
     "! @parameter I_TRAINING_ID |
@@ -3962,7 +6352,7 @@ constants:
     "!   The project that contains the resource. Either `space_id` or `project_id` query
     "!    parameter has to be given.
     "! @parameter I_HARD_DELETE |
-    "!   Set to true in order to also delete the job metadata information.
+    "!   Set to true in order to also delete the job or request metadata.
     "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
     "!
   methods TRAININGS_DELETE
@@ -4020,6 +6410,11 @@ method GET_REQUEST_PROP.
     e_request_prop-auth_name       = 'Bearer'.
     e_request_prop-auth_type       = 'http'.
     e_request_prop-auth_oauth      = c_boolean_true.
+  elseif lv_auth_method eq 'ZenApiKey'.
+    e_request_prop-auth_name       = lv_auth_method.
+    e_request_prop-auth_type       = lv_auth_method.
+    e_request_prop-auth_oauth      = c_boolean_false.
+    e_request_prop-auth_header     = c_boolean_true.
   else.
   endif.
 
@@ -4037,7 +6432,7 @@ endmethod.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20240625'.
+    e_sdk_version_date = '20241203'.
 
   endmethod.
 
@@ -4800,6 +7195,7 @@ endmethod.
 * | [--->] I_START        TYPE STRING (optional)
 * | [--->] I_LIMIT        TYPE INTEGER (default =100)
 * | [--->] I_FILTERS        TYPE STRING (optional)
+* | [--->] I_TECH_PREVIEW        TYPE BOOLEAN (default =c_boolean_false)
 * | [--->] I_accept            TYPE string (default ='application/json')
 * | [<---] E_RESPONSE                    TYPE        T_FOUNDATION_MODELS
 * | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
@@ -4851,6 +7247,17 @@ method LIST_FOUNDATION_MODEL_SPECS.
       exporting
         i_parameter  = `filters`
         i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_TECH_PREVIEW is supplied.
+    lv_queryparam = i_TECH_PREVIEW.
+    add_query_parameter(
+      exporting
+        i_parameter  = `tech_preview`
+        i_value      = lv_queryparam
+        i_is_boolean = c_boolean_true
       changing
         c_url        = ls_request_prop-url )  ##NO_TEXT.
     endif.
@@ -4932,6 +7339,221 @@ method LIST_FOUNDATION_MODEL_TASKS.
 
     " execute HTTP GET request
     lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->TEXT_CHAT
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_TEXTCHATREQUEST        TYPE T_TEXT_CHAT_REQUEST
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_TEXT_CHAT_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method TEXT_CHAT.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/ml/v1/text/chat'.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_TEXTCHATREQUEST ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_TEXTCHATREQUEST to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_TEXTCHATREQUEST i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'TextChatRequest' i_value = i_TEXTCHATREQUEST ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_TEXTCHATREQUEST to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->TEXT_CHAT_STREAM
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_TEXTCHATREQUEST        TYPE T_TEXT_CHAT_REQUEST
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='text/event-stream')
+* | [<---] E_RESPONSE                    TYPE        T_Array
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method TEXT_CHAT_STREAM.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/ml/v1/text/chat_stream'.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_TEXTCHATREQUEST ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_TEXTCHATREQUEST to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_TEXTCHATREQUEST i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'TextChatRequest' i_value = i_TEXTCHATREQUEST ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_TEXTCHATREQUEST to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
 
 
     " retrieve JSON data
@@ -5050,6 +7672,351 @@ method TEXT_EMBEDDINGS.
         i_dictionary = c_abapname_dictionary
       changing
         c_abap       = e_response ).
+
+endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->TEXT_EXTRACTION
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_TEXTEXTRACTIONREQUEST        TYPE T_TEXT_EXTRACTION_REQUEST
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_TEXT_EXTRACTION_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method TEXT_EXTRACTION.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/ml/v1/text/extractions'.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_TEXTEXTRACTIONREQUEST ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_TEXTEXTRACTIONREQUEST to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_TEXTEXTRACTIONREQUEST i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'TextExtractionRequest' i_value = i_TEXTEXTRACTIONREQUEST ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_TEXTEXTRACTIONREQUEST to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->LIST_TEXT_EXTRACTIONS
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SPACE_ID        TYPE STRING (optional)
+* | [--->] I_PROJECT_ID        TYPE STRING (optional)
+* | [--->] I_START        TYPE STRING (optional)
+* | [--->] I_LIMIT        TYPE INTEGER (default =100)
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_TEXT_EXTRACTION_RESOURCES
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method LIST_TEXT_EXTRACTIONS.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/ml/v1/text/extractions'.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    if i_SPACE_ID is supplied.
+    lv_queryparam = escape( val = i_SPACE_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `space_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_PROJECT_ID is supplied.
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_START is supplied.
+    lv_queryparam = escape( val = i_START format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `start`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_LIMIT is supplied.
+    lv_queryparam = i_LIMIT.
+    add_query_parameter(
+      exporting
+        i_parameter  = `limit`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->TEXT_EXTRACTION_GET
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_ID        TYPE STRING
+* | [--->] I_SPACE_ID        TYPE STRING (optional)
+* | [--->] I_PROJECT_ID        TYPE STRING (optional)
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_TEXT_EXTRACTION_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method TEXT_EXTRACTION_GET.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/ml/v1/text/extractions/{id}'.
+    replace all occurrences of `{id}` in ls_request_prop-url-path with i_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    if i_SPACE_ID is supplied.
+    lv_queryparam = escape( val = i_SPACE_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `space_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_PROJECT_ID is supplied.
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->TEXT_EXTRACTION_DELETE
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_ID        TYPE STRING
+* | [--->] I_SPACE_ID        TYPE STRING (optional)
+* | [--->] I_PROJECT_ID        TYPE STRING (optional)
+* | [--->] I_HARD_DELETE        TYPE BOOLEAN (optional)
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method TEXT_EXTRACTION_DELETE.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/ml/v1/text/extractions/{id}'.
+    replace all occurrences of `{id}` in ls_request_prop-url-path with i_ID ignoring case.
+
+    " standard headers
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    if i_SPACE_ID is supplied.
+    lv_queryparam = escape( val = i_SPACE_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `space_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_PROJECT_ID is supplied.
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_HARD_DELETE is supplied.
+    lv_queryparam = i_HARD_DELETE.
+    add_query_parameter(
+      exporting
+        i_parameter  = `hard_delete`
+        i_value      = lv_queryparam
+        i_is_boolean = c_boolean_true
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+
+
+
+
+
+    " execute HTTP DELETE request
+    lo_response = HTTP_DELETE( i_request_prop = ls_request_prop ).
+
+
 
 endmethod.
 
@@ -5226,6 +8193,114 @@ method TEXT_GENERATION_STREAM.
         lv_body = lv_body && lv_separator && lv_bodyparam.
       else.
         assign i_TEXTGENREQUEST to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->TEXT_RERANK
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_RERANKREQUEST        TYPE T_RERANK_REQUEST
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_RERANK_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method TEXT_RERANK.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/ml/v1/text/rerank'.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_RERANKREQUEST ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_RERANKREQUEST to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_RERANKREQUEST i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'RerankRequest' i_value = i_RERANKREQUEST ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_RERANKREQUEST to <lv_text>.
         lv_bodyparam = <lv_text>.
         concatenate lv_body lv_bodyparam into lv_body.
       endif.

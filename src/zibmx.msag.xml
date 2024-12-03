@@ -320,7 +320,7 @@
       </TLINE>
       <TLINE>
        <TDFORMAT>AS</TDFORMAT>
-       <TDLINE>The Watson Machine Learning scoring endpoint requires input field &amp;V1&amp;</TDLINE>
+       <TDLINE>watsonx.ai Runtime scoring endpoint requires input field &amp;V1&amp;</TDLINE>
       </TLINE>
       <TLINE>
        <TDLINE>which is not present in the input structure.</TDLINE>
@@ -331,7 +331,7 @@
       </TLINE>
       <TLINE>
        <TDFORMAT>AS</TDFORMAT>
-       <TDLINE>Watson Machine Learning refuses the scoring request.</TDLINE>
+       <TDLINE>watsonx.ai Runtime refuses the scoring request.</TDLINE>
       </TLINE>
       <TLINE>
        <TDFORMAT>U1</TDFORMAT>

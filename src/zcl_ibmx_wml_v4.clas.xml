@@ -5,7 +5,7 @@
    <VSEOCLASS>
     <CLSNAME>ZCL_IBMX_WML_V4</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>Watson Machine Learning</DESCRIPT>
+    <DESCRIPT>watsonx.ai Runtime</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>

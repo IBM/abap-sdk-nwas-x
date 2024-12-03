@@ -77,6 +77,16 @@ class ZCL_IBMX_SERVICE_ARCH definition
         value(e_binary) type xstring
       raising
         ZCX_IBMX_service_exception .
+    "! <p class="shorttext synchronized" lang="en">Encodes a string to base64 format.</p>
+    "!
+    "! @parameter I_UNENCODED | String, unencoded
+    "! @parameter E_ENCODED | Base64-encoded string
+    "!
+    class-methods base64_encode
+      importing
+        !i_unencoded type string
+      returning
+        value(e_encoded) type string .
     "! <p class="shorttext synchronized" lang="en">Returns a HTTP/REST client based on an URL.</p>
     "!
     "! @parameter I_URL | URL
@@ -347,6 +357,22 @@ CLASS ZCL_IBMX_SERVICE_ARCH IMPLEMENTATION.
     if sy-subrc <> 0.
       ZCL_IBMX_service=>raise_exception( i_msgno = '030' ).  " Decoding of base64 string failed
     endif.
+
+  endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Static Public Method ZCL_IBMX_SERVICE_ARCH=>BASE64_ENCODE
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_UNENCODED                    TYPE        STRING
+* | [<-()] E_ENCODED                      TYPE        STRING
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  method base64_encode.
+
+    e_encoded = cl_http_utility=>encode_base64(
+      exporting
+        unencoded = i_unencoded
+    ).
 
   endmethod.
 
