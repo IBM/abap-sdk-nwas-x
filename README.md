@@ -17,8 +17,8 @@
 
 [![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-ABAP<sup>®</sup> client library to use the [Watson Machine Learning][wml] and the
-[watsonx.ai][wxai] APIs.
+ABAP<sup>®</sup> client library to use the [watsonx.ai Runtime][wml] (formerly 
+Watson Machine Learning) and the [watsonx.ai][wxai] APIs.
 
 This is a community SDK written by ABAPers for the ABAPers in the Open
 Source community, to provide easy usage of IBM<sup>®</sup>
@@ -47,7 +47,7 @@ information in [Support and Feedback](#support-and-feedback).
   <summary>Table of Contents</summary>
 
 - [Announcements](#announcements)
-  - [Version 1.1.0 released](#version-110-released)
+  - [Version 1.2.0 released](#version-120-released)
 - [Before you begin](#before-you-begin)
 - [Installation](#installation)
 - [SAP System Configuration](#sap-system-configuration)
@@ -70,10 +70,10 @@ information in [Support and Feedback](#support-and-feedback).
 
 ## Announcements
 
-### Version 1.1.0 released
+### Version 1.2.0 released
 
-Version v1.1.0 of the SDK has been released - see what's changed in
-the [migration guide](MIGRATION-V1.1.0.md).
+Version v1.2.0 of the SDK has been released - see what's changed in
+the [migration guide](MIGRATION-V1.2.0.md).
 
 ## Before you begin
 
@@ -286,7 +286,7 @@ watsonx services are currently supported:
 
 | Service                        | ABAP Class Name                     |
 |:------------------------------ |:----------------------------------- |
-| Watson Machine Learning        | ZCL_IBMX_WML_V4                     |
+| watsonx.ai Runtime             | ZCL_IBMX_WML_V4                     |
 | watsonx.ai                     | ZCL_IBMX_WATSONX_AI_ML_V1           |
 
 Using the client library requires two steps:
@@ -325,7 +325,7 @@ Using the client library requires two steps:
 ### Examples
 
 <details>
-  <summary>Watson Machine Learning Example</summary>
+  <summary>watsonx.ai Runtime Example</summary>
 
 ```abap
 *  Z_WML_DEMO
@@ -367,7 +367,7 @@ Using the client library requires two steps:
       "[PRG] message lo_zip_exception type 'E'.
   endtry.
 
-  " instantiate Watson Machine Learning wrapper class (explicit type declaration is required)
+  " instantiate watsonx.ai Runtime wrapper class (explicit type declaration is required)
   data: lo_wml type ref to zcl_ibmx_wml_v4.
   zcl_ibmx_service_ext=>get_instance(
     exporting

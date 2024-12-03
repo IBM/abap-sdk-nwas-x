@@ -818,9 +818,9 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
     endif.
 
     " Correct authentication location
-    if ( c_request_prop-auth_basic  ne c_boolean_false or
-         c_request_prop-auth_oauth  ne c_boolean_false or
-         c_request_prop-auth_apikey ne c_boolean_false ) and
+    if ( c_request_prop-auth_basic  eq c_boolean_true or
+         c_request_prop-auth_oauth  eq c_boolean_true or
+         c_request_prop-auth_apikey eq c_boolean_true ) and
        not ( c_request_prop-auth_header eq c_boolean_true or
              c_request_prop-auth_query  eq c_boolean_true or
              c_request_prop-auth_body   eq c_boolean_true ).
@@ -2036,23 +2036,8 @@ endmethod.
 
     ls_url = i_request_prop-url.
 
-    " OAuth authorization
-    if i_request_prop-auth_oauth eq c_boolean_true.  " = not ( c_boolean_false or c_tribool_false )
-      data:
-        ls_access_token type ts_access_token,
-        lv_full_token   type string.
-      ls_access_token = get_access_token( i_request_prop = i_request_prop ).
-      if not ls_access_token-token_type is initial.
-        concatenate ls_access_token-token_type ls_access_token-access_token into lv_full_token separated by space.
-      else.
-        lv_full_token = ls_access_token-access_token.
-      endif.
-      if i_request_prop-auth_header eq c_boolean_true.
-        set_request_header( i_client = i_client i_name = i_request_prop-auth_headername i_value = lv_full_token ).
-      endif.
-
-      " Basic authentication
-    elseif i_request_prop-auth_basic eq c_boolean_true or i_request_prop-auth_apikey eq c_boolean_true.
+    " Basic authentication
+    if i_request_prop-auth_basic eq c_boolean_true or i_request_prop-auth_apikey eq c_boolean_true.
       data:
         lv_username type string,
         lv_password type string.
@@ -2097,6 +2082,21 @@ endmethod.
         endif.
         set_request_body_cdata( i_client = i_client i_data = lv_body ).
         set_request_header( i_client = i_client i_name = ZIF_IBMX_service_arch~c_header_content_type i_value = ZIF_IBMX_service_arch~c_mediatype-appl_json ).
+      endif.
+
+    " Other authentication including OAuth authorization and ZenApiKey
+    else.
+      if i_request_prop-auth_header eq c_boolean_true.
+        data:
+          ls_access_token type ts_access_token,
+          lv_full_token   type string.
+        ls_access_token = get_access_token( i_request_prop = i_request_prop ).
+        if not ls_access_token-token_type is initial.
+          concatenate ls_access_token-token_type ls_access_token-access_token into lv_full_token separated by space.
+        else.
+          lv_full_token = ls_access_token-access_token.
+        endif.
+        set_request_header( i_client = i_client i_name = i_request_prop-auth_headername i_value = lv_full_token ).
       endif.
     endif.
 
