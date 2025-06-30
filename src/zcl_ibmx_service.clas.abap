@@ -1,4 +1,4 @@
-* Copyright 2019, 2024 IBM Corp. All Rights Reserved.
+* Copyright 2019, 2025 IBM Corp. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -83,16 +83,27 @@ public section.
   constants C_BOOLEAN_TRUE type BOOLEAN value 'X' ##NO_TEXT.
   constants C_TRIBOOL_FALSE type BOOLEAN value '-' ##NO_TEXT.
   constants C_DEFAULT type STRING value 'DEFAULT' ##NO_TEXT.
+  constants C_NONE type STRING value '#NONE' ##NO_TEXT.
   constants C_SUBRC_UNKNOWN type SY-SUBRC value 999999 ##NO_TEXT.
   constants C_MSGID type SY-MSGID value 'ZIBMX' ##NO_TEXT.
   constants C_I_ZERO type I value -2147481648 ##NO_TEXT.
   constants C_I8_ZERO type INT8 value -9223372036854775608 ##NO_TEXT.
   constants C_F_ZERO type F value '-2147481.648' ##NO_TEXT.
   constants C_BLANK type STRING value '&#!-#&__%$X' ##NO_TEXT.
+  constants C_SCENARIO type STRING value '#SCENARIO' ##NO_TEXT.
+  constants C_DEFAULT_SCENARIO type ZIF_IBMX_SERVICE_ARCH~TY_COMMUNICATION_SCENARIO value 'ZIBMX_IBM_CLOUD_SCENARIO' ##NO_TEXT.
+
+  " define constant with explicit type to avoid exception CX_SY_TYPE_NOT_RELEASED when implicit type is created outside package
+  types:
+    begin of _ts_empty,
+      _ type string,
+    end of _ts_empty .
   constants:
-    begin of c_empty,
+    begin of _c_empty,
       _ type string value c_blank,
-    end of c_empty .
+    end of _c_empty .
+  constants: C_EMPTY type _ts_empty value _c_empty.
+
   constants:
     begin of c_datatype,
       string type char value 'g',
@@ -107,7 +118,7 @@ public section.
   "! @parameter I_CHECK_ONLY | Only check if value is blank.
   "! @parameter I_FIELD | Field to check, use if I_CHECK_ONLY = c_boolean_true.
   "! @parameter C_FIELD | Field to check and update, use if I_CHECK_ONLY = c_boolean_false.
-  "! @parameter E_IS_BLANK | = c_boolean_true if C_FIELD was Internal table of component names.
+  "! @parameter E_IS_BLANK | = c_boolean_true if I_FIELD or C_FIELD, respectively, has a blank value.
   "!
   class-methods BLANK_VALUE
     importing
@@ -292,6 +303,19 @@ public section.
       !I_LOWER_CASE type BOOLEAN default C_BOOLEAN_TRUE
     returning
       value(E_JSON) type STRING .
+  "! <p class="shorttext synchronized" lang="en">Transfers a JSON string into a dynamic ABAP structure.</p>
+  "!
+  "! @parameter I_JSON | JSON string.
+  "! @parameter E_ABAP | Data reference to generated ABAP structure.
+  "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+  "!
+  class-methods JSON_TO_ABAP
+    importing
+      !I_JSON type STRING
+    returning
+      value(E_ABAP) type JSONOBJECT
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
   "! <p class="shorttext synchronized" lang="en">Throws an exception, if HTTP response indicates an error.</p>
   "!
   "! @parameter I_RESPONSE | HTTP response to be checked.
@@ -308,6 +332,7 @@ public section.
   "!
   "! @parameter I_URL | URL of the service.
   "! @parameter I_HOST | Host of the service. I_URL and I_HOST can be used synonymously.
+  "! @parameter I_SCENARIO | Communication scenario.
   "! @parameter I_PROXY_HOST | Proxy server, not applicable on SAP Cloud Platform.
   "! @parameter I_PROXY_PORT | Proxy server port, not applicable on SAP Cloud Platform.
   "! @parameter I_USERNAME | User name to authenticate on service.
@@ -321,6 +346,7 @@ public section.
     importing
       !I_URL type STRING optional
       !I_HOST type STRING optional
+      !I_SCENARIO type ZIF_IBMX_SERVICE_ARCH~TY_COMMUNICATION_SCENARIO default C_DEFAULT_SCENARIO
       !I_PROXY_HOST type STRING optional
       !I_PROXY_PORT type STRING optional
       !I_USERNAME type STRING optional
@@ -459,6 +485,12 @@ protected section.
       value(e_uri) type string
     raising
       ZCX_IBMX_service_exception .
+  "! <p class="shorttext synchronized" lang="en">Method for internal use.</p>
+  class-methods json_to_abap_recu
+    importing
+        !i_abap     type any
+    exporting
+        e_datadescr type ref to cl_abap_datadescr .
 private section.
 ENDCLASS.
 
@@ -504,7 +536,6 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
       <lt_value>    type any table,
       <lv_name>     type string,
       <lv_required> type string.
-
 
     get_field_type(
       exporting
@@ -650,6 +681,7 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
                 lv_name_in_dict = c_boolean_true.
               endif.
             catch cx_sy_assign_cast_illegal_cast cx_sy_assign_cast_unknown_type cx_sy_assign_out_of_range.
+              lv_name_in_dict = c_boolean_false.  " avoid empty catch block
           endtry.
 
           if lv_name_in_dict eq c_boolean_false and i_lower_case eq c_boolean_true.
@@ -885,6 +917,7 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
 * +-------------------------------------------------------------------------------------------------+
 * | [--->] I_URL                          TYPE        STRING(optional)
 * | [--->] I_HOST                         TYPE        STRING(optional)
+* | [--->] I_SCENARIO                     TYPE        ZIF_IBMX_SERVICE_ARCH~TY_COMMUNICATION_SCENARIO (default=C_DEFAULT_SCENARIO)
 * | [--->] I_PROXY_HOST                   TYPE        STRING(optional)
 * | [--->] I_PROXY_PORT                   TYPE        STRING(optional)
 * | [--->] I_USERNAME                     TYPE        STRING(optional)
@@ -909,6 +942,7 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
     endif.
 
     p_request_prop_default-url-host     = lv_host.
+    p_request_prop_default-scenario     = i_scenario.
     p_request_prop_default-username     = i_username.
     p_request_prop_default-password     = i_password.
     p_request_prop_default-apikey       = i_apikey.
@@ -920,7 +954,7 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
       changing
         c_url = p_request_prop_default-url ).
 
-    if not i_proxy_host is supplied.
+    if not i_proxy_host is supplied or i_proxy_host is initial.
 
       get_default_proxy(
         exporting
@@ -988,7 +1022,7 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
       append <ls_comp>-name to e_components.
     endloop.
 
-  endmethod.
+  endmethod.  "#EC CI_VALPAR
 
 
 * <SIGNATURE>---------------------------------------------------------------------------------------+
@@ -1093,7 +1127,7 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
         endif.
     endcase.
 
-  endmethod.
+  endmethod.  "#EC CI_VALPAR
 
 
 * <SIGNATURE>---------------------------------------------------------------------------------------+
@@ -1107,15 +1141,21 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
     data:
       lv_url type string.
 
-    if not i_url-host cp 'http*'.
-      if i_url-protocol is initial and not i_url-host is initial.
-        lv_url = 'http://'.
-      else.
-        lv_url = i_url-protocol && `://`.
-      endif.
-    endif.
+    if i_url-host eq c_scenario.
+      lv_url = i_url-path_base && i_url-path.
+    else.
 
-    lv_url = lv_url && i_url-host && i_url-path_base && i_url-path.
+      if not i_url-host cp 'http*'.
+        if i_url-protocol is initial and not i_url-host is initial.
+          lv_url = 'http://'.
+        else.
+          lv_url = i_url-protocol && `://`.
+        endif.
+      endif.
+
+      lv_url = lv_url && i_url-host && i_url-path_base && i_url-path.
+
+    endif.
 
     if not i_url-querystring is initial.
       lv_url = lv_url && `?` && i_url-querystring.
@@ -1172,13 +1212,21 @@ CLASS ZCL_IBMX_SERVICE IMPLEMENTATION.
         importing
           e_client       = e_client ).
     else.
-      lv_url = ls_request_prop-url-protocol && `://` && ls_request_prop-url-host.
-      create_client_by_url(
-        exporting
-          i_url          = lv_url
-          i_request_prop = ls_request_prop
-        importing
-          e_client       = e_client ).
+      if ls_request_prop-url-host eq c_scenario.
+        create_client_by_scenario(
+          exporting
+            i_request_prop = ls_request_prop
+          importing
+            e_client       = e_client ).
+      else.
+        lv_url = ls_request_prop-url-protocol && `://` && ls_request_prop-url-host.
+        create_client_by_url(
+          exporting
+            i_url          = lv_url
+            i_request_prop = ls_request_prop
+          importing
+            e_client       = e_client ).
+      endif.
     endif.
 
     " set URI and authorization
@@ -1690,7 +1738,6 @@ endmethod.
       <lv_ref>     type ref to data,
       <lv_struct>  type any.
 
-
     clear ls_stack-name.
     ls_stack-ref  = i_data_reference.
     ls_stack-struct = ref #( e_abap ).
@@ -1770,7 +1817,90 @@ endmethod.
 
     enddo.
 
+  endmethod.
 
+
+  method json_to_abap_recu.
+
+    data:
+      ls_component  type abap_compdescr,
+      lt_comp       type abap_component_tab,
+      ls_comp       type line of abap_component_tab,
+      ls_datadescr  type ref to cl_abap_datadescr.
+    field-symbols:
+      <ls_dat>      type any,
+      <ls_dat_comp> type any,
+      <ls_tab>      type standard table.
+
+    " de-reference, if necessary
+    data(lr_ty) = cl_abap_typedescr=>describe_by_data( i_abap ).
+    if lr_ty->type_kind eq cl_abap_typedescr=>typekind_dref or lr_ty->type_kind eq cl_abap_typedescr=>typekind_oref.
+      lr_ty = cl_abap_typedescr=>describe_by_data_ref( i_abap ).
+      assign i_abap->* to <ls_dat>.
+    else.
+      assign i_abap to <ls_dat>.
+    endif.
+
+    " structure type
+    if lr_ty->type_kind eq cl_abap_typedescr=>typekind_struct1 or lr_ty->type_kind eq cl_abap_typedescr=>typekind_struct2.
+      data(lr_ty_struct) = cast cl_abap_structdescr( lr_ty ).
+      loop at lr_ty_struct->components into ls_component.
+        ls_comp-name = ls_component-name.
+        assign component ls_component-name of structure <ls_dat> to <ls_dat_comp>.
+        json_to_abap_recu( exporting i_abap = <ls_dat_comp> importing e_datadescr = ls_comp-type ).
+        append ls_comp to lt_comp.
+      endloop.
+      e_datadescr = cl_abap_structdescr=>get( lt_comp ).
+
+    " internal table type
+    elseif lr_ty->type_kind eq cl_abap_typedescr=>typekind_table.
+      assign <ls_dat> to <ls_tab>.  " cast to internal table (required only for non-HANA systems)
+      if lines( <ls_tab> ) > 0.
+        loop at <ls_tab> assigning field-symbol(<ls_line>).
+          exit.
+        endloop.
+        json_to_abap_recu( exporting i_abap = <ls_line> importing e_datadescr = ls_datadescr ).
+        e_datadescr = cl_abap_tabledescr=>get( p_line_type = ls_datadescr ).
+      else.
+        e_datadescr = cast cl_abap_tabledescr( lr_ty ).
+      endif.
+
+    " base type
+    else.
+      e_datadescr = cast cl_abap_datadescr( lr_ty ).
+    endif.
+
+  endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Static Public Method ZCL_IBMX_SERVICE=>JSON_TO_ABAP
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_JSON                         TYPE        STRING
+* | [<---] E_ABAP                         TYPE        JSONOBJECT
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  method json_to_abap.
+    data:
+      lr_abap type ref to data,
+      lr_data type ref to data.
+    parse_json(
+      exporting
+        i_json = i_json
+      changing
+        c_abap = lr_abap ).
+    json_to_abap_recu(
+      exporting
+        i_abap = lr_abap
+      importing
+        e_datadescr = data(lr_datadescr) ).
+    create data lr_data type handle lr_datadescr.
+    assign lr_data->* to field-symbol(<l_abap>).
+    move_data_reference_to_abap(
+      exporting
+        i_data_reference = lr_abap
+      importing
+        e_abap = <l_abap> ).
+    e_abap = lr_data.
   endmethod.
 
 
@@ -1992,7 +2122,7 @@ endmethod.
 
     p_request_prop_default-access_token = i_access_token.
     if p_request_prop_default-access_token-token_type is initial.
-      p_request_prop_default-access_token-token_type = 'Bearer'.
+      p_request_prop_default-access_token-token_type = 'Bearer'  ##NO_TEXT.
     endif.
     if p_request_prop_default-access_token-expires_ts = 0.
       p_request_prop_default-access_token-expires_ts   = '99991231235959'  ##LITERAL.   " avoid token being refreshed by sdk

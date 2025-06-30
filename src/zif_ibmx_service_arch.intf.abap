@@ -1,4 +1,4 @@
-* Copyright 2019, 2024 IBM Corp. All Rights Reserved.
+* Copyright 2019, 2025 IBM Corp. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -53,9 +53,12 @@ interface ZIF_IBMX_SERVICE_ARCH
   types:
     ty_http_destination(32) type c .
   types:
+    ty_communication_scenario(30) type c.
+  types:
     begin of ts_request_prop,
       url                 type ts_url,
       destination         type ty_http_destination,
+      scenario            type ty_communication_scenario,
       proxy_host          type string,
       proxy_port          type string,
       auth_name           type string,
