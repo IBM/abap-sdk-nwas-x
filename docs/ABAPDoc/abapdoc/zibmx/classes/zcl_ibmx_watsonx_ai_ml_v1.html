@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><title>Class ZCL_IBMX_WATSONX_AI_ML_V1</title><link rel="stylesheet" href="../../../htmldesign/stylesheet.css" type="text/css"></head><body><div id="header"><div id="navigationMenu"><a href="#types">Types</a> | <a href="#constants">Constants</a> | <a href="#methods">Methods</a></div></div><div id="content"><h2>Class <span class="identifier objectName">ZCL_IBMX_WATSONX_AI_ML_V1</span></h2><p>public inheriting from ZCL_IBMX_SERVICE_EXT create public</p><h4>Documentation</h4><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">watsonx.ai</p>
  No documentation available.<br/></span><h4 id="types">Types</h4><table><thead><tr><th>Visibility and Level</th><th>Name</th><th>Documentation</th></tr></thead><tr ><td>public</td><td><span class="identifier fieldName">tt_json_patch_operation</span> TYPE STANDARD TABLE OF T_JSON_PATCH_OPERATION WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-   Array parameter type for method DEPLOYMENTS_UPDATE</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_aiservice_content_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+   Array parameter type for method AI_SERVICES_UPDATE</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_aiservice_content_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The metadata related to the attachment.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_aiservice_documentation</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The documentation of the AI service request body and</p>
      response body.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_aiservice_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -12,26 +12,31 @@
     An error message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_api_error_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The data returned when an error is encountered.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_api_error_target</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The target of the error.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_asset_ref</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The field that identifies the asset.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_at_arggnrtn_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Properties describing the AutoAI RAG generation.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_aidata_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The field that identifies the asset.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_at_arggnrtn_mdl_at_argcstm_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Properties describing the custom foundation model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_at_arggnrtn_mdl_at_argmdl</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Properties describing the foundation model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_aidata_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagchunking</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The chunking details for an AutoAI RAG pattern,.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagconstraints</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The constraint parameters for an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagcontext</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagembeddings</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The constraint parameters for an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagcontext</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagcustom_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Properties describing the custom foundation model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagembeddings</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The embeddings properties for an AutoAI RAG pattern.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagfoundation_models</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The id of the foundation model. If not provided AutoAI</p>
-     auto-selects 3 top rated models.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagmetadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     auto-selects 3 top rated models.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airaggeneration_model</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagmetadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The request fields that are not part of the returned entity.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagmetric</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The metric for a given property.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagmetrics</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The AutoAI RAG metrics, this contains the list of calculated</p>
      metrics on test data (provided in the request) and (optionally) synthetic data
      autogenerated. Metric value is mean value calculated over all records in the
-     dataset.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagoptimization_param</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     dataset.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagmodel</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Properties describing the foundation model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagmodel_params</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Properties that control the model and response.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagoptimization_param</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The optimization parameters for an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagparameters</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The parameters for an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagpattern</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Describes the elements and settings found during the</p>
      optimization of the RAG pattern.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagrequest</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The request entity for an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagrequest_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The request entity for an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagresponse_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The request entity for an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagresponse</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response of an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagresponse_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The status of an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagresponse_results</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The AutoAI RAG results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagresults</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The AutoAI RAG results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagresult_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -39,12 +44,14 @@
     The retrieval details for an AutoAI RAG pattern,.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagsettings</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The RAG pattern configuration settings that were found</p>
      during the optimization process.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagstatus</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The status of an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagvector_store</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The status of an AutoAI RAG run.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagstatus_object</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Status of the training job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_airagvector_store</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Properties that describe the AutoAI RAG vector store that</p>
-     contains the results.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_base_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     contains the results.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_auto_ragresult_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A paginated list of training definitions.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_base_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The model id of the base model for this job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_cai_kit_text_gen_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Properties that control the model and response that are only</p>
-     supported in caikit.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_chat_item</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_common_patch_request_helper</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     supported in caikit.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_chat_item</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_commit</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_common_patch_request_helper</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The common fields that can be patched. This is a helper for</p>
      `cpdctl`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_connection_asset</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to connection.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_consumptions_limit</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -70,31 +77,40 @@
     A deployment resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_resource_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties specific to `watsonx.ai` deployments.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_resource_patch</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The common fields that can be patched. This is a helper for</p>
-     `cpdctl`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_status</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     `cpdctl`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_resrc_collection</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The deployment resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_resrc_prototype</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The deployment request entity (this description is not</p>
+     used).</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_status</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Specifies the current status, additional information about</p>
      the deployment and any failure messages in case of deployment failures.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_system</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     System details including warnings.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_system_details</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Optional details provided by the service about statistics of</p>
      the number of deployments created. The deployments that are counted will depend
-     on the request parameters.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_text_gen</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_text_gen_request</span> type T_DEPLOYMENT_TEXT_GEN</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A prompt to be used to infer the next tokens.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_document_extraction_common</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     on the request parameters.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_text_chat</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_text_chat_msg</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_text_gen</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_deployment_text_gen_prop</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The template properties if this request refers to a prompt</p>
+     template.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_document_extraction_common</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The details needed to create document extraction job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_document_extraction_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties that are part of a request that supports</p>
      spaces and projects. Either `space_id` or `project_id` has to be provided and
-     is mandatory.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_document_extraction_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     is mandatory.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_document_extraction_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response from getting a specified document extraction</p>
+     job.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_document_extraction_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The document extraction job properties.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_document_extraction_status</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Status of the document extraction job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_resource_collection</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The deployment resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_resource_prototype</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The deployment request entity (this description is not</p>
-     used).</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_text_gen_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The template properties if this request refers to a prompt</p>
-     template.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embedding</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Status of the document extraction job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_doc_extraction_object_loc</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_doc_extraction_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response of getting all document extraction jobs.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_txt_cht_msg_txt_cht1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of an assistant message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_txt_cht_msg_txt_cht2</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a control message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_txt_cht_msg_txt_cht3</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a tool message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_txt_cht_msg_txt_cht4</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a user message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embedding</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The embedding values for a text string. The `input` field is</p>
      only set if the corresponding `return_option` is set.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embeddings_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The text input for a given model to be used to generate the</p>
      embeddings.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embeddings_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     System details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embeddings_response_fields</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The embeddings per input.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embedding_model_id</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The embeddings per input.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embedding_input_result</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The input text, this is only output if</p>
+     `parameters.return_options.input_text` is set to `true` in the request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_embedding_model_id</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The `id` of the model to be used for this request. Please</p>
      refer to the [list of
      models](https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-mod
@@ -111,8 +127,19 @@
      is mandatory.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_error</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     An error object.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_error_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     An error response.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_error_target</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The target of the error.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_external_information</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_extrnl_infrmtn_extrnl_model</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_extrnl_infrmtn_extrnl_prompt</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_extrnl_prmpt_addtnl_infrmtn</span> TYPE STANDARD TABLE OF T_EXTRNL_PRMPT_ADDTNL_INFRMTN1 WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_extrnl_prmpt_addtnl_infrmtn1</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Status of the training job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_foundation_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The target of the error.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_external_information</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_external_store_settings</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ext_info_external_model</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ext_info_external_prompt</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ext_prmpt_addtnl_info_item</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ext_prompt_additional_info</span> TYPE STANDARD TABLE OF T_EXT_PRMPT_ADDTNL_INFO_ITEM WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ext_str_settings_schema_fld</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_file_paths</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Status of the training job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_parameters</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    This field must not be set while creating a fine tuning job</p>
+     with InstructLab.<br/>
+    <br/>
+    The parameters for the job. Note that if `verbalizer` is provided then
+     `response_template` must also be provided (and vice versa).</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The fine tuning resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response of a fine tuning job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    System details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_resource_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The fine tuning resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_resource_list</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_fine_tuning_training_metrics</span> type JSONOBJECT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The metrics that can be returned by a fine tuning job</p>
+     created with InstructLab.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_foundation_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A supported foundation model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_foundation_models</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     System details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_foundation_models_array</span> TYPE STANDARD TABLE OF T_FOUNDATION_MODEL WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The supported foundation models.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_foundation_model_limits</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -124,29 +151,32 @@
     The tier of the model, depending on the `tier` the billing</p>
      will be different, refer to the plan for the details. Note that input tokens
      and output tokens may be charged differently.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_foundation_model_version</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A minor or patch version for the model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_transformation_data</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A data location of the input or output data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_transformation_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A minor or patch version for the model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_data</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A data location of the input or output data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The inputs and outputs required to create a transformation</p>
-     for the given model.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_transformation_req</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     for the given model.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The specific fields for the geospatial transformation</p>
+     metadata fields.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_model_id</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The `id` of the model to be used for this request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The inputs and outputs required to create a transformation</p>
-     for the given model.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_transformation_results</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The transformation results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     for the given model.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_req_fields</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The geospatial transformation resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A paginated list of resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_resp_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The transformation results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_resp_fields</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The transformation results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_geospatial_trans_results</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The transformation results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_get_prompt_input_response</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gpu</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The name and number of GPUs used for the Fine Tuning job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_granite_guardian_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The properties specific to Granite Guardian. This detector</p>
+     is in beta and may change.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trans_metadata_fld</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The specific fields for the geospatial transformation</p>
-     metadata fields.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_model_id</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The `id` of the model to be used for this request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_mtdt_fields</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The specific fields for the geospatial transformation</p>
-     metadata fields.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_req_fields</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The geospatial transformation resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A paginated list of resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_resp_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The transformation results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_resp_fields</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The transformation results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trnsfrmtn_rsrc_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     metadata fields.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_gsptl_trans_resrc_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The inputs and outputs required to create a transformation</p>
      for the given model.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_hap_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties specific to HAP.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_hardware_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The requested hardware for deployment.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_hardware_spec</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A hardware specification.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_inference</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The details of an inference API.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_input_token_count</span> type INTEGER</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The number of input tokens that were consumed.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jsoncontent_definition</span> type MAP</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The number of input tokens that were consumed.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_in_memory_settings</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jsoncontent_definition</span> type MAP</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The schema for a given content type. Each property defines</p>
      the content type and the sub-object is the JSON schema that describes the
      content.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jsoncontent_schema</span> type JSONOBJECT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -158,9 +188,9 @@
      performed on a JSON document, as defined by RFC 6902.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_life_cycle_state</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The lifecycle details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_mask_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties specific to masking. If this object exists,</p>
-     even if it is empty, then masking will be applied.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_mdrtn_hap_input_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The properties specific to HAP.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_mdrtn_pii_input_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The properties specific to PII.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_mdrtn_prprts_wtht_threshold</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     even if it is empty, then masking will be applied.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_mdrtn_granite_guardian_prop</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The properties specific to Granite Guardian. This detector</p>
+     is in beta and may change.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_mdrtn_prop_without_threshold</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties for the moderation. Each type of moderation</p>
      may have additional properties that are specific to that moderation.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_message</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Optional messages related to the resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_metrics_context</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -173,10 +203,12 @@
     The model version (using semantic versioning) if set.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderations</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Properties that control the moderations, for usages such as</p>
      `Hate and profanity` (HAP) and `Personal identifiable information` (PII)
-     filtering. This list can be extended with new types of moderations.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_hap_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     filtering. This list can be extended with new types of moderations.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_hap_input_prop</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The properties specific to HAP.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_hap_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties specific to HAP.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_input_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties for the moderation. Each type of moderation</p>
-     may have additional properties that are specific to that moderation.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_pii_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     may have additional properties that are specific to that moderation.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_pii_input_prop</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The properties specific to PII.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_pii_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties specific to PII.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties for the moderation. Each type of moderation</p>
      may have additional properties that are specific to that moderation.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_result</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -203,9 +235,11 @@
     The notebook origin.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_origin_from_source</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The origin of a notebook from a source.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Notebook info returned in a listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resource_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Entity of notebook info returned in a listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resource_entity_rt</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Runtime info returned with a notebook listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resource_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Metadata of notebook info returned in a listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_revert_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Entity of notebook info returned in a listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resource_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Metadata of notebook info returned in a listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resrc_entity_asset</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Asset API asset description returned with a notebook</p>
+     listing.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resrc_entity_rt</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Runtime info returned with a notebook listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_revert_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Payload for a request to revert to a specific notebook</p>
      version.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_revert_response</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_runtime</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A notebook runtime.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_update_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -216,9 +250,7 @@
     Information of a copied notebook as returned by a GET</p>
      request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_cre_resp_ntbk_in_prjct</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Notebook information in a project as returned by a GET</p>
-     request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_resource_entity_asset</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Asset API asset description returned with a notebook</p>
-     listing.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_rvrt_resp_ntbk_in_prjct</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_rvrt_resp_ntbk_in_prjct</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Notebook information in a project as returned by a GET</p>
      request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_versions_lst_in_project</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A list of notebook versions in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_ver_cre_resp_ntbk_ver_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -227,7 +259,9 @@
     A notebook version in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_vrsns_lst_resp_ntbk_vr1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A list of notebook versions in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_object_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_object_location_github</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_online_deployment</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_object_loc_github_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Contains a set of fields that describe the location of the</p>
+     data with respect to the `connection`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_online_deployment</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Indicates that this is an online deployment. An object has</p>
      to be specified but can be empty. The `serving_name` can be provided in the
      `online.parameters`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_online_deployment_parameters</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -238,7 +272,10 @@
     A reference to the first item of the next page, if any.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pagination_tc</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Information for paging when querying resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pii_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties specific to PII.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prmpt_tuning_metrics_context</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The context for prompt tuning metrics.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prmpt_wth_extrnl_model_param</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prm_trnct_inpt_tkns_frm_strt</span> type INTEGER</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    This field will not returned by fine tuning jobs created</p>
+     with InstructLab.<br/>
+    <br/>
+    The context for prompt tuning metrics.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prm_trnct_inpt_tkns_frm_strt</span> type INTEGER</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Represents the maximum number of input tokens accepted. This</p>
      can be used to avoid requests failing due to input being longer than configured
      limits. If the text is truncated, then it truncates the start of the input (on
@@ -257,14 +294,17 @@
      to find this value for the model) then the call will fail if the total number
      of tokens exceeds the `maximum sequence length`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_project_id</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The project that contains the resource. Either `space_id` or</p>
-     `project_id` has to be given.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_data</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_lock</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_model_parameters</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_template_variables</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     `project_id` has to be given.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_project_id_only</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The project that contains the resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_data</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_lock</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_model_parameters</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_template_variables</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The template properties if this request refers to a prompt</p>
      template.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_tuning</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Properties to control the prompt tuning.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_variable</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_variables</span> type MAP</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The prompt variables.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_variable_string</span> type STRING</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_with_external</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rel</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The prompt variables.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_variable_string</span> type STRING</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_with_external</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prompt_with_ext_model_param</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rel</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to a resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_reranked_results</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The ranking score for the input.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rerank_input</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A input text.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rerank_parameters</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The input text.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rerank_input_result</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The input text, this is only output if</p>
+     `parameters.return_options.inputs` is set to `true` in the request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rerank_parameters</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties used for reranking.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rerank_query</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The rank query.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rerank_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The request to rerank texts.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rerank_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -278,12 +318,30 @@
     Common metadata for a resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_resource_meta_simple</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Common metadata for a simple resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_resource_name</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The name of the job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_resource_request_fields</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The request fields that are not part of the returned entity.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_results_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The request fields that are not part of the returned entity.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_resrc_space_project_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Common metadata for a resource where `project_id` or</p>
+     `space_id` must be present.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_results_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_results_reference_input</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_results_reference_output</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_return_option_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Properties that control what is returned.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rev_entity_spc_project_req</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The details for the revision.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_rsrc_spc_project_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Common metadata for a resource where `project_id` or</p>
-     `space_id` must be present.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_service_error</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The details for the revision.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgnstrctrd_gen_base_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Common platform parameters for creating an unstructured</p>
+     synthetic data generation job.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgobject_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgobject_location_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The location of the data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgunstructured_gen_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The details needed to create unstructured synthetic data</p>
+     generation job.<br/>
+    <br/>
+    The `seed_data_reference.type` must be `container` and the
+     `results_reference.type` must also be `container`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgunstructured_gen_param</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The parameters to guide the generation.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgunstructured_gen_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The details needed to create unstructured synthetic data</p>
+     generation job.<br/>
+    <br/>
+    The `seed_data_reference.type` must be `container` and the
+     `results_reference.type` must also be `container`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgunstructured_gen_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response from getting a specified synthetic data</p>
+     generation job.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgunstructured_gen_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The synthetic data generation job properties.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_sdgunstructured_gen_resp_job</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_service_error</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A service error message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_similarity_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     System details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_similarity_response_fields</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The similarity scores per source string.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_similarity_result</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -293,13 +351,41 @@
     The space that contains the resource. Either `space_id` or</p>
      `project_id` has to be given.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_space_id_only</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The space that contains the resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_stats</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The stats about deployments for a space.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_system</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The stats about deployments for a space.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_context</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The Synthetic Data Generation context.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_locations</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The Synthetic Data Generation location metrics.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_metric</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The Synthetic Data Generation metrics.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_metrics</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    All the Synthetic Data Generation metrics.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The details needed to create synthetic data generation</p>
+     job.<br/>
+    <br/>
+    The `data_reference.type` must be `taxonomy_asset` and the
+     `results_reference.type` will normally be something like `connection_asset` or
+     `data_asset`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response from getting a specified synthetic data</p>
+     generation job.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response of getting all synthetic data generation jobs.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The synthetic data generation job properties.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_sample</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The Synthetic Data Generation sample metrics.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_synthetic_data_gen_status</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The status of a Synthetic Data Generation job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_system</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     System details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_system_details</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Optional details coming from the service and related to the</p>
      API call or the associated resource.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tags</span> type TT_STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A list of tags for this resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_task_description</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The attributes of the task for this model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_task_rating</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The ratings for this task for this model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_finish_reason</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The ratings for this task for this model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_taxonomy_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The request fields to create Taxonomy job.</p><br/>
+    <br/>
+    <br/>
+    The `data_reference.type` must be set to `github`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_taxonomy_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The response fields from a Taxonomy request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_taxonomy_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The list of Taxonomy jobs in specified project or space.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_taxonomy_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The Taxonomy entity.</p><br/>
+    <br/>
+    <br/>
+    The `data_reference.type` will be `github` and the `results_reference.type` will
+     be set to `taxonomy_asset`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_taxonomy_status</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The status of a Taxonomy job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_finish_reason</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The reason why the call stopped, can be one of:</p><br/>
     - `stop` - The model hit a natural stop point or a provided stop sequence.<br/>
     - `length` - The maximum number of tokens specified in the request was
@@ -311,7 +397,8 @@
     - `null` - API response still in progress or incomplete.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_function_call</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The function call.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_message</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The base definition of a text chat message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_messages</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_message_assistant</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The definition of an assistant message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_message_field_name</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of an assistant message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_message_control</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a control message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_message_field_name</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     An optional name for the participant. Provides the model</p>
      information to differentiate between participants of the same role.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_message_system</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The definition of a system message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_message_tool</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -329,12 +416,14 @@
     A chat completion choices.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_result_choice</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A tool related result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_result_delta</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A message result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_result_message</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A message result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_stream_item</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A message result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_res_choice_stream</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A tool related result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_stream_item</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     System details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_stream_response</span> TYPE STANDARD TABLE OF T_TEXT_CHAT_STREAM_ITEM WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A set of server sent events, each event contains a response</p>
      for one or more tokens. The results will be an array of events of the form
      `data: &#123;&lt;json event&gt;&#125;` where the schema of the individual `json
      event` is described below.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_tool_call</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The tool call.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_tool_call_stream</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The tool call.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_tool_choice_option</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Using `auto` means the model can pick between generating a</p>
      message or calling one or more tools. Specify either `tool_choice_option` to
@@ -348,11 +437,14 @@
     Usage statistics for the completion request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_user_content</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The base definition of a text chat user content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_user_contents</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_user_image_url</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The definition of a user image content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_user_text_content</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The definition of a user text content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_usr_img_urlcontent</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a user text content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_user_video_url</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a user video content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_chat_usr_img_urlcontent</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The definition of a user image content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_detection_content_item</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The text that was detected.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_detection_context_item</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Detection evidence.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_detection_evidence_ref</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Detection evidence.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_detection_score</span> type FLOAT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The threshold probability that this is a real match.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The threshold probability that this is a real match.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_data_ref</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The document details for the text extraction.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Common metadata for a resource where `project_id` or</p>
      `space_id` must be present.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -361,9 +453,12 @@
      is mandatory.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The text extraction resource.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A paginated list of resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The text extraction response.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_results</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The text extraction response.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_resrc_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The document details for the text extraction.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_results</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The current status of the text extraction.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_steps</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The steps for the text extraction pipeline.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_step_ocr</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The steps for the text extraction pipeline.</p><br/>
+    <br/>
+    Use `parameters` instead.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_extraction_step_ocr</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The OCR text extraction step.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_common</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A prompt to be used to infer the next tokens. Each request</p>
      expects a `project_id` or a `space_id`, and the `project` or `space` must have
@@ -385,7 +480,7 @@
     Note that the events are different between a request with moderation and a
      request without moderations. A request with moderation will have events that
      are on a sentence level and a request without moderations will have events that
-     are on a token level.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_result</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_result_fields</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_stop_reason</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     are on a token level.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_resp_fld_res_item</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_result</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_result_fields</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_gen_stop_reason</span> type STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The reason why the call stopped, can be one of:</p><br/>
     - not_finished - Possibly more tokens to be streamed.<br/>
     - max_tokens - Maximum requested tokens reached.<br/>
@@ -409,7 +504,11 @@
     The input string to tokenize along with the associated model</p>
      id and any parameters. One of `space_id` or `project_id` must be provided.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_tokenize_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The tokenization result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_text_tokenize_result</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The result of tokenizing the input string.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_training_accumulated_steps</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The result of tokenizing the input string.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tooling</span> type JSONOBJECT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    User defined properties specified as key-value pairs, which</p>
+     is propagated to the deployment.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tool_config</span> type JSONOBJECT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Optional configuration options that can be passed for some</p>
+     tools. This must match the config schema for that tool.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_training_accumulated_steps</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Number of steps to be used for gradient accumulation.</p>
      Gradient accumulation refers to a method of collecting gradient for configured
      number of steps instead of updating the model variables at every step and then
@@ -451,9 +550,9 @@
      correct torch dtype.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_training_verbalizer</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Verbalizer template to be used for formatting data at train</p>
      and inference time. This template may use brackets to indicate where fields
-     from the data model TrainGenerationRecord must be rendered.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resource_entity_common</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_rsrc_collection_sys</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     from the data model TrainGenerationRecord must be rendered.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resource_entity_common</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resrc_collection_sys</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Optional details coming from the service and related to the</p>
-     API call or the associated resource.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsforecast_input_schema</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     API call or the associated resource.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resrc_model_id_output</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsforecast_input_schema</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Contains metadata about your timeseries data input.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsforecast_parameters</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The parameters for the forecast request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsforecast_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Input necessary for performing inference. These inputs</p>
@@ -465,27 +564,209 @@
      the model, and other parameters which affect the behavior of the inference
      operation.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsforecast_response</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The time series forecast response.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsforecast_results</span> type JSONOBJECT</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Prediction results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_mssgs_txt_cht_mssg_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The definition of an assistant message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_mssgs_txt_cht_mssg_2</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The definition of a system message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_mssgs_txt_cht_mssg_3</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The definition of a tool message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_mssgs_txt_cht_mssg_4</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The definition of a user message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_result_choice_stream</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A tool related result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_usr_cntnts_txt_cht_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Prediction results.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_msg_txt_chat_msg_sys</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a system message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_msg_txt_chat_msg_usr</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a user message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_msg_txt_cht_msg_ass1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of an assistant message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_msg_txt_cht_msg_cnt1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a control message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_msg_txt_cht_msg_tool</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a tool message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_usr_cntnts_txt_cht_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The definition of a user text content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_usr_cntnts_txt_cht_2</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The definition of a user image content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_detection_child_evidence</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a user image content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_usr_cntnts_txt_cht_3</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a user video content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_cht_usr_video_urlcontent</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The definition of a user video content.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_detection_child_evidence</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Child evidence.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_detection_detection_item</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Detection details.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_dtctn_context_position</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The text that was detected.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_dtctn_evidence_object</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The details for a given evidence.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_dtctn_evidence_reference</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Detection evidence.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_extraction_languages_lst</span> type TT_STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The details for a given evidence.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_extraction_languages_lst</span> type TT_STRING</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Set of languages to be expected in the document. The</p>
      language codes follow `ISO 639`. See the documentation for the currently
-     supported languages.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_extrctn_data_reference</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_extrctn_resource_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The document details for the text extraction.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_extrctn_stp_tbls_prcssng</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The tables processing text extraction step.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_gn_resp_flds_rslts_item</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_mdrtn_without_threshold</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Properties that control the moderation on the text.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_warning</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A warning message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prmpt_sssn_entry_lst_rsl1</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_input_request</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_patch</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_patch_model_ver</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_post</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_post_model_version</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_response</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_resp_model_version</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_session</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_session_entry</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_session_entry_list</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr></table><h4 id="constants">Constants</h4><table><thead><tr><th>Visibility and Level</th><th>Name</th><th>Documentation</th></tr></thead><tr ><td>public static</td><td><span class="identifier fieldName">c_abapname_dictionary</span> (structured type) </td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Map ABAP identifiers to service identifiers.</p></span></td></tr><tr ><td>public static</td><td><span class="identifier fieldName">c_required_fields</span> (structured type) </td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">List of required fields per type.</p></span></td></tr></table><h4 id="methods">Methods</h4><table><thead><tr><th>Visibility and Level</th><th>Name</th><th>Documentation</th></tr></thead><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">create_deployment</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_deploymentresourceprototype</span></td><td>type T_DPLYMNT_RESOURCE_PROTOTYPE</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_DEPLOYMENT_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new watsonx.ai deployment</p>
+     supported languages.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_extraction_step_tab_proc</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The tables processing text extraction step.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_txt_mdrtn_without_threshold</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Properties that control the moderation on the text.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_utility_agent_tool</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_util_agnt_tl_strctrd_input</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_util_agnt_tl_unstrctrd_input</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_warning</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A warning message.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prmpt_sssn_entry_lst_res1</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_input_request</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_patch</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_patch_model_ver</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_post</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_post_model_version</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_response</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_resp_model_version</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_session</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_session_entry</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_prompt_session_entry_list</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_util_agent_tools_response</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_util_agent_tools_run_req</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_util_agent_tools_run_resp</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_util_agnt_tls_rn_req_uti1</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_wx_util_agnt_tls_rn_req_uti2</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr></table><h4 id="constants">Constants</h4><table><thead><tr><th>Visibility and Level</th><th>Name</th><th>Documentation</th></tr></thead><tr ><td>public static</td><td><span class="identifier fieldName">c_abapname_dictionary</span> (structured type) </td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Map ABAP identifiers to service identifiers.</p></span></td></tr><tr ><td>public static</td><td><span class="identifier fieldName">c_required_fields</span> (structured type) </td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">List of required fields per type.</p></span></td></tr></table><h4 id="methods">Methods</h4><table><thead><tr><th>Visibility and Level</th><th>Name</th><th>Documentation</th></tr></thead><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_create</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_aiservicerequest</span></td><td>type T_AISERVICE_REQUEST</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AISERVICE_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new AI service</p>
+   Create a new AI service with the given payload. A AI service is some code that
+    can be deployed as a deployment.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_aiservicerequest</span></td><td><span class="abapDocComment">
+   Payload for creating the AI service. Either `space_id` or `project_id` has to be
+    provided and is mandatory.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AISERVICE_RESOURCE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_create_revision</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_rvsnnttyspcprjctrqst</span></td><td>type T_REV_ENTITY_SPC_PROJECT_REQ</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AISERVICE_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new AI service revision</p>
+   Create a new AI service revision.<br/>
+   The current metadata and content for<br/>
+   `id` will be taken and a new revision created.<br/>
+   Either `space_id` or `project_id` has to be provided and is mandatory.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   AI service identifier.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_rvsnnttyspcprjctrqst</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AISERVICE_RESOURCE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_delete</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete the AI service</p>
+   Delete the AI service with the specified identifier. This will delete all
+    revisions of this flow as well. For each revision all attachments will also be
+    deleted.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   AI service identifier.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_download_code</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_rev</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;zip&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type FILE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Download the AI service code</p>
+   Download the AI service code.<br/>
+   It is possible to download the `code` for a given revision of the `flow`.<br/>
+   AI services expect a zip file that contains the code files that make up the
+    flow.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   AI service identifier.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_rev</span></td><td><span class="abapDocComment">
+   The revision number of the resource.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type FILE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_get</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_rev</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AISERVICE_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the AI service</p>
+   Retrieve the AI service with the specified identifier. If `rev` query parameter
+    is provided,<br/>
+   `rev=latest` will fetch the latest revision. A call with
+    `rev=&#123;revision_number&#125;` will fetch the given revision_number record.
+    Either `space_id` or `project_id` has to be provided and is mandatory.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   AI service identifier.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_rev</span></td><td><span class="abapDocComment">
+   The revision number of the resource.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AISERVICE_RESOURCE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_list</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_start</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_limit</span></td><td>type INTEGER default 100</td></tr><tr><td></td><td><span class="identifier parameterName">i_tag_value</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_search</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AISERVICE_RESOURCES</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the AI services</p>
+   Retrieve the AI services for the specified space or project.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_start</span></td><td><span class="abapDocComment">
+   Token required for token-based pagination. This token cannot be determined by
+    end user. It is generated by the service and it is set in the href available in
+    the `next` field.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_limit</span></td><td><span class="abapDocComment">
+   How many resources should be returned. By default limit is 100. Max limit
+    allowed is 200.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_tag_value</span></td><td><span class="abapDocComment">
+   Return only the resources with the given tag values, separated by `or` or `and`
+    to support multiple tags.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_search</span></td><td><span class="abapDocComment">
+   Returns only resources that match this search string. The path to the field must
+    be the complete path to the field, and this field must be one of the indexed
+    fields for this resource type. Note that the search string must be URL encoded.
+
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AISERVICE_RESOURCES
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_list_revisions</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_start</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_limit</span></td><td>type INTEGER default 100</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AISERVICE_RESOURCES</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the AI service revisions</p>
+   Retrieve the AI service revisions.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   AI service identifier.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_start</span></td><td><span class="abapDocComment">
+   Token required for token-based pagination. This token cannot be determined by
+    end user. It is generated by the service and it is set in the href available in
+    the `next` field.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_limit</span></td><td><span class="abapDocComment">
+   How many resources should be returned. By default limit is 100. Max limit
+    allowed is 200.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AISERVICE_RESOURCES
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_update</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_json_patch</span></td><td>type TT_JSON_PATCH_OPERATION</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AISERVICE_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Update the AI service</p>
+   Update the AI service with the provided patch data.<br/>
+   The following fields can be patched:<br/>
+   - `/tags`<br/>
+   - `/name`<br/>
+   - `/description`<br/>
+   - `/custom`<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   AI service identifier.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_json_patch</span></td><td><span class="abapDocComment">
+   Input For Patch. This is the patch body which corresponds to the JavaScript
+    Object Notation (JSON) Patch standard (RFC 6902).
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AISERVICE_RESOURCE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">ai_services_upload_code</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_upload_code</span></td><td>type FILE</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;gzip&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AISERVICE_CONTENT_METADATA</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Upload the AI service code</p>
+   Upload the flow code. AI services expect a zip file that contains the code files
+    that make up the flow.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   AI service identifier.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_upload_code</span></td><td><span class="abapDocComment">
+   A gzip file containing code files.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AISERVICE_CONTENT_METADATA
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">create_autoai_rags</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_autoairagrequest</span></td><td>type T_AUTO_AIRAGREQUEST</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AUTO_AIRAGRESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new AutoAI RAG run</p>
+   Create a new AutoAI RAG that will find the best RAG pattern from the data that
+    is provided in the request.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_autoairagrequest</span></td><td><span class="abapDocComment">
+   The details of the AutoAI RAG run with the data used to find the best RAG
+    patterns.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AUTO_AIRAGRESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">create_deployment</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_deploymentresourceprototype</span></td><td>type T_DEPLOYMENT_RESRC_PROTOTYPE</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_DEPLOYMENT_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new watsonx.ai deployment</p>
    Create a new deployment, currently the only supported type is `online`.<br/>
    <br/>
    If this is a deployment for a prompt tune then the `asset` object must
@@ -523,9 +804,49 @@
       - `hardware_request`: **required**<br/>
       - `base_model_id`: **forbidden**<br/>
       - `base_deployment_id`: **forbidden**<br/>
-      - response `deployed_asset_type`: `custom_foundation_model`.
+      - response `deployed_asset_type`: `custom_foundation_model` 1. Deploy on
+    Demand model:<br/>
+      - `asset.id`: **required**<br/>
+      - `online`: **required**<br/>
+      - `online.parameters.foundation_model`: **forbidden**<br/>
+      - `hardware_spec`: **forbidden**<br/>
+      - `hardware_request`: **forbidden**<br/>
+      - `base_model_id`: **forbidden**<br/>
+      - `base_deployment_id`: **forbidden**<br/>
+      - `space_id`: **required**<br/>
+      - `project_id`: **forbidden**<br/>
+      - response `deployed_asset_type`: `curated_foundation_model`.
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_DEPLOYMENT_RESOURCE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">delete_autoai_rags</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_hard_delete</span></td><td>type BOOLEAN optional</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Cancel or delete an AutoAI RAG run</p>
+   Cancel or delete the specified AutoAI RAG run, once deleted all trace of the run
+    job is gone.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   The `id` is the identifier that was returned in the `metadata.id` field of the
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_hard_delete</span></td><td><span class="abapDocComment">
+   Set to true in order to also delete the job or request metadata.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">delete_prompt</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete a prompt</p>
+   This deletes a prompt / prompt template with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_prompt_id</span></td><td><span class="abapDocComment">
+   Prompt ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">deployments_delete</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_deployment_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete the deployment</p>
    Delete the deployment with the specified identifier.<br/>
@@ -554,6 +875,61 @@
     parameter has to be given.
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_DEPLOYMENT_RESOURCE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">deployments_text_chat</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id_or_name</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_body</span></td><td>type T_DEPLOYMENT_TEXT_CHAT</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_TEXT_CHAT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Infer text chat</p>
+   Infer the next chat message for a given deployment. The deployment must
+    reference a prompt template which has `input_mode` set to `chat`. The model to
+    the chat request will be from the deployment `base_model_id`. Parameters to the
+    chat request will be from the prompt template `model_parameters`. Related
+    guides:
+    [Deployment](https://cloud.ibm.com/apidocs/watsonx-ai#create-deployment),
+    [Prompt template](https://cloud.ibm.com/apidocs/watsonx-ai#post-prompt), [Text
+    chat](https://cloud.ibm.com/apidocs/watsonx-ai#text-chat).<br/>
+   <br/>
+   If a `serving_name` is used then it must match the `serving_name` that is
+    returned in the `inference` section when the deployment was created.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id_or_name</span></td><td><span class="abapDocComment">
+   The `id_or_name` can be either the `deployment_id` that identifies the
+    deployment or a `serving_name` that allows a predefined URL to be used to post
+    a prediction. The deployment must reference a prompt template with `input_mode`
+    `chat`.<br/>
+   <br/>
+   The WML instance that is associated with the deployment will be used for limits
+    and billing (if a paid plan).
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_body</span></td><td><span class="abapDocComment">
+   From a given prompt, infer the next chat message.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_TEXT_CHAT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">deployments_text_chat_stream</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id_or_name</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_body</span></td><td>type T_DEPLOYMENT_TEXT_CHAT</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;text&#x2f;event-stream&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_ARRAY</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Infer text chat event stream</p>
+   Infer the next chat message for a given deployment. This operation will return
+    the output tokens as a stream of events. The deployment must reference a prompt
+    template which has `input_mode` set to `chat`. The model to the chat request
+    will be from the deployment `base_model_id`. Parameters to the chat request
+    will be from the prompt template `model_parameters`. Related guides:
+    [Deployment](https://cloud.ibm.com/apidocs/watsonx-ai#create-deployment),
+    [Prompt template](https://cloud.ibm.com/apidocs/watsonx-ai#post-prompt), [Text
+    chat](https://cloud.ibm.com/apidocs/watsonx-ai#text-chat).<br/>
+   <br/>
+   If a `serving_name` is used then it must match the `serving_name` that is
+    returned in the `inference` section when the deployment was created.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id_or_name</span></td><td><span class="abapDocComment">
+   The `id_or_name` can be either the `deployment_id` that identifies the
+    deployment or a `serving_name` that allows a predefined URL to be used to post
+    a prediction. The deployment must reference a prompt template with `input_mode`
+    `chat`.<br/>
+   <br/>
+   The WML instance that is associated with the deployment will be used for limits
+    and billing (if a paid plan).
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_body</span></td><td><span class="abapDocComment">
+   From a given prompt, infer the next chat message in a server-sent events (SSE)
+    stream.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_Array
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">deployments_text_generation</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id_or_name</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_body</span></td><td>type T_DEPLOYMENT_TEXT_GEN</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_TEXT_GEN_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Infer text</p>
    Infer the next tokens for a given deployed model with a set of parameters.<br/>
@@ -643,7 +1019,95 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_DEPLOYMENT_RESOURCE
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
-</span></td></tr></table></td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_appname</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_request_prop</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_sdk_version_date</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">list_deployments</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_serving_name</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_tag_value</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_asset_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_prompt_template_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_name</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_type</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_state</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_conflict</span></td><td>type BOOLEAN default C_BOOLEAN_FALSE</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_DPLYMNT_RESOURCE_COLLECTION</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the deployments</p>
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_appname</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_autoai_rags</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AUTO_AIRAGRESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get an AutoAI RAG run</p>
+   Get the results of an AutoAI RAG run, or details if the job failed.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_id</span></td><td><span class="abapDocComment">
+   The `id` is the identifier that was returned in the `metadata.id` field of the
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AUTO_AIRAGRESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_prompt</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_restrict_model_parameters</span></td><td>type STRING default &#x27;true&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get a prompt</p>
+   This retrieves a prompt / prompt template with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_prompt_id</span></td><td><span class="abapDocComment">
+   Prompt ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_restrict_model_parameters</span></td><td><span class="abapDocComment">
+   Only return a set of model parameters compatiable with inferencing.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_prompt_input</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_wxpromptinputrequest</span></td><td>type T_WX_PROMPT_INPUT_REQUEST optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_GET_PROMPT_INPUT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get the inference input string for a given prompt</p>
+   Computes the inference input string based on state of a prompt. Optionally
+    replaces template params
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_prompt_id</span></td><td><span class="abapDocComment">
+   Prompt ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_wxpromptinputrequest</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_GET_PROMPT_INPUT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_prompt_lock</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get current prompt lock status</p>
+   Retrieves the current locked state of a prompt.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_prompt_id</span></td><td><span class="abapDocComment">
+   Prompt ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_PROMPT_LOCK
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_request_prop</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_sdk_version_date</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">list_autoai_rags</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_start</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_limit</span></td><td>type INTEGER default 100</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AUTO_RAGRESULT_RESOURCES</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the AutoAI RAG runs</p>
+   Retrieve the list of AutoAI RAG requests for the specified space or
+    project.<br/>
+   <br/>
+   This operation does not save the history, any requests that were deleted or
+    purged<br/>
+   will not appear in this list.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   The space that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The project that contains the resource. Either `space_id` or `project_id` query
+    parameter has to be given.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_start</span></td><td><span class="abapDocComment">
+   Token required for token-based pagination. This token cannot be determined by
+    end user. It is generated by the service and it is set in the href available in
+    the `next` field.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_limit</span></td><td><span class="abapDocComment">
+   How many resources should be returned. By default limit is 100. Max limit
+    allowed is 200.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_AUTO_RAGRESULT_RESOURCES
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">list_deployments</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_serving_name</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_tag_value</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_asset_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_prompt_template_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_name</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_type</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_state</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_conflict</span></td><td>type BOOLEAN default C_BOOLEAN_FALSE</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_DEPLOYMENT_RESRC_COLLECTION</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the deployments</p>
    Retrieve the list of deployments for the specified space or project.<br/>
 
 
@@ -692,7 +1156,7 @@
    Returns whether `serving_name` is available for use or not. This query parameter
     cannot be combined with any other parameter except for `serving_name`.
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
-   Service return value of type T_DPLYMNT_RESOURCE_COLLECTION
+   Service return value of type T_DEPLOYMENT_RESRC_COLLECTION
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">list_foundation_model_specs</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_start</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_limit</span></td><td>type INTEGER default 100</td></tr><tr><td></td><td><span class="identifier parameterName">i_filters</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_tech_preview</span></td><td>type BOOLEAN default C_BOOLEAN_FALSE</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_FOUNDATION_MODELS</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">List the available foundation models</p>
    Retrieve the list of deployed foundation models.<br/>
@@ -780,6 +1244,54 @@
     allowed is 200.
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TEXT_EXTRACTION_RESOURCES
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">patch_prompt</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_wxpromptpatch</span></td><td>type T_WX_PROMPT_PATCH</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Update a prompt</p>
+   This updates a prompt / prompt template with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_prompt_id</span></td><td><span class="abapDocComment">
+   Prompt ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_wxpromptpatch</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">post_prompt</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_wxpromptpost</span></td><td>type T_WX_PROMPT_POST</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new prompt / prompt template</p>
+   This creates a new prompt with the provided parameters.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_wxpromptpost</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">put_prompt_lock</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_promptlock</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_force</span></td><td>type BOOLEAN optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Prompt lock modifications</p>
+   Modifies the current locked state of a prompt.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_prompt_id</span></td><td><span class="abapDocComment">
+   Prompt ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_promptlock</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_force</span></td><td><span class="abapDocComment">
+   Override a lock if it is currently taken.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_PROMPT_LOCK
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">text_chat</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_textchatrequest</span></td><td>type T_TEXT_CHAT_REQUEST</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_TEXT_CHAT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Infer text</p>
    Infer the next tokens for a given deployed model with a set of parameters.<br/>
@@ -905,6 +1417,16 @@
    The input string to tokenize.
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TEXT_TOKENIZE_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">time_series_forecast</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_tsforecastrequest</span></td><td>type T_TSFORECAST_REQUEST</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_TSFORECAST_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Time series forecast</p>
+   Generate forecasts, or predictions for future time points, given historical time
+    series data.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_tsforecastrequest</span></td><td><span class="abapDocComment">
+   The forecast request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_TSFORECAST_RESPONSE
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">trainings_create</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_trainingresourceprototype</span></td><td>type T_TRAINING_RESOURCE_PROTOTYPE</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_TRAINING_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new watsonx.ai training</p>
    Create a new watsonx.ai training in a project or a space.<br/>
@@ -1040,4 +1562,4 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TRAINING_RESOURCE_COLLECTION
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
-</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 03.12.2024</div></body></html>
+</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 30.06.2025</div></body></html>

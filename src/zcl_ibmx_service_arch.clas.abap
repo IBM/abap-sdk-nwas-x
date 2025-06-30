@@ -1,4 +1,4 @@
-* Copyright 2019, 2024 IBM Corp. All Rights Reserved.
+* Copyright 2019, 2025 IBM Corp. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -109,6 +109,19 @@ class ZCL_IBMX_SERVICE_ARCH definition
     "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
     "!
     CLASS-METHODS create_client_by_destination
+      IMPORTING
+        !i_request_prop TYPE ts_request_prop
+      EXPORTING
+        !e_client       TYPE ts_client
+      RAISING
+        ZCX_IBMX_service_exception .
+    "! <p class="shorttext synchronized" lang="en">Returns a HTTP/REST client based on COMMUNICATION SCENARIO.</p>
+    "!
+    "! @parameter I_REQUEST_PROP | Request parameters
+    "! @parameter E_CLIENT | HTTP/REST client
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+    CLASS-METHODS create_client_by_scenario
       IMPORTING
         !i_request_prop TYPE ts_request_prop
       EXPORTING
@@ -520,6 +533,19 @@ CLASS ZCL_IBMX_SERVICE_ARCH IMPLEMENTATION.
       exporting
         io_http_client = e_client-http.
 
+  endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Static Public Method ZCL_IBMX_SERVICE_ARCH=>CREATE_CLIENT_BY_SCENARIO
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_REQUEST_PROP                 TYPE        TS_REQUEST_PROP
+* | [<---] E_CLIENT                       TYPE        TS_CLIENT
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  method create_client_by_scenario.
+    data(lv_text) = `Communication scenarios not supported in this environment.`  ##NO_TEXT.
+    ZCL_IBMX_SERVICE=>raise_exception( i_text = lv_text ).
   endmethod.
 
 

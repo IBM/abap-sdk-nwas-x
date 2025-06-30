@@ -1,4 +1,4 @@
-* Copyright 2019, 2024 IBM Corp. All Rights Reserved.
+* Copyright 2019, 2025 IBM Corp. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -220,6 +220,8 @@ public section.
     "!    Provides extra information for this training stage in the</p>
     "!     context of auto-ml.
     begin of T_METRICS_CONTEXT,
+      "!   This field will not returned by fine tuning jobs created with InstructLab.<br/>
+      "!   <br/>
       "!   The deployment that created the metrics.
       DEPLOYMENT_ID type STRING,
       "!   The details of the intermediate model.
@@ -864,7 +866,7 @@ public section.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The solve state for a Decision Optimization job.</p>
-    begin of T_JB_DCSN_OPTIMIZATION_RESULT,
+    begin of T_JB_DECISION_OPTIMIZATION_RES,
       "!   To control solve behavior, you can specify solve parameters in your request as
       "!    key-value pairs.
       SOLVE_PARAMETERS type JSONOBJECT,
@@ -880,7 +882,7 @@ public section.
       STATUS type T_JOB_STATUS,
       "!   The solve state for a Decision Optimization job.
       SOLVE_STATE type T_SOLVE_STATE,
-    end of T_JB_DCSN_OPTIMIZATION_RESULT.
+    end of T_JB_DECISION_OPTIMIZATION_RES.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The payload for scoring.</p>
@@ -994,7 +996,7 @@ public section.
       "!   The status of the job.
       SCORING type T_JOB_SCORING_RESULT,
       "!   The solve state for a Decision Optimization job.
-      DECISION_OPTIMIZATION type T_JB_DCSN_OPTIMIZATION_RESULT,
+      DECISION_OPTIMIZATION type T_JB_DECISION_OPTIMIZATION_RES,
       "!   Information about the platform job assets related to this execution.<br/>
       "!   Depending on the `version` date passed, the `platform_jobs` section in the
       "!    response may or may not be populated.<br/>
@@ -1166,7 +1168,7 @@ public section.
       "!   The status of the job.
       SCORING type T_JOB_SCORING_RESULT,
       "!   The solve state for a Decision Optimization job.
-      DECISION_OPTIMIZATION type T_JB_DCSN_OPTIMIZATION_RESULT,
+      DECISION_OPTIMIZATION type T_JB_DECISION_OPTIMIZATION_RES,
     end of T_JOB_ENTITY_RESULT.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -1478,16 +1480,19 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    A reference to data.</p>
     begin of T_OBJECT_LOCATION,
-      "!   Item identification inside a collection.
-      ID type STRING,
-      "!   The data source type like `connection_asset` or `data_asset`.
+      "!   The data source type.<br/>
+      "!   <br/>
+      "!   <br/>
+      "!   The possible types will depend on the API and platform being used.
       TYPE type STRING,
-      "!   Contains a set of fields specific to each connection.<br/>
-      "!   See here for [details about specifying connections](#datareferences).
-      CONNECTION type T_DATA_CONNECTION,
       "!   Contains a set of fields that describe the location of the data with respect to
       "!    the `connection`.
       LOCATION type MAP,
+      "!   Contains a set of fields specific to each connection.<br/>
+      "!   See here for [details about specifying connections](#datareferences).
+      CONNECTION type T_DATA_CONNECTION,
+      "!   Item identification inside a collection, if appropriate.
+      ID type STRING,
     end of T_OBJECT_LOCATION.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -2148,7 +2153,7 @@ public section.
     end of T_REV_ENTITY_SPACE_REQUEST.
   types:
     "! No documentation available.
-    begin of T_INSTNC_RESOURCE_ENTITY_PLAN,
+    begin of T_INSTANCE_RESRC_ENTITY_PLAN,
       "!   The payment plan ID.
       ID type STRING,
       "!   The payment plan name, this can be one of<br/>
@@ -2156,7 +2161,7 @@ public section.
       NAME type STRING,
       "!   2 - for the v2 plans where v2 plan means an instance is space / project aware.
       VERSION type INTEGER,
-    end of T_INSTNC_RESOURCE_ENTITY_PLAN.
+    end of T_INSTANCE_RESRC_ENTITY_PLAN.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Common metadata for a resource.</p>
@@ -2190,7 +2195,7 @@ public section.
       "!   Status of the service instance.
       STATUS type STRING,
       "!   No documentation available.
-      PLAN type T_INSTNC_RESOURCE_ENTITY_PLAN,
+      PLAN type T_INSTANCE_RESRC_ENTITY_PLAN,
       "!   No documentation available.
       CRN type STRING,
       "!   No documentation available.
@@ -2216,12 +2221,12 @@ public section.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Optimization algorithm.</p>
-    begin of T_TRAIN_RFRNC_HYPR_PRM_OPTMZT1,
+    begin of T_TRAIN_REF_HYPR_PRM_OPTMZTN_1,
       "!   No documentation available.
       NAME type STRING,
       "!   Optimizer configuration parameters.
       PARAMETERS type JSONOBJECT,
-    end of T_TRAIN_RFRNC_HYPR_PRM_OPTMZT1.
+    end of T_TRAIN_REF_HYPR_PRM_OPTMZTN_1.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A set of hyper parameters.</p>
@@ -2236,12 +2241,12 @@ public section.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The hyper parameters used in the experiment.</p>
-    begin of T_TRAIN_RFRNC_HYPR_PRM_OPTMZTN,
+    begin of T_TRAIN_REF_HYPR_PRM_OPTMZTN,
       "!   Optimization algorithm.
-      METHOD type T_TRAIN_RFRNC_HYPR_PRM_OPTMZT1,
+      METHOD type T_TRAIN_REF_HYPR_PRM_OPTMZTN_1,
       "!   Hyper parameters that can be a range or an array of number or strings.
       HYPER_PARAMETERS type STANDARD TABLE OF T_HYPER_PARAMETER WITH NON-UNIQUE DEFAULT KEY,
-    end of T_TRAIN_RFRNC_HYPR_PRM_OPTMZTN.
+    end of T_TRAIN_REF_HYPR_PRM_OPTMZTN.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    An evaluation metric.</p>
@@ -2274,7 +2279,7 @@ public section.
       "!   The model definition.
       MODEL_DEFINITION type T_MODEL_DEFINITION_ID,
       "!   The hyper parameters used in the experiment.
-      HYPER_PARAMETERS_OPTIMIZATION type T_TRAIN_RFRNC_HYPR_PRM_OPTMZTN,
+      HYPER_PARAMETERS_OPTIMIZATION type T_TRAIN_REF_HYPR_PRM_OPTMZTN,
     end of T_TRAINING_REFERENCE.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -2324,7 +2329,7 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!    Informational information about the preprocessing</p>
     "!     transformation that was executed during the training run.
-    begin of T_DT_PRPRCSSNG_TRANSFORMATION,
+    begin of T_DATA_PREPROCESSING_TRANS,
       "!   The preprocessing stage.
       STAGE type STRING,
       "!   Data shape (rows, columns) passed as input to the transformer/transformation.
@@ -2333,7 +2338,7 @@ public section.
       OUTPUT type T_DATA_OUTPUT,
       "!   Properties of preprocessing transformation.
       PROPS type JSONOBJECT,
-    end of T_DT_PRPRCSSNG_TRANSFORMATION.
+    end of T_DATA_PREPROCESSING_TRANS.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The details of an inference API.</p>
@@ -2388,7 +2393,7 @@ public section.
     "!    The `training_data_references` contain the training datasets</p>
     "!     and the<br/>
     "!    `results_reference` the connection where results will be stored.
-    begin of T_TRAIN_RESOURCE_ENTITY_REQ,
+    begin of T_TRAIN_RESRC_ENTITY_REQUEST,
       "!   A reference to a resource.
       EXPERIMENT type T_REL,
       "!   A pipeline.<br/>
@@ -2423,7 +2428,7 @@ public section.
       "!   The project that contains the resource. Either `space_id` or `project_id` has to
       "!    be given.
       PROJECT_ID type STRING,
-    end of T_TRAIN_RESOURCE_ENTITY_REQ.
+    end of T_TRAIN_RESRC_ENTITY_REQUEST.
   types:
     "! No documentation available.
     begin of T_MTRC_TSD_MTRCS_TSD_TRAIN_AG1,
@@ -2904,7 +2909,7 @@ public section.
       TRAINING_ID type STRING,
       "!   An optional array which contains the data preprocessing transformations that
       "!    were executed by the training job that created this model.
-      DATA_PREPROCESSING type STANDARD TABLE OF T_DT_PRPRCSSNG_TRANSFORMATION WITH NON-UNIQUE DEFAULT KEY,
+      DATA_PREPROCESSING type STANDARD TABLE OF T_DATA_PREPROCESSING_TRANS WITH NON-UNIQUE DEFAULT KEY,
       "!   Information about the training job that created this model.
       TRAINING type T_TRAINING_DETAILS,
       "!   The upload state.
@@ -3530,7 +3535,7 @@ public section.
       TRAINING_ID type STRING,
       "!   An optional array which contains the data preprocessing transformations that
       "!    were executed by the training job that created this model.
-      DATA_PREPROCESSING type STANDARD TABLE OF T_DT_PRPRCSSNG_TRANSFORMATION WITH NON-UNIQUE DEFAULT KEY,
+      DATA_PREPROCESSING type STANDARD TABLE OF T_DATA_PREPROCESSING_TRANS WITH NON-UNIQUE DEFAULT KEY,
       "!   Information about the training job that created this model.
       TRAINING type T_TRAINING_DETAILS,
       "!   Details about the attachments that should be uploaded with this model.
@@ -3905,7 +3910,7 @@ public section.
       TRAINING_ID type STRING,
       "!   An optional array which contains the data preprocessing transformations that
       "!    were executed by the training job that created this model.
-      DATA_PREPROCESSING type STANDARD TABLE OF T_DT_PRPRCSSNG_TRANSFORMATION WITH NON-UNIQUE DEFAULT KEY,
+      DATA_PREPROCESSING type STANDARD TABLE OF T_DATA_PREPROCESSING_TRANS WITH NON-UNIQUE DEFAULT KEY,
       "!   Information about the training job that created this model.
       TRAINING type T_TRAINING_DETAILS,
     end of T_MODEL_ENTITY.
@@ -4103,7 +4108,7 @@ constants:
     T_JOB_STATUS type string value '|',
     T_OBJECT_LOCATION_OPTIM type string value '|ID|TYPE|LOCATION|',
     T_SOLVE_STATE type string value '|',
-    T_JB_DCSN_OPTIMIZATION_RESULT type string value '|',
+    T_JB_DECISION_OPTIMIZATION_RES type string value '|',
     T_SCORING_PAYLOAD type string value '|',
     T_EVALUATIONS_SPEC_ITEM type string value '|',
     T_JOB_SCORING_RESULT type string value '|',
@@ -4177,25 +4182,25 @@ constants:
     T_PIPELINE_RESOURCE type string value '|METADATA|ENTITY|',
     T_PIPELINE_RESOURCES type string value '|LIMIT|FIRST|',
     T_REV_ENTITY_SPACE_REQUEST type string value '|SPACE_ID|',
-    T_INSTNC_RESOURCE_ENTITY_PLAN type string value '|ID|NAME|VERSION|',
+    T_INSTANCE_RESRC_ENTITY_PLAN type string value '|ID|NAME|VERSION|',
     T_RESOURCE_META_BASE type string value '|',
     T_BLUEMIX_ACCOUNT type string value '|ID|',
     T_INSTANCE_RESOURCE_ENTITY type string value '|STATUS|PLAN|SERVICE_ENDPOINTS|',
     T_INSTANCE_RESOURCE type string value '|',
-    T_TRAIN_RFRNC_HYPR_PRM_OPTMZT1 type string value '|',
+    T_TRAIN_REF_HYPR_PRM_OPTMZTN_1 type string value '|',
     T_HYPER_PARAMETER type string value '|NAME|ITEMS|',
-    T_TRAIN_RFRNC_HYPR_PRM_OPTMZTN type string value '|',
+    T_TRAIN_REF_HYPR_PRM_OPTMZTN type string value '|',
     T_EVALUATION_METRIC type string value '|NAME|',
     T_EVALUATION_DEFINITION type string value '|METRICS|',
     T_TRAINING_REFERENCE type string value '|',
     T_EXPERIMENT_ENTITY_REQUEST type string value '|NAME|',
     T_DATA_OUTPUT type string value '|',
     T_DATA_INPUT type string value '|',
-    T_DT_PRPRCSSNG_TRANSFORMATION type string value '|',
+    T_DATA_PREPROCESSING_TRANS type string value '|',
     T_INFERENCE type string value '|URL|',
     T_DEPLOYMENT_SCALING type string value '|STATE|',
     T_DEPLOYMENT_STATUS type string value '|',
-    T_TRAIN_RESOURCE_ENTITY_REQ type string value '|RESULTS_REFERENCE|',
+    T_TRAIN_RESRC_ENTITY_REQUEST type string value '|RESULTS_REFERENCE|',
     T_MTRC_TSD_MTRCS_TSD_TRAIN_AG1 type string value '|',
     T_CONTENT_INFO type string value '|CONTENT_FORMAT|LOCATION|FILE_NAME|',
     T_CONTENT_LOCATION type string value '|CONTENTS|TYPE|',
@@ -4217,7 +4222,7 @@ constants:
     T_BASE_MODEL type string value '|',
     T_MODEL_ENTITY_MODEL_VERSION type string value '|',
     T_TRAINING_DETAILS type string value '|',
-    T_MODEL_RESOURCE_ENTITY type string value '|TYPE|SOFTWARE_SPEC|',
+    T_MODEL_RESOURCE_ENTITY type string value '|TYPE|',
     T_MODEL_RESOURCE type string value '|METADATA|',
     T_MODEL_RESOURCES type string value '|LIMIT|FIRST|',
     T_REV_ENTITY_SPC_PROJECT_REQ type string value '|',
@@ -4246,7 +4251,7 @@ constants:
     T_MTRC_TSAD_METRICS_TSAD_TRAIN type string value '|',
     T_DEPLOYMENT_PATCH_REQ_HELPER type string value '|',
     T_DEPLOYMENT_ENTITY_REQUEST type string value '|SPACE_ID|',
-    T_MODEL_ENTITY_REQUEST type string value '|NAME|TYPE|SOFTWARE_SPEC|',
+    T_MODEL_ENTITY_REQUEST type string value '|NAME|TYPE|',
     T_TS_METRIC_BACKTEST type string value '|',
     T_TS_BACKTEST type string value '|',
     T_DEPLOYMENT_RESOURCE type string value '|',
@@ -4267,7 +4272,7 @@ constants:
     T_CONTENT_LOCATION_FIELD type string value '|',
     T_TRAIN_DEF_PATCH_HELPER type string value '|',
     T_FUNC_REVISION_ENTITY_REQUEST type string value '|',
-    T_MODEL_ENTITY type string value '|TYPE|SOFTWARE_SPEC|',
+    T_MODEL_ENTITY type string value '|TYPE|',
     T_TRAIN_RESOURCE_ENTITY_COMMON type string value '|RESULTS_REFERENCE|',
     T_MTRC_TS_METRICS_TS_BACKTEST type string value '|',
     T_RMT_TRAIN_SYS_PATCH_HELPER type string value '|',
@@ -5784,7 +5789,8 @@ constants:
     "!
     "! @parameter I_MODELENTITYREQUEST |
     "!   Payload for creating the model. Either `space_id` or `project_id` has to be
-    "!    provided and is mandatory.
+    "!    provided and is mandatory. A software specification is required for all model
+    "!    types except curated models.
     "! @parameter E_RESPONSE |
     "!   Service return value of type T_MODEL_RESOURCE
     "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
@@ -6934,7 +6940,7 @@ constants:
     "!
   methods TRAININGS_CREATE
     importing
-      !I_TRNNGRSRCNTTYRQST type T_TRAIN_RESOURCE_ENTITY_REQ
+      !I_TRNNGRSRCNTTYRQST type T_TRAIN_RESRC_ENTITY_REQUEST
       !I_contenttype type string default 'application/json'
       !I_accept      type string default 'application/json'
     exporting
@@ -7289,7 +7295,7 @@ class ZCL_IBMX_WML_V4 IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method GET_APPNAME.
 
-    e_appname = 'watsonx.ai Runtime'.
+    e_appname = 'watsonx.ai Runtime'  ##NO_TEXT.
 
   endmethod.
 
@@ -7309,15 +7315,15 @@ method GET_REQUEST_PROP.
 
   lv_auth_method = i_auth_method.
   if lv_auth_method eq c_default.
-    lv_auth_method = 'Bearer'.
+    lv_auth_method = 'Bearer'  ##NO_TEXT.
   endif.
   if lv_auth_method is initial.
     e_request_prop-auth_basic      = c_boolean_false.
     e_request_prop-auth_oauth      = c_boolean_false.
     e_request_prop-auth_apikey     = c_boolean_false.
-  elseif lv_auth_method eq 'Bearer'.
-    e_request_prop-auth_name       = 'Bearer'.
-    e_request_prop-auth_type       = 'http'.
+  elseif lv_auth_method eq 'Bearer'  ##NO_TEXT.
+    e_request_prop-auth_name       = 'Bearer'  ##NO_TEXT.
+    e_request_prop-auth_type       = 'http'  ##NO_TEXT.
     e_request_prop-auth_oauth      = c_boolean_true.
   elseif lv_auth_method eq 'ZenApiKey'.
     e_request_prop-auth_name       = lv_auth_method.
@@ -7327,8 +7333,8 @@ method GET_REQUEST_PROP.
   else.
   endif.
 
-  e_request_prop-url-protocol    = 'https'.
-  e_request_prop-url-host        = 'us-south.ml.cloud.ibm.com'.
+  e_request_prop-url-protocol    = 'https'  ##NO_TEXT.
+  e_request_prop-url-host        = 'us-south.ml.cloud.ibm.com'  ##NO_TEXT.
   e_request_prop-url-path_base   = ''.
 
 endmethod.
@@ -7341,7 +7347,7 @@ endmethod.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20241203'.
+    e_sdk_version_date = '20250625'.
 
   endmethod.
 
@@ -14226,7 +14232,7 @@ endmethod.
 * <SIGNATURE>---------------------------------------------------------------------------------------+
 * | Instance Public Method ZCL_IBMX_WML_V4->TRAININGS_CREATE
 * +-------------------------------------------------------------------------------------------------+
-* | [--->] I_TRNNGRSRCNTTYRQST        TYPE T_TRAIN_RESOURCE_ENTITY_REQ
+* | [--->] I_TRNNGRSRCNTTYRQST        TYPE T_TRAIN_RESRC_ENTITY_REQUEST
 * | [--->] I_contenttype       TYPE string (default ='application/json')
 * | [--->] I_accept            TYPE string (default ='application/json')
 * | [<---] E_RESPONSE                    TYPE        T_TRAINING_RESOURCE

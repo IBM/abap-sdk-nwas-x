@@ -17,7 +17,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-ABAP<sup>®</sup> client library to use the [watsonx.ai Runtime][wml] (formerly 
+ABAP<sup>®</sup> client library to use the [watsonx.ai Runtime][wml] (formerly
 Watson Machine Learning) and the [watsonx.ai][wxai] APIs.
 
 This is a community SDK written by ABAPers for the ABAPers in the Open
@@ -47,7 +47,7 @@ information in [Support and Feedback](#support-and-feedback).
   <summary>Table of Contents</summary>
 
 - [Announcements](#announcements)
-  - [Version 1.2.0 released](#version-120-released)
+  - [Version 1.3.0 released](#version-130-released)
 - [Before you begin](#before-you-begin)
 - [Installation](#installation)
 - [SAP System Configuration](#sap-system-configuration)
@@ -70,10 +70,10 @@ information in [Support and Feedback](#support-and-feedback).
 
 ## Announcements
 
-### Version 1.2.0 released
+### Version 1.3.0 released
 
-Version v1.2.0 of the SDK has been released - see what's changed in
-the [migration guide](MIGRATION-V1.2.0.md).
+Version v1.3.0 of the SDK has been released - see what's changed in
+the [migration guide](MIGRATION-V1.3.0.md).
 
 ## Before you begin
 
@@ -294,33 +294,42 @@ Using the client library requires two steps:
 1. Create an instance of the watsonx service wrapper ABAP class by
    calling method `zcl_ibmx_service_ext=>get_instance`.
 
-```abap
-  data:
-    lo_service_class type <ABAP Class Name>.
+   ```abap
+     data:
+       lo_service_class type <ABAP Class Name>.
+   
+     zcl_ibmx_service_ext=>get_instance(
+       exporting
+         i_url      = <url>
+         i_apikey   = <api key>
+         ...
+       importing
+         eo_instance = lo_service_class ).
+   ```
 
-  zcl_ibmx_service_ext=>get_instance(
-    exporting
-      i_url      = <url>
-      i_apikey   = <api key>
-      ...
-    importing
-      eo_instance = lo_service_class ).
-```
+   > **Note**  
+   > Depending on the API operation, the `<url>` parameter may vary as
+   > described in
+   > [Endpoint URLs](https://cloud.ibm.com/apidocs/watsonx-ai#endpoint-url).
+   > If you use API operations with different endpoint URLs in the same
+   > program, you need to create an instance of the watsonx service
+   > wrapper ABAP class for each endpoint URL and use the instances
+   > accordingly in your program.
 
 2. Call the watsonx service API endpoint by invoking the corresponding
    class method.
 
-```abap
-  try.
-      lo_service_class->method(
-        exporting
-          is_input = ...
-        importing
-          es_output = ... ).
-    catch zcx_ibmx_service_exception into data(lo_service_exception).
-      ...
-  endtry.
-```
+   ```abap
+     try.
+         lo_service_class->method(
+           exporting
+             is_input = ...
+           importing
+             es_output = ... ).
+       catch zcx_ibmx_service_exception into data(lo_service_exception).
+         ...
+     endtry.
+   ```
 
 ### Examples
 

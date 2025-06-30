@@ -39,7 +39,9 @@
      transformer/transformation.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_data_location</span> type MAP</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Contains a set of fields that describe the location of the</p>
      data with respect to the `connection`.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_data_output</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Data shape after the transformation.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_data_schema</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Data shape after the transformation.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_data_preprocessing_trans</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Informational information about the preprocessing</p>
+     transformation that was executed during the training run.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_data_schema</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The schema of the expected data, see</p><br/>
     [datarecord-metadata-v2-schema](https://raw.githubusercontent.com/elyra-ai/pipel
     ine-schemas/master/common-pipeline/datarecord-metadata/datarecord-metadata-v2-sc
@@ -61,9 +63,7 @@
     Optional details provided by the service about statistics of</p>
      the number of deployments created. The deployments that are counted will depend
      on the request parameters.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dplymnt_job_def_patch_helper</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Can patch the deployment id.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_dt_prprcssng_transformation</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Informational information about the preprocessing</p>
-     transformation that was executed during the training run.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_entity_request_space_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Can patch the deployment id.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_entity_request_space_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties that are part of a request that supports</p>
      spaces.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_entity_req_spc_project_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties that are part of a request that supports</p>
@@ -108,9 +108,8 @@
     A set of hyper parameters.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_incremental_training</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The process of training the model in batches.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_inference</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The details of an inference API.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_instance_resource</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_instance_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Information for paging when querying resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_instance_resource_entity</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_instnc_resource_entity_plan</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_intermediate_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The details of the intermediate model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jb_dcsn_optimization_result</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The solve state for a Decision Optimization job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jb_decision_optimization_req</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Information for paging when querying resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_instance_resource_entity</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_instance_resrc_entity_plan</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_intermediate_model</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The details of the intermediate model.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jb_decision_optimization_req</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Details about the input/output data and other properties to</p>
      be used for a batch deployment job of a Decision Optimization problem. You can
      find more information in [Deploying Decision
@@ -120,7 +119,8 @@
      and `output_data` properties to specify respectively input and output data for
      batch processing as part of the job&apos;s payload. Use the
      `input_data_references` and `output_data_references` properties to specify
-     respectively input and output data for batch processing as remote data sources.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jobs_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     respectively input and output data for batch processing as remote data sources.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jb_decision_optimization_res</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The solve state for a Decision Optimization job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jobs_resource</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The information related to the job.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_jobs_resources</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The information related to the jobs.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_job_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Details about the batch deployment job.</p><br/>
@@ -400,15 +400,15 @@
      and the<br/>
     `results_reference` the connection where results will be stored.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_def_patch_helper</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Fields that can be patched.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_def_rev_entity_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The details for the revision.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resource_entity_common</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The details for the revision.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_ref_hypr_prm_optmztn</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    The hyper parameters used in the experiment.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_ref_hypr_prm_optmztn_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Optimization algorithm.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resource_entity_common</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The `training_data_references` contain the training datasets</p>
      and the<br/>
-    `results_reference` the connection where results will be stored.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resource_entity_req</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    `results_reference` the connection where results will be stored.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_resrc_entity_request</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The `training_data_references` contain the training datasets</p>
      and the<br/>
-    `results_reference` the connection where results will be stored.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_rfrnc_hypr_prm_optmzt1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Optimization algorithm.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_train_rfrnc_hypr_prm_optmztn</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    The hyper parameters used in the experiment.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsad_holdout</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    `results_reference` the connection where results will be stored.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsad_holdout</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Metrics generated in model evaluation phase.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsad_holdout_agg</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Aggregated scores of anomaly types per metric.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_tsad_holdout_agg_f1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Harmonic average of the precision and recall, with best</p>
@@ -1217,7 +1217,8 @@
 
  </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_modelentityrequest</span></td><td><span class="abapDocComment">
    Payload for creating the model. Either `space_id` or `project_id` has to be
-    provided and is mandatory.
+    provided and is mandatory. A software specification is required for all model
+    types except curated models.
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_MODEL_RESOURCE
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
@@ -1933,7 +1934,7 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_REMOTE_TRAIN_SYS_RESOURCES
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
-</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">trainings_create</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_trnngrsrcnttyrqst</span></td><td>type T_TRAIN_RESOURCE_ENTITY_REQ</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_TRAINING_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new WML training</p>
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">trainings_create</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_trnngrsrcnttyrqst</span></td><td>type T_TRAIN_RESRC_ENTITY_REQUEST</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_TRAINING_RESOURCE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new WML training</p>
    Create a new WML training.<br/>
 
 
@@ -2154,4 +2155,4 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TRAIN_DEFINITION_RESOURCES
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
-</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 03.12.2024</div></body></html>
+</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 30.06.2025</div></body></html>

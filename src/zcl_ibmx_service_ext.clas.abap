@@ -1,4 +1,4 @@
-* Copyright 2019, 2024 IBM Corp. All Rights Reserved.
+* Copyright 2019, 2025 IBM Corp. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -91,6 +91,7 @@ public section.
   "!   Service credentials are read from table ZIBMX_CONFIG with key SERVICE = Name of service wrapper class without prefix ZCL_IBMX_ and INSTANCE_UID.
   "! @parameter I_URL | URL of the service.
   "! @parameter I_HOST | Host of the service. I_URL and I_HOST can be used synonymously.
+  "! @parameter I_SCENARIO | Communication scenario.
   "! @parameter I_USERNAME | User password to authenticate on service.
   "! @parameter I_PASSWORD | User password to authenticate on service.
   "! @parameter I_PROXY_HOST | Proxy server, not applicable on SAP Cloud Platform.
@@ -110,6 +111,7 @@ public section.
       !I_INSTANCE_ID type TY_INSTANCE_ID optional
       !I_URL type STRING optional
       !I_HOST type STRING optional
+      !I_SCENARIO type ZIF_IBMX_SERVICE_ARCH=>TY_COMMUNICATION_SCENARIO default C_DEFAULT_SCENARIO
       !I_USERNAME type STRING optional
       !I_PASSWORD type STRING optional
       !I_PROXY_HOST type STRING optional
@@ -769,12 +771,13 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 * | [--->] I_INSTANCE_ID                  TYPE        TY_INSTANCE_ID(optional)
 * | [--->] I_URL                          TYPE        STRING(optional)
 * | [--->] I_HOST                         TYPE        STRING(optional)
+* | [--->] I_SCENARIO                     TYPE        ZIF_IBMX_SERVICE_ARCH=>TY_COMMUNICATION_SCENARIO (default = C_DEFAULT_SCENARIO)
 * | [--->] I_USERNAME                     TYPE        STRING(optional)
 * | [--->] I_PASSWORD                     TYPE        STRING(optional)
 * | [--->] I_PROXY_HOST                   TYPE        STRING(optional)
 * | [--->] I_PROXY_PORT                   TYPE        STRING(optional)
 * | [--->] I_APIKEY                       TYPE        STRING(optional)
-* | [--->] I_AUTH_METHOD                  TYPE        STRING (default =C_DEFAULT)
+* | [--->] I_AUTH_METHOD                  TYPE        STRING (default = C_DEFAULT)
 * | [--->] I_OAUTH_PROP                   TYPE        TS_OAUTH_PROP(optional)
 * | [--->] I_ACCESS_TOKEN                 TYPE        TS_ACCESS_TOKEN(optional)
 * | [--->] I_TOKEN_GENERATION             TYPE        CHAR (default =C_TOKEN_GENERATION_AUTO)
@@ -790,7 +793,8 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
       lt_headerstr    type tt_string,
       lv_headerstr    type string,
       ls_header       type ts_header,
-      lv_str          type string.
+      lv_str          type string,
+      lv_auth_method  type string.
 
     " instantiate object of type of exporting parameter
     get_field_type(
@@ -801,13 +805,14 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 
     create object eo_instance type (lv_classname)
       exporting
-        i_url      = i_url
-        i_host     = i_host
+        i_url        = i_url
+        i_host       = i_host
+        i_scenario   = i_scenario
         i_proxy_host = i_proxy_host
         i_proxy_port = i_proxy_port
-        i_username = i_username
-        i_password = i_password
-        i_apikey   = i_apikey.
+        i_username   = i_username
+        i_password   = i_password
+        i_apikey     = i_apikey.
 
     lo_instance ?= eo_instance.
 
@@ -885,6 +890,19 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 
     normalize_url( changing c_url = lo_instance->p_request_prop_default-url ).
 
+    " Determine authorization method
+    if not i_auth_method eq c_default.
+      lv_auth_method = i_auth_method.
+    else.
+      if lo_instance->p_request_prop_default-username is initial and lo_instance->p_request_prop_default-password is initial and
+         lo_instance->p_request_prop_default-apikey is initial.
+        " no authorization or communication scenario
+        lv_auth_method = c_none.
+      else.
+        lv_auth_method = c_default.
+      endif.
+    endif.
+
     " Get service default properties
     ls_request_prop = lo_instance->get_request_prop( i_auth_method = i_auth_method ).
     merge_structure(
@@ -900,61 +918,66 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 
     " Set OAuth properties
     lo_instance->p_oauth_prop = i_oauth_prop.
-    add_config_prop(
-      exporting
-        i_servicename  = lo_instance->p_servicename
-        i_instance_id  = lo_instance->p_instance_id
-        i_prefix       = 'OAUTH'
-      changing
-        c_request_prop = lo_instance->p_oauth_prop ).
-    normalize_url(
-      changing
-        c_url = lo_instance->p_oauth_prop-url ).
-    if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'ICP4D' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
-      if lo_instance->p_oauth_prop-url-host is initial.
-        lo_instance->p_oauth_prop-url-protocol = 'https' ##NO_TEXT.
-        if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
-          lo_instance->p_oauth_prop-url-host = c_iam_token_host.
-        else.
-          lo_instance->p_oauth_prop-url-host = lo_instance->p_request_prop_default-url-host.
-        endif.
-      endif.
-      if lo_instance->p_oauth_prop-url-path_base is initial and lo_instance->p_oauth_prop-url-path is initial.
-        " Set path_base (not path), otherwise the default service path_base would be added, which is not correct
-        if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
-          lo_instance->p_oauth_prop-url-path_base = c_iam_token_path.
-        elseif ls_request_prop-auth_name eq 'WATSONX'.
-          lo_instance->p_oauth_prop-url-path_base = c_watsonx_token_path.
-        else.
-          lo_instance->p_oauth_prop-url-path_base = c_icp4d_token_path.
-        endif.
-      endif.
-      if lo_instance->p_oauth_prop-password is initial and lo_instance->p_oauth_prop-apikey is initial.
-        lo_instance->p_oauth_prop-username = lo_instance->p_request_prop_default-username.
-        lo_instance->p_oauth_prop-password = lo_instance->p_request_prop_default-password.
-        lo_instance->p_oauth_prop-apikey   = lo_instance->p_request_prop_default-apikey.
-      endif.
-    endif.
-
-    if not i_access_token-access_token is initial.
-      lo_instance->p_request_prop_default-auth_header = c_boolean_true.
-      lo_instance->p_token_generation = c_token_generation_never.
-      lo_instance->set_access_token( i_access_token = i_access_token ).
+    if lv_auth_method eq c_none and not i_scenario is initial.
+      " Communication scenario -> authentication is defined in configuration
+      lo_instance->p_request_prop_default-url-host = c_scenario.
     else.
-      if ls_request_prop-auth_name eq 'ZenApiKey'.
-        if not lo_instance->p_request_prop_default-username is initial and not lo_instance->p_request_prop_default-apikey is initial.
-          data(ls_access_token) = value ts_access_token(
-            access_token = base64_encode(
-              exporting
-                i_unencoded = lo_instance->p_request_prop_default-username && `:` && lo_instance->p_request_prop_default-apikey
-            )
-            token_type = ls_request_prop-auth_type
-          ).
-          lo_instance->p_request_prop_default-auth_header = c_boolean_true.
-          lo_instance->set_access_token( i_access_token = ls_access_token ).
+      add_config_prop(
+        exporting
+          i_servicename  = lo_instance->p_servicename
+          i_instance_id  = lo_instance->p_instance_id
+          i_prefix       = 'OAUTH'
+        changing
+          c_request_prop = lo_instance->p_oauth_prop ).
+      normalize_url(
+        changing
+          c_url = lo_instance->p_oauth_prop-url ).
+      if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'ICP4D' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
+        if lo_instance->p_oauth_prop-url-host is initial.
+          lo_instance->p_oauth_prop-url-protocol = 'https' ##NO_TEXT.
+          if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
+            lo_instance->p_oauth_prop-url-host = c_iam_token_host.
+          else.
+            lo_instance->p_oauth_prop-url-host = lo_instance->p_request_prop_default-url-host.
+          endif.
         endif.
+        if lo_instance->p_oauth_prop-url-path_base is initial and lo_instance->p_oauth_prop-url-path is initial.
+          " Set path_base (not path), otherwise the default service path_base would be added, which is not correct
+          if ls_request_prop-auth_name eq 'IAM' or ls_request_prop-auth_name eq 'Bearer' or ls_request_prop-auth_name eq 'BearerToken' ##NO_TEXT.
+            lo_instance->p_oauth_prop-url-path_base = c_iam_token_path.
+          elseif ls_request_prop-auth_name eq 'WATSONX'.
+            lo_instance->p_oauth_prop-url-path_base = c_watsonx_token_path.
+          else.
+            lo_instance->p_oauth_prop-url-path_base = c_icp4d_token_path.
+          endif.
+        endif.
+        if lo_instance->p_oauth_prop-password is initial and lo_instance->p_oauth_prop-apikey is initial.
+          lo_instance->p_oauth_prop-username = lo_instance->p_request_prop_default-username.
+          lo_instance->p_oauth_prop-password = lo_instance->p_request_prop_default-password.
+          lo_instance->p_oauth_prop-apikey   = lo_instance->p_request_prop_default-apikey.
+        endif.
+      endif.
+
+      if not i_access_token-access_token is initial.
+        lo_instance->p_request_prop_default-auth_header = c_boolean_true.
+        lo_instance->p_token_generation = c_token_generation_never.
+        lo_instance->set_access_token( i_access_token = i_access_token ).
       else.
-        lo_instance->p_token_generation = i_token_generation.
+        if ls_request_prop-auth_name eq 'ZenApiKey'.
+          if not lo_instance->p_request_prop_default-username is initial and not lo_instance->p_request_prop_default-apikey is initial.
+            data(ls_access_token) = value ts_access_token(
+              access_token = base64_encode(
+                exporting
+                  i_unencoded = lo_instance->p_request_prop_default-username && `:` && lo_instance->p_request_prop_default-apikey
+              )
+              token_type = ls_request_prop-auth_type
+            ).
+            lo_instance->p_request_prop_default-auth_header = c_boolean_true.
+            lo_instance->set_access_token( i_access_token = ls_access_token ).
+          endif.
+        else.
+          lo_instance->p_token_generation = i_token_generation.
+        endif.
       endif.
     endif.
 
@@ -979,24 +1002,25 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
     if lv_auth_method eq c_default.
       lv_auth_method = 'IAM'.
     endif.
-    if lv_auth_method is initial.
-      e_request_prop-auth_basic      = c_boolean_false.
-      e_request_prop-auth_oauth      = c_boolean_false.
-      e_request_prop-auth_apikey     = c_boolean_false.
-    elseif lv_auth_method eq 'IAM'.
-      e_request_prop-auth_name       = 'IAM'.
-      e_request_prop-auth_type       = 'apiKey'.
-      e_request_prop-auth_headername = 'Authorization'.
+    if lv_auth_method eq 'IAM'.
+      e_request_prop-auth_name       = 'IAM'            ##NO_TEXT.
+      e_request_prop-auth_type       = 'apiKey'         ##NO_TEXT.
+      e_request_prop-auth_headername = 'Authorization'  ##NO_TEXT.
       e_request_prop-auth_header     = c_boolean_true.
     elseif lv_auth_method eq 'ICP4D'.
       e_request_prop-auth_name       = 'ICP4D'.
-      e_request_prop-auth_type       = 'apiKey'.
-      e_request_prop-auth_headername = 'Authorization'.
+      e_request_prop-auth_type       = 'apiKey'         ##NO_TEXT.
+      e_request_prop-auth_headername = 'Authorization'  ##NO_TEXT.
       e_request_prop-auth_header     = c_boolean_true.
     elseif lv_auth_method eq 'basicAuth'.
-      e_request_prop-auth_name       = 'basicAuth'.
-      e_request_prop-auth_type       = 'http'.
+      e_request_prop-auth_name       = 'basicAuth'      ##NO_TEXT.
+      e_request_prop-auth_type       = 'http'           ##NO_TEXT.
       e_request_prop-auth_basic      = c_boolean_true.
+    else.
+      e_request_prop-auth_basic      = c_boolean_false.
+      e_request_prop-auth_oauth      = c_boolean_false.
+      e_request_prop-auth_apikey     = c_boolean_false.
+      e_request_prop-auth_header     = c_boolean_false.
     endif.
   endmethod.
 
@@ -1008,7 +1032,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20241203'.
+    e_sdk_version_date = '20250625'.
 
   endmethod.
 
