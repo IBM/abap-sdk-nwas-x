@@ -1175,7 +1175,9 @@ public section.
       "!   No documentation available.
       STATUS type STRING,
       "!   No documentation available.
-      TIMESTAMP type INTEGER,
+      TIMESTAMP type LONG,
+      "!   No documentation available.
+      TOKEN_COUNT type INTEGER,
     end of T_CHAT_ITEM.
   types:
     "! No documentation available.
@@ -2782,7 +2784,7 @@ public section.
       "!   The URL of the version.
       URL type STRING,
       "!   The creation timestamp in UTC millisecond since UNIX Epoch time.
-      CREATED_AT type INTEGER,
+      CREATED_AT type LONG,
     end of T_NOTEBOOK_VERSION_METADATA.
   types:
     "! <p class="shorttext synchronized" lang="en">
@@ -3624,7 +3626,7 @@ public section.
       "!   No documentation available.
       IS_TEMPLATE type BOOLEAN,
       "!   Time the prompt was created.
-      CREATED_AT type INTEGER,
+      CREATED_AT type LONG,
       "!   Input mode in use for the prompt.
       INPUT_MODE type STRING,
       "!   No documentation available.
@@ -3815,7 +3817,7 @@ public section.
       "!   An optional description for the prompt.
       DESCRIPTION type STRING,
       "!   Time the prompt was created.
-      CREATED_AT type INTEGER,
+      CREATED_AT type LONG,
       "!   No documentation available.
       TASK_IDS type STANDARD TABLE OF STRING WITH NON-UNIQUE DEFAULT KEY,
       "!   No documentation available.
@@ -4229,11 +4231,11 @@ public section.
       "!   An optional description for the prompt.
       DESCRIPTION type STRING,
       "!   Time the prompt was created.
-      CREATED_AT type INTEGER,
+      CREATED_AT type LONG,
       "!   The ID of the original prompt creator.
       CREATED_BY type STRING,
       "!   Time the prompt was updated.
-      LAST_UPDATED_AT type INTEGER,
+      LAST_UPDATED_AT type LONG,
       "!   The ID of the last user that modifed the prompt.
       LAST_UPDATED_BY type STRING,
       "!   No documentation available.
@@ -4450,7 +4452,7 @@ public section.
       "!   The prompt entry&apos;s description.
       DESCRIPTION type STRING,
       "!   The prompt entry&apos;s create time in millis.
-      CREATED_AT type INTEGER,
+      CREATED_AT type LONG,
     end of T_WX_PRMPT_SSSN_ENTRY_LST_RES1.
   types:
     "! No documentation available.
@@ -4746,6 +4748,14 @@ public section.
       "!    template or a prompt tune for an IBM foundation model.
       BASE_MODEL_ID type STRING,
     end of T_DEPLOYMENT_RESRC_PROTOTYPE.
+  types:
+    "! No documentation available.
+    begin of T_PATCH_PROMPT_SESSION_REQUEST,
+      "!   No documentation available.
+      NAME type STRING,
+      "!   An optional description for the prompt.
+      DESCRIPTION type STRING,
+    end of T_PATCH_PROMPT_SESSION_REQUEST.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A JSON schema, see the [JSON Schema</p>
@@ -5470,11 +5480,11 @@ public section.
       "!   An optional description for the prompt session.
       DESCRIPTION type STRING,
       "!   Time the session was created.
-      CREATED_AT type INTEGER,
+      CREATED_AT type LONG,
       "!   The ID of the original session creator.
       CREATED_BY type STRING,
       "!   Time the session was updated.
-      LAST_UPDATED_AT type INTEGER,
+      LAST_UPDATED_AT type LONG,
       "!   The ID of the last user that modifed the session.
       LAST_UPDATED_BY type STRING,
       "!   No documentation available.
@@ -6064,6 +6074,10 @@ public section.
     "! <p class="shorttext synchronized" lang="en">
     "!   Array parameter type for method AI_SERVICES_UPDATE</p>
     TT_JSON_PATCH_OPERATION type STANDARD TABLE OF T_JSON_PATCH_OPERATION WITH NON-UNIQUE DEFAULT KEY.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!   Array parameter type for method PST_PRMPT_SSSN_ENTRY_CHAT_ITEM</p>
+    TT_CHAT_ITEM type STANDARD TABLE OF T_CHAT_ITEM WITH NON-UNIQUE DEFAULT KEY.
 
 constants:
   "! <p class="shorttext synchronized" lang="en">List of required fields per type.</p>
@@ -6144,7 +6158,7 @@ constants:
     T_EXT_INFO_EXTERNAL_MODEL type string value '|NAME|URL|',
     T_EXT_INFO_EXTERNAL_PROMPT type string value '|URL|',
     T_EXTERNAL_INFORMATION type string value '|EXTERNAL_PROMPT_ID|EXTERNAL_MODEL_ID|EXTERNAL_MODEL_PROVIDER|',
-    T_CHAT_ITEM type string value '|',
+    T_CHAT_ITEM type string value '|TOKEN_COUNT|',
     T_PROMPT_WITH_EXT_MODEL_PARAM type string value '|',
     T_PROMPT_DATA type string value '|',
     T_PROMPT_WITH_EXTERNAL type string value '|MODEL_ID|DATA|',
@@ -6371,6 +6385,7 @@ constants:
     T_DPLYMNT_TXT_CHT_MSG_TXT_CHT1 type string value '|ROLE|',
     T_GEOSPATIAL_TRANS_METADATA type string value '|ID|CREATED_AT|SPACE_ID|',
     T_DEPLOYMENT_RESRC_PROTOTYPE type string value '|NAME|ONLINE|',
+    T_PATCH_PROMPT_SESSION_REQUEST type string value '|',
     T_MODEL_ASSET_REF type string value '|',
     T_TRAIN_RESRC_MODEL_ID_OUTPUT type string value '|',
     T_TXT_CHT_MSG_TXT_CHAT_MSG_USR type string value '|ROLE|CONTENT|',
@@ -7893,6 +7908,285 @@ constants:
       !E_RESPONSE type T_GET_PROMPT_INPUT_RESPONSE
     raising
       ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Add a new chat item to a prompt</p>
+    "!   This adds new chat items to the given prompt.
+    "!
+    "! @parameter I_PROMPT_ID |
+    "!   Prompt ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_CHATITEM |
+    "!   No documentation available.
+    "! @parameter I_SPACE_ID |
+    "!   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    "!    request.
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods POST_PROMPT_CHAT_ITEM
+    importing
+      !I_PROMPT_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_CHATITEM type TT_CHAT_ITEM
+      !I_SPACE_ID type STRING optional
+      !I_contenttype type string default 'application/json'
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+
+    "! <p class="shorttext synchronized" lang="en">Create a new prompt session</p>
+    "!   This creates a new prompt session.
+    "!
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_WXPROMPTSESSION |
+    "!   No documentation available.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_WX_PROMPT_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods POST_PROMPT_SESSION
+    importing
+      !I_PROJECT_ID type STRING
+      !I_WXPROMPTSESSION type T_WX_PROMPT_SESSION
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_WX_PROMPT_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Get a prompt session</p>
+    "!   This retrieves a prompt session with the given id.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_PREFETCH |
+    "!   Include the most recent entry.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_WX_PROMPT_SESSION
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods GET_PROMPT_SESSION
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_PREFETCH type BOOLEAN optional
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_WX_PROMPT_SESSION
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Update a prompt session</p>
+    "!   This updates a prompt session with the given id.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_PATCHPROMPTSESSIONREQUEST |
+    "!   No documentation available.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_WX_PROMPT_SESSION
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods PATCH_PROMPT_SESSION
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_PATCHPROMPTSESSIONREQUEST type T_PATCH_PROMPT_SESSION_REQUEST
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_WX_PROMPT_SESSION
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Delete a prompt session</p>
+    "!   This deletes a prompt session with the given id.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods DELETE_PROMPT_SESSION
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Add a new prompt to a prompt session</p>
+    "!   This creates a new prompt associated with the given session.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_WXPROMPTSESSIONENTRY |
+    "!   No documentation available.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_WX_PROMPT_SESSION_ENTRY
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods POST_PROMPT_SESSION_ENTRY
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_WXPROMPTSESSIONENTRY type T_WX_PROMPT_SESSION_ENTRY
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_WX_PROMPT_SESSION_ENTRY
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Get entries for a prompt session</p>
+    "!   List entries from a given session.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_BOOKMARK |
+    "!   Bookmark from a previously limited get request.
+    "! @parameter I_LIMIT |
+    "!   Limit for results to retrieve, default 20.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_WX_PROMPT_SESSION_ENTRY_LIST
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods GET_PROMPT_SESSION_ENTRIES
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_BOOKMARK type STRING optional
+      !I_LIMIT type STRING optional
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_WX_PROMPT_SESSION_ENTRY_LIST
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Add a new chat item to a prompt session entry</p>
+    "!   This adds new chat items to the given entry.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_ENTRY_ID |
+    "!   Prompt Session Entry ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_CHATITEM |
+    "!   No documentation available.
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods PST_PRMPT_SSSN_ENTRY_CHAT_ITEM
+    importing
+      !I_SESSION_ID type STRING
+      !I_ENTRY_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_CHATITEM type TT_CHAT_ITEM
+      !I_contenttype type string default 'application/json'
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Prompt session lock modifications</p>
+    "!   Modifies the current locked state of a prompt session.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_PROMPTLOCK |
+    "!   No documentation available.
+    "! @parameter I_FORCE |
+    "!   Override a lock if it is currently taken.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_PROMPT_LOCK
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods PUT_PROMPT_SESSION_LOCK
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_PROMPTLOCK type T_PROMPT_LOCK
+      !I_FORCE type BOOLEAN optional
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_PROMPT_LOCK
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Get current prompt session lock status</p>
+    "!   Retrieves the current locked state of a prompt session.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_PROMPT_LOCK
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods GET_PROMPT_SESSION_LOCK
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_PROMPT_LOCK
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Get a prompt session entry</p>
+    "!   This retrieves a prompt session entry with the given id.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_ENTRY_ID |
+    "!   Prompt Session Entry ID.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_WX_PROMPT_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods GET_PROMPT_SESSION_ENTRY
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_ENTRY_ID type STRING
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_WX_PROMPT_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Delete a prompt session entry</p>
+    "!   This deletes a prompt session entry with the given id.
+    "!
+    "! @parameter I_SESSION_ID |
+    "!   Prompt Session ID.
+    "! @parameter I_PROJECT_ID |
+    "!   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    "!    per request.
+    "! @parameter I_ENTRY_ID |
+    "!   Prompt Session Entry ID.
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods DELETE_PROMPT_SESSION_ENTRY
+    importing
+      !I_SESSION_ID type STRING
+      !I_PROJECT_ID type STRING
+      !I_ENTRY_ID type STRING
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
 
     "! <p class="shorttext synchronized" lang="en">Infer text</p>
     "!   Infer the next tokens for a given deployed model with a set of parameters.<br/>
@@ -8431,7 +8725,7 @@ endmethod.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20250625'.
+    e_sdk_version_date = '20250916'.
 
   endmethod.
 
@@ -11513,6 +11807,1098 @@ method GET_PROMPT_INPUT.
         i_dictionary = c_abapname_dictionary
       changing
         c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->POST_PROMPT_CHAT_ITEM
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_PROMPT_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_CHATITEM        TYPE TT_CHAT_ITEM
+* | [--->] I_SPACE_ID        TYPE STRING (optional)
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method POST_PROMPT_CHAT_ITEM.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompts/{prompt_id}/chat_items'.
+    replace all occurrences of `{prompt_id}` in ls_request_prop-url-path with i_PROMPT_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+    if i_SPACE_ID is supplied.
+    lv_queryparam = escape( val = i_SPACE_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `space_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_CHATITEM ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_CHATITEM to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_CHATITEM i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'ChatItem' i_value = i_CHATITEM ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_CHATITEM to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+
+endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->POST_PROMPT_SESSION
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_WXPROMPTSESSION        TYPE T_WX_PROMPT_SESSION
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_WX_PROMPT_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method POST_PROMPT_SESSION.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions'.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_WXPROMPTSESSION ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_WXPROMPTSESSION to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_WXPROMPTSESSION i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'WxPromptSession' i_value = i_WXPROMPTSESSION ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_WXPROMPTSESSION to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->GET_PROMPT_SESSION
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_PREFETCH        TYPE BOOLEAN (optional)
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_WX_PROMPT_SESSION
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method GET_PROMPT_SESSION.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+    if i_PREFETCH is supplied.
+    lv_queryparam = i_PREFETCH.
+    add_query_parameter(
+      exporting
+        i_parameter  = `prefetch`
+        i_value      = lv_queryparam
+        i_is_boolean = c_boolean_true
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->PATCH_PROMPT_SESSION
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_PATCHPROMPTSESSIONREQUEST        TYPE T_PATCH_PROMPT_SESSION_REQUEST
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_WX_PROMPT_SESSION
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method PATCH_PROMPT_SESSION.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_PATCHPROMPTSESSIONREQUEST ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_PATCHPROMPTSESSIONREQUEST to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_PATCHPROMPTSESSIONREQUEST i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'PatchPromptSessionRequest' i_value = i_PATCHPROMPTSESSIONREQUEST ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_PATCHPROMPTSESSIONREQUEST to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP PATCH request
+    lo_response = HTTP_PATCH( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->DELETE_PROMPT_SESSION
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method DELETE_PROMPT_SESSION.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+
+    " standard headers
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+
+
+    " execute HTTP DELETE request
+    lo_response = HTTP_DELETE( i_request_prop = ls_request_prop ).
+
+
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->POST_PROMPT_SESSION_ENTRY
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_WXPROMPTSESSIONENTRY        TYPE T_WX_PROMPT_SESSION_ENTRY
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_WX_PROMPT_SESSION_ENTRY
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method POST_PROMPT_SESSION_ENTRY.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}/entries'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_WXPROMPTSESSIONENTRY ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_WXPROMPTSESSIONENTRY to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_WXPROMPTSESSIONENTRY i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'WxPromptSessionEntry' i_value = i_WXPROMPTSESSIONENTRY ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_WXPROMPTSESSIONENTRY to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->GET_PROMPT_SESSION_ENTRIES
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_BOOKMARK        TYPE STRING (optional)
+* | [--->] I_LIMIT        TYPE STRING (optional)
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_WX_PROMPT_SESSION_ENTRY_LIST
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method GET_PROMPT_SESSION_ENTRIES.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}/entries'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+    if i_BOOKMARK is supplied.
+    lv_queryparam = escape( val = i_BOOKMARK format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `bookmark`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+    if i_LIMIT is supplied.
+    lv_queryparam = escape( val = i_LIMIT format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `limit`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->PST_PRMPT_SSSN_ENTRY_CHAT_ITEM
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_ENTRY_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_CHATITEM        TYPE TT_CHAT_ITEM
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method PST_PRMPT_SSSN_ENTRY_CHAT_ITEM.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}/entries/{entry_id}/chat_items'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+    replace all occurrences of `{entry_id}` in ls_request_prop-url-path with i_ENTRY_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_CHATITEM ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_CHATITEM to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_CHATITEM i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'ChatItem' i_value = i_CHATITEM ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_CHATITEM to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->PUT_PROMPT_SESSION_LOCK
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_PROMPTLOCK        TYPE T_PROMPT_LOCK
+* | [--->] I_FORCE        TYPE BOOLEAN (optional)
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_PROMPT_LOCK
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method PUT_PROMPT_SESSION_LOCK.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}/lock'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+    if i_FORCE is supplied.
+    lv_queryparam = i_FORCE.
+    add_query_parameter(
+      exporting
+        i_parameter  = `force`
+        i_value      = lv_queryparam
+        i_is_boolean = c_boolean_true
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+    endif.
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_PROMPTLOCK ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_PROMPTLOCK to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_PROMPTLOCK i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'PromptLock' i_value = i_PROMPTLOCK ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_PROMPTLOCK to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP PUT request
+    lo_response = HTTP_PUT( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->GET_PROMPT_SESSION_LOCK
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_PROMPT_LOCK
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method GET_PROMPT_SESSION_LOCK.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}/lock'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->GET_PROMPT_SESSION_ENTRY
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_ENTRY_ID        TYPE STRING
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_WX_PROMPT_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method GET_PROMPT_SESSION_ENTRY.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}/entries/{entry_id}'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+    replace all occurrences of `{entry_id}` in ls_request_prop-url-path with i_ENTRY_ID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->DELETE_PROMPT_SESSION_ENTRY
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_SESSION_ID        TYPE STRING
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_ENTRY_ID        TYPE STRING
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method DELETE_PROMPT_SESSION_ENTRY.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v1/prompt_sessions/{session_id}/entries/{entry_id}'.
+    replace all occurrences of `{session_id}` in ls_request_prop-url-path with i_SESSION_ID ignoring case.
+    replace all occurrences of `{entry_id}` in ls_request_prop-url-path with i_ENTRY_ID ignoring case.
+
+    " standard headers
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+
+
+    " execute HTTP DELETE request
+    lo_response = HTTP_DELETE( i_request_prop = ls_request_prop ).
+
+
 
 endmethod.
 
