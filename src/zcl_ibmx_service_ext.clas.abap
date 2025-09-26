@@ -1032,7 +1032,7 @@ CLASS ZCL_IBMX_SERVICE_EXT IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20250625'.
+    e_sdk_version_date = '20250916'.
 
   endmethod.
 

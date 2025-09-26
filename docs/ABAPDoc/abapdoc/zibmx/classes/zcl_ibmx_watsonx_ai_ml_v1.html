@@ -1,5 +1,6 @@
 <!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><title>Class ZCL_IBMX_WATSONX_AI_ML_V1</title><link rel="stylesheet" href="../../../htmldesign/stylesheet.css" type="text/css"></head><body><div id="header"><div id="navigationMenu"><a href="#types">Types</a> | <a href="#constants">Constants</a> | <a href="#methods">Methods</a></div></div><div id="content"><h2>Class <span class="identifier objectName">ZCL_IBMX_WATSONX_AI_ML_V1</span></h2><p>public inheriting from ZCL_IBMX_SERVICE_EXT create public</p><h4>Documentation</h4><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">watsonx.ai</p>
- No documentation available.<br/></span><h4 id="types">Types</h4><table><thead><tr><th>Visibility and Level</th><th>Name</th><th>Documentation</th></tr></thead><tr ><td>public</td><td><span class="identifier fieldName">tt_json_patch_operation</span> TYPE STANDARD TABLE OF T_JSON_PATCH_OPERATION WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+ No documentation available.<br/></span><h4 id="types">Types</h4><table><thead><tr><th>Visibility and Level</th><th>Name</th><th>Documentation</th></tr></thead><tr ><td>public</td><td><span class="identifier fieldName">tt_chat_item</span> TYPE STANDARD TABLE OF T_CHAT_ITEM WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+   Array parameter type for method PST_PRMPT_SSSN_ENTRY_CHAT_ITEM</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">tt_json_patch_operation</span> TYPE STANDARD TABLE OF T_JSON_PATCH_OPERATION WITH NON-UNIQUE DEFAULT KEY</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
    Array parameter type for method AI_SERVICES_UPDATE</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_aiservice_content_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The metadata related to the attachment.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_aiservice_documentation</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The documentation of the AI service request body and</p>
@@ -270,7 +271,7 @@
     Information for paging when querying resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pagination_base</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pagination_first</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The reference to the first item in the current page.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pagination_next</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to the first item of the next page, if any.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pagination_tc</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Information for paging when querying resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pii_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Information for paging when querying resources.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_patch_prompt_session_request</span> (structured type)</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_pii_properties</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The properties specific to PII.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_prmpt_tuning_metrics_context</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     This field will not returned by fine tuning jobs created</p>
      with InstructLab.<br/>
@@ -848,6 +849,26 @@
    [REQUIRED] Specifies the space ID as the target. One target must be supplied per
     request.
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">delete_prompt_session</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete a prompt session</p>
+   This deletes a prompt session with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">delete_prompt_session_entry</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_entry_id</span></td><td>type STRING</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete a prompt session entry</p>
+   This deletes a prompt session entry with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_entry_id</span></td><td><span class="abapDocComment">
+   Prompt Session Entry ID.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">deployments_delete</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_deployment_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete the deployment</p>
    Delete the deployment with the specified identifier.<br/>
 
@@ -1082,6 +1103,58 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_PROMPT_LOCK
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_prompt_session</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_prefetch</span></td><td>type BOOLEAN optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_SESSION</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get a prompt session</p>
+   This retrieves a prompt session with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_prefetch</span></td><td><span class="abapDocComment">
+   Include the most recent entry.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_SESSION
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_prompt_session_entries</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_bookmark</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_limit</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_SESSION_ENTRY_LIST</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get entries for a prompt session</p>
+   List entries from a given session.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_bookmark</span></td><td><span class="abapDocComment">
+   Bookmark from a previously limited get request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_limit</span></td><td><span class="abapDocComment">
+   Limit for results to retrieve, default 20.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_SESSION_ENTRY_LIST
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_prompt_session_entry</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_entry_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get a prompt session entry</p>
+   This retrieves a prompt session entry with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_entry_id</span></td><td><span class="abapDocComment">
+   Prompt Session Entry ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">get_prompt_session_lock</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Get current prompt session lock status</p>
+   Retrieves the current locked state of a prompt session.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_PROMPT_LOCK
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_request_prop</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><span class="identifier methodName">get_sdk_version_date</span> redefinition</td><td>&#160;</td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">list_autoai_rags</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_start</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_limit</span></td><td>type INTEGER default 100</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_AUTO_RAGRESULT_RESOURCES</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the AutoAI RAG runs</p>
    Retrieve the list of AutoAI RAG requests for the specified space or
     project.<br/>
@@ -1261,6 +1334,19 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_WX_PROMPT_RESPONSE
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">patch_prompt_session</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_patchpromptsessionrequest</span></td><td>type T_PATCH_PROMPT_SESSION_REQUEST</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_SESSION</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Update a prompt session</p>
+   This updates a prompt session with the given id.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_patchpromptsessionrequest</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_SESSION
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">post_prompt</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_wxpromptpost</span></td><td>type T_WX_PROMPT_POST</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new prompt / prompt template</p>
    This creates a new prompt with the provided parameters.
 
@@ -1275,6 +1361,57 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_WX_PROMPT_RESPONSE
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">post_prompt_chat_item</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_chatitem</span></td><td>type TT_CHAT_ITEM</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Add a new chat item to a prompt</p>
+   This adds new chat items to the given prompt.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_prompt_id</span></td><td><span class="abapDocComment">
+   Prompt ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_chatitem</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the space ID as the target. One target must be supplied per
+    request.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">post_prompt_session</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_wxpromptsession</span></td><td>type T_WX_PROMPT_SESSION</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new prompt session</p>
+   This creates a new prompt session.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_wxpromptsession</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">post_prompt_session_entry</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_wxpromptsessionentry</span></td><td>type T_WX_PROMPT_SESSION_ENTRY</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_SESSION_ENTRY</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Add a new prompt to a prompt session</p>
+   This creates a new prompt associated with the given session.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_wxpromptsessionentry</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_WX_PROMPT_SESSION_ENTRY
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">pst_prmpt_sssn_entry_chat_item</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_entry_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_chatitem</span></td><td>type TT_CHAT_ITEM</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Add a new chat item to a prompt session entry</p>
+   This adds new chat items to the given entry.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_entry_id</span></td><td><span class="abapDocComment">
+   Prompt Session Entry ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_chatitem</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">put_prompt_lock</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_promptlock</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_force</span></td><td>type BOOLEAN optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Prompt lock modifications</p>
    Modifies the current locked state of a prompt.
 
@@ -1288,6 +1425,21 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">i_space_id</span></td><td><span class="abapDocComment">
    [REQUIRED] Specifies the space ID as the target. One target must be supplied per
     request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_force</span></td><td><span class="abapDocComment">
+   Override a lock if it is currently taken.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_PROMPT_LOCK
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">put_prompt_session_lock</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_session_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_promptlock</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td></td><td><span class="identifier parameterName">i_force</span></td><td>type BOOLEAN optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_PROMPT_LOCK</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Prompt session lock modifications</p>
+   Modifies the current locked state of a prompt session.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_session_id</span></td><td><span class="abapDocComment">
+   Prompt Session ID.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   [REQUIRED] Specifies the project ID as the target. One target must be supplied
+    per request.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_promptlock</span></td><td><span class="abapDocComment">
+   No documentation available.
  </span></td></tr><tr ><td><span class="identifier parameterName">i_force</span></td><td><span class="abapDocComment">
    Override a lock if it is currently taken.
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
@@ -1562,4 +1714,4 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TRAINING_RESOURCE_COLLECTION
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
-</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 30.06.2025</div></body></html>
+</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 26.09.2025</div></body></html>
