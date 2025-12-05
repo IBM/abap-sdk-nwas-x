@@ -216,10 +216,10 @@
     A specific moderation result.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_results</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     The result of any detected moderations.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_moderation_text_range</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A range of text.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Notebook information as returned by a GET request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebooks_resource_list</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A list of notebook info as returned by a list query.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_copy_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Notebook information as returned by a GET request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebooks_create_request</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebooks_create_response</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebooks_resource_list</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A list of notebook info as returned by a list query.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebooks_revert_response</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_copy_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Payload for copying a notebook.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_create_body_general</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Payload for creating a notebook.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_create_response</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_cre_body_in_project</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Payload for creating a notebook.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_cre_body_in_project</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Payload for creating a notebook in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Entity of a notebook.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_entity_definition</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Definition part of a notebook entity.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_entity_def_for_copy</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -242,21 +242,23 @@
      listing.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_resrc_entity_rt</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Runtime info returned with a notebook listing.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_revert_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Payload for a request to revert to a specific notebook</p>
-     version.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_revert_response</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_runtime</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     version.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_runtime</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A notebook runtime.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_update_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Payload for a notebook update request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_versions_lst_resp</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_version_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Payload for a notebook update request.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_versions_cre_resp</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_versions_get_resp</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_versions_lst_resp</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_version_entity</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A notebook version entity.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_version_in_project</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A notebook version in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_version_metadata</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    Notebook version metadata.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_ver_create_response</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_notebook_ver_retrieve_resp</span> type JSONOBJECT</td><td><span class="abapDocComment"> No documentation available.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_cre_resp_ntbk_for_copy</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Notebook version metadata.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbks_cre_req_ntbk_copy_body</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Payload for copying a notebook.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbks_cre_req_ntbk_cre_bdy_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    Payload for creating a notebook in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbks_cre_resp_ntbk_for_copy</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Information of a copied notebook as returned by a GET</p>
-     request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_cre_resp_ntbk_in_prjct</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbks_cre_resp_ntbk_in_prjct</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Notebook information in a project as returned by a GET</p>
-     request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_rvrt_resp_ntbk_in_prjct</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+     request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbks_rvrt_resp_ntbk_in_prj1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     Notebook information in a project as returned by a GET</p>
      request.</span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_versions_lst_in_project</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A list of notebook versions in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_ver_cre_resp_ntbk_ver_1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A notebook version in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_ver_entity_in_project</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
-    A notebook version entity in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_ver_rtrv_resp_ntbk_ver1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A list of notebook versions in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_ver_entity_in_project</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A notebook version entity in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_vrsns_cre_resp_ntbk_ve1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
+    A notebook version in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_vrsns_get_resp_ntbk_ve1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A notebook version in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_ntbk_vrsns_lst_resp_ntbk_vr1</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A list of notebook versions in a project.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_object_location</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
     A reference to data.</p></span></td></tr><tr ><td>public</td><td><span class="identifier fieldName">t_object_location_github</span> (structured type)</td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">
@@ -1318,6 +1320,104 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TEXT_EXTRACTION_RESOURCES
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebooks_create</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebookscreaterequest</span></td><td>type T_NOTEBOOKS_CREATE_REQUEST</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_NOTEBOOKS_CREATE_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new notebook</p>
+   Create a new notebook<br/>
+   - either from scratch<br/>
+   - or by copying another notebook.<br/>
+   <br/>
+   To create a notebook from scratch, you need to first upload the notebook
+    content(`ipynb` format) to the project Cloud Object Storage (COS)<br/>
+   and then reference it with the attribute `file_reference`.<br/>
+   The other required attributes are `name`, `project` and `runtime`. <br/>
+   The attribute `runtime` is used to specify the environment on which the notebook
+    runs.<br/>
+   <br/>
+   To copy a notebook, you only need to provide `name` and `source_guid` in the
+    request body.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebookscreaterequest</span></td><td><span class="abapDocComment">
+   Specification of the notebook to be created.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_NOTEBOOKS_CREATE_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebooks_delete</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebook_guid</span></td><td>type STRING</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete a particular notebook, including the notebook asset</p>
+   Delete a particular notebook, including the notebook asset.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebook_guid</span></td><td><span class="abapDocComment">
+   The guid of the notebook.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebooks_list</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_include</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_notebooklistbody</span></td><td>type T_NOTEBOOK_LIST_BODY</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_NOTEBOOKS_RESOURCE_LIST</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve the details of a large number of notebooks inside a project</p>
+   Retrieve the details of a large number of notebooks inside a project.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_project_id</span></td><td><span class="abapDocComment">
+   The guid of the project.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_include</span></td><td><span class="abapDocComment">
+   Additional info that will be included into the notebook details. Possible values
+    are:<br/>
+   - runtime.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_notebooklistbody</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_NOTEBOOKS_RESOURCE_LIST
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebooks_revert</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebook_guid</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_notebookrevertbody</span></td><td>type T_NOTEBOOK_REVERT_BODY</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_NOTEBOOKS_REVERT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Revert the main notebook to a version</p>
+   Revert the main notebook to a version.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebook_guid</span></td><td><span class="abapDocComment">
+   The guid of the main notebook.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_notebookrevertbody</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_NOTEBOOKS_REVERT_RESPONSE
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebooks_update</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebook_guid</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_notebookupdatebody</span></td><td>type T_NOTEBOOK_UPDATE_BODY</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_NOTEBOOK</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Update a particular notebook</p>
+   Update a particular notebook.
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebook_guid</span></td><td><span class="abapDocComment">
+   The guid of the notebook.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_notebookupdatebody</span></td><td><span class="abapDocComment">
+   No documentation available.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_NOTEBOOK
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebook_versions_create</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebook_guid</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_NOTEBOOK_VERSIONS_CRE_RESP</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Create a new version</p>
+   Create a version of a given notebook.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebook_guid</span></td><td><span class="abapDocComment">
+   The guid of the notebook.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_NOTEBOOK_VERSIONS_CRE_RESP
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebook_versions_delete</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebook_guid</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_version_guid</span></td><td>type STRING</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Delete a notebook version</p>
+   Delete a particular version of a given notebook.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebook_guid</span></td><td><span class="abapDocComment">
+   The guid of the notebook.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_version_guid</span></td><td><span class="abapDocComment">
+   The guid of the version.
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebook_versions_get</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebook_guid</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_version_guid</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_NOTEBOOK_VERSIONS_GET_RESP</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Retrieve a notebook version</p>
+   Retrieve a particular version of a notebook.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebook_guid</span></td><td><span class="abapDocComment">
+   The guid of the notebook.
+ </span></td></tr><tr ><td><span class="identifier parameterName">i_version_guid</span></td><td><span class="abapDocComment">
+   The guid of the version.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_NOTEBOOK_VERSIONS_GET_RESP
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
+</span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">notebook_versions_list</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_notebook_guid</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_NOTEBOOK_VERSIONS_LST_RESP</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">List the versions of a notebook</p>
+   List all versions of a particular notebook.<br/>
+
+
+ </span><h5>Parameters</h5><table class="methodParametersDocumentation"><tr ><td><span class="identifier parameterName">i_notebook_guid</span></td><td><span class="abapDocComment">
+   The guid of the notebook.
+ </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
+   Service return value of type T_NOTEBOOK_VERSIONS_LST_RESP
+ </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
 </span></td></tr></table></td></tr><tr ><td>public instance</td><td><table class="methodSignature"><tr><td colspan="3"><span class="identifier methodName">patch_prompt</span> </td></tr><tr><td>importing</td><td><span class="identifier parameterName">i_project_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_prompt_id</span></td><td>type STRING</td></tr><tr><td></td><td><span class="identifier parameterName">i_wxpromptpatch</span></td><td>type T_WX_PROMPT_PATCH</td></tr><tr><td></td><td><span class="identifier parameterName">i_space_id</span></td><td>type STRING optional</td></tr><tr><td></td><td><span class="identifier parameterName">i_contenttype</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td></td><td><span class="identifier parameterName">i_accept</span></td><td>type STRING default &#x27;application&#x2f;json&#x27;</td></tr><tr><td>exporting</td><td><span class="identifier parameterName">e_response</span></td><td>type T_WX_PROMPT_RESPONSE</td></tr><tr><td>raising</td><td colspan="2"><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td></tr></table></td><td><span class="abapDocComment"> <p class="shorttext synchronized" lang="en">Update a prompt</p>
    This updates a prompt / prompt template with the given id.
 
@@ -1714,4 +1814,4 @@
  </span></td></tr><tr ><td><span class="identifier parameterName">e_response</span></td><td><span class="abapDocComment">
    Service return value of type T_TRAINING_RESOURCE_COLLECTION
  </span></td></tr></table><h5>Class-based Exceptions</h5><table class="exceptions"><tr ><td><span class="identifier exceptionName">zcx_ibmx_service_exception</span></td><td><span class="abapDocComment"> Exception being raised in case of an error.
-</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 26.09.2025</div></body></html>
+</span></td></tr></table></td></tr></table></div><div id="footer">Generated on 02.12.2025</div></body></html>

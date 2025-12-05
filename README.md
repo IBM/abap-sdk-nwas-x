@@ -47,7 +47,7 @@ information in [Support and Feedback](#support-and-feedback).
   <summary>Table of Contents</summary>
 
 - [Announcements](#announcements)
-  - [Version 1.4.0 released](#version-140-released)
+  - [Version 1.5.0 released](#version-150-released)
 - [Before you begin](#before-you-begin)
 - [Installation](#installation)
 - [SAP System Configuration](#sap-system-configuration)
@@ -70,10 +70,10 @@ information in [Support and Feedback](#support-and-feedback).
 
 ## Announcements
 
-### Version 1.4.0 released
+### Version 1.5.0 released
 
-Version v1.4.0 of the SDK has been released - see what's changed in
-the [migration guide](MIGRATION-V1.4.0.md).
+Version v1.5.0 of the SDK has been released - see what's changed in
+the [migration guide](MIGRATION-V1.5.0.md).
 
 ## Before you begin
 

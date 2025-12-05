@@ -7347,7 +7347,7 @@ endmethod.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20250916'.
+    e_sdk_version_date = '20251114'.
 
   endmethod.
 
