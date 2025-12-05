@@ -1136,6 +1136,39 @@ public section.
       MODERATIONS type T_MODERATIONS,
     end of T_DEPLOYMENT_TEXT_GEN.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Metadata of a notebook in a project.</p>
+    begin of T_NOTEBOOK_METADATA_IN_PROJECT,
+      "!   The name of the notebook.
+      NAME type STRING,
+      "!   A more verbose description.
+      DESCRIPTION type STRING,
+      "!   Asset type, always &quot;notebook&quot;.
+      ASSET_TYPE type STRING,
+      "!   Creation date, ms since epoch.
+      CREATED type INTEGER,
+      "!   Creation date, ISO format.
+      CREATED_AT type STRING,
+      "!   IAM ID of the asset&apos;s owner.
+      OWNER_ID type STRING,
+      "!   UUID of the asset&apos;s catalog.
+      CATALOG_ID type STRING,
+      "!   UUID of the asset.
+      ASSET_ID type STRING,
+      "!   UUID of the asset&apos;s project.
+      PROJECT_ID type STRING,
+    end of T_NOTEBOOK_METADATA_IN_PROJECT.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Notebook information in a project as returned by a GET</p>
+    "!     request.
+    begin of T_NTBKS_RVRT_RESP_NTBK_IN_PRJ1,
+      "!   Metadata of a notebook in a project.
+      METADATA type T_NOTEBOOK_METADATA_IN_PROJECT,
+      "!   Entity of a notebook.
+      ENTITY type T_NOTEBOOK_ENTITY,
+    end of T_NTBKS_RVRT_RESP_NTBK_IN_PRJ1.
+  types:
     "! No documentation available.
     begin of T_EXT_INFO_EXTERNAL_MODEL,
       "!   No documentation available.
@@ -2180,9 +2213,6 @@ public section.
       T_DEPLOYMENT_TEXT_CHAT_MSG type JSONOBJECT.
   types:
     "! No documentation available.
-      T_NOTEBOOK_VER_RETRIEVE_RESP type JSONOBJECT.
-  types:
-    "! No documentation available.
     begin of T_WX_PROMPT_POST_MODEL_VERSION,
       "!   User provided semantic version for tracking in IBM AI Factsheets.
       NUMBER type STRING,
@@ -2350,6 +2380,9 @@ public section.
       "!   The datatype.
       DEFAULT type STRING,
     end of T_TRAINING_TORCH_DTYPE.
+  types:
+    "! No documentation available.
+      T_NOTEBOOKS_REVERT_RESPONSE type JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The details of an inference API.</p>
@@ -2618,6 +2651,16 @@ public section.
       "!   System details including warnings.
       SYSTEM type T_DEPLOYMENT_SYSTEM,
     end of T_DEPLOYMENT_RESRC_COLLECTION.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Notebook information in a project as returned by a GET</p>
+    "!     request.
+    begin of T_NTBKS_CRE_RESP_NTBK_IN_PRJCT,
+      "!   Metadata of a notebook in a project.
+      METADATA type T_NOTEBOOK_METADATA_IN_PROJECT,
+      "!   Entity of a notebook.
+      ENTITY type T_NOTEBOOK_ENTITY,
+    end of T_NTBKS_CRE_RESP_NTBK_IN_PRJCT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The return options for text embeddings.</p>
@@ -3274,38 +3317,8 @@ public section.
       RESULTS type T_GEOSPATIAL_TRANS_RESULTS,
     end of T_GEOSPATIAL_TRANS_RESP_ENTITY.
   types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Metadata of a notebook in a project.</p>
-    begin of T_NOTEBOOK_METADATA_IN_PROJECT,
-      "!   The name of the notebook.
-      NAME type STRING,
-      "!   A more verbose description.
-      DESCRIPTION type STRING,
-      "!   Asset type, always &quot;notebook&quot;.
-      ASSET_TYPE type STRING,
-      "!   Creation date, ms since epoch.
-      CREATED type INTEGER,
-      "!   Creation date, ISO format.
-      CREATED_AT type STRING,
-      "!   IAM ID of the asset&apos;s owner.
-      OWNER_ID type STRING,
-      "!   UUID of the asset&apos;s catalog.
-      CATALOG_ID type STRING,
-      "!   UUID of the asset.
-      ASSET_ID type STRING,
-      "!   UUID of the asset&apos;s project.
-      PROJECT_ID type STRING,
-    end of T_NOTEBOOK_METADATA_IN_PROJECT.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Notebook information in a project as returned by a GET</p>
-    "!     request.
-    begin of T_NTBK_RVRT_RESP_NTBK_IN_PRJCT,
-      "!   Metadata of a notebook in a project.
-      METADATA type T_NOTEBOOK_METADATA_IN_PROJECT,
-      "!   Entity of a notebook.
-      ENTITY type T_NOTEBOOK_ENTITY,
-    end of T_NTBK_RVRT_RESP_NTBK_IN_PRJCT.
+    "! No documentation available.
+      T_NOTEBOOKS_CREATE_RESPONSE type JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Status of the document extraction job.</p>
@@ -3353,6 +3366,15 @@ public section.
       "!   No documentation available.
       RESOURCES type STANDARD TABLE OF T_DOCUMENT_EXTRACTION_RESOURCE WITH NON-UNIQUE DEFAULT KEY,
     end of T_DOC_EXTRACTION_RESOURCES.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A notebook version in a project.</p>
+    begin of T_NTBK_VRSNS_CRE_RESP_NTBK_VE1,
+      "!   Notebook version metadata.
+      METADATA type T_NOTEBOOK_VERSION_METADATA,
+      "!   A notebook version entity in a project.
+      ENTITY type T_NTBK_VER_ENTITY_IN_PROJECT,
+    end of T_NTBK_VRSNS_CRE_RESP_NTBK_VE1.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Metadata of notebook info returned in a listing.</p>
@@ -3612,6 +3634,15 @@ public section.
       SPACE_ID type STRING,
     end of T_ENTITY_REQ_SPC_PROJECT_ONLY.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    A notebook version in a project.</p>
+    begin of T_NTBK_VRSNS_GET_RESP_NTBK_VE1,
+      "!   Notebook version metadata.
+      METADATA type T_NOTEBOOK_VERSION_METADATA,
+      "!   A notebook version entity in a project.
+      ENTITY type T_NTBK_VER_ENTITY_IN_PROJECT,
+    end of T_NTBK_VRSNS_GET_RESP_NTBK_VE1.
+  types:
     "! No documentation available.
     begin of T_WX_PROMPT_SESSION_ENTRY,
       "!   The prompt&apos;s id. This value cannot be set. It is returned in responses
@@ -3747,6 +3778,9 @@ public section.
       "!    match the config schema for that tool.
       CONFIG type JSONOBJECT,
     end of T_WX_UTIL_AGNT_TLS_RN_REQ_UTI1.
+  types:
+    "! No documentation available.
+      T_NOTEBOOKS_CREATE_REQUEST type JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    A list of notebook versions in a project.</p>
@@ -4100,9 +4134,6 @@ public section.
       ROLE type STRING,
     end of T_TEXT_CHAT_MESSAGE.
   types:
-    "! No documentation available.
-      T_NOTEBOOK_CREATE_RESPONSE type JSONOBJECT.
-  types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Properties that control the model and response that are only</p>
     "!     supported in caikit.
@@ -4257,9 +4288,6 @@ public section.
       "!   No documentation available.
       PROMPT type T_PROMPT_WITH_EXTERNAL,
     end of T_WX_PROMPT_RESPONSE.
-  types:
-    "! No documentation available.
-      T_NOTEBOOK_REVERT_RESPONSE type JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Payload for a notebook list request.</p>
@@ -4685,6 +4713,9 @@ public section.
       RETURN_OPTIONS type T_EMBEDDING_RETURN_OPTIONS,
     end of T_EMBEDDING_PARAMETERS.
   types:
+    "! No documentation available.
+      T_NOTEBOOK_VERSIONS_GET_RESP type JSONOBJECT.
+  types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The definition of an assistant message.</p>
     begin of T_DPLYMNT_TXT_CHT_MSG_TXT_CHT1,
@@ -4713,6 +4744,9 @@ public section.
       "!   The space that contains the resource.
       SPACE_ID type STRING,
     end of T_GEOSPATIAL_TRANS_METADATA.
+  types:
+    "! No documentation available.
+      T_NOTEBOOK_VERSIONS_CRE_RESP type JSONOBJECT.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The deployment request entity (this description is not</p>
@@ -4796,13 +4830,13 @@ public section.
     end of T_TXT_CHT_MSG_TXT_CHAT_MSG_USR.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    A notebook version in a project.</p>
-    begin of T_NTBK_VER_CRE_RESP_NTBK_VER_1,
-      "!   Notebook version metadata.
-      METADATA type T_NOTEBOOK_VERSION_METADATA,
-      "!   A notebook version entity in a project.
-      ENTITY type T_NTBK_VER_ENTITY_IN_PROJECT,
-    end of T_NTBK_VER_CRE_RESP_NTBK_VER_1.
+    "!    Payload for copying a notebook.</p>
+    begin of T_NTBKS_CRE_REQ_NTBK_COPY_BODY,
+      "!   The name of the new notebook.
+      NAME type STRING,
+      "!   The guid of the notebook to be copied.
+      SOURCE_GUID type STRING,
+    end of T_NTBKS_CRE_REQ_NTBK_COPY_BODY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    Notebook information in a project as returned by a GET</p>
@@ -5113,16 +5147,6 @@ public section.
     end of T_GRANITE_GUARDIAN_PROPERTIES.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    Notebook information in a project as returned by a GET</p>
-    "!     request.
-    begin of T_NTBK_CRE_RESP_NTBK_IN_PRJCT,
-      "!   Metadata of a notebook in a project.
-      METADATA type T_NOTEBOOK_METADATA_IN_PROJECT,
-      "!   Entity of a notebook.
-      ENTITY type T_NOTEBOOK_ENTITY,
-    end of T_NTBK_CRE_RESP_NTBK_IN_PRJCT.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    The supported foundation models.</p>
       T_FOUNDATION_MODELS_ARRAY type STANDARD TABLE OF T_FOUNDATION_MODEL WITH NON-UNIQUE DEFAULT KEY.
   types:
@@ -5280,15 +5304,6 @@ public section.
     end of T_PII_PROPERTIES.
   types:
     "! <p class="shorttext synchronized" lang="en">
-    "!    A notebook version in a project.</p>
-    begin of T_NTBK_VER_RTRV_RESP_NTBK_VER1,
-      "!   Notebook version metadata.
-      METADATA type T_NOTEBOOK_VERSION_METADATA,
-      "!   A notebook version entity in a project.
-      ENTITY type T_NTBK_VER_ENTITY_IN_PROJECT,
-    end of T_NTBK_VER_RTRV_RESP_NTBK_VER1.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
     "!    The supported foundation model tasks.</p>
       T_FOUNDATION_MODEL_TASKS_ARRAY type STANDARD TABLE OF T_FOUNDATION_MODEL_TASK WITH NON-UNIQUE DEFAULT KEY.
   types:
@@ -5322,9 +5337,6 @@ public section.
       "!   Properties that control the moderation on the text.
       OUTPUT type T_TEXT_MODERATION,
     end of T_MODERATION_PROPERTIES.
-  types:
-    "! No documentation available.
-      T_NOTEBOOK_VER_CREATE_RESPONSE type JSONOBJECT.
   types:
     "! No documentation available.
     begin of T_TEXT_GEN_RESULT,
@@ -5535,16 +5547,6 @@ public section.
       "!    be given.
       SPACE_ID type STRING,
     end of T_RESOURCE_REQUEST_FIELDS.
-  types:
-    "! <p class="shorttext synchronized" lang="en">
-    "!    Information of a copied notebook as returned by a GET</p>
-    "!     request.
-    begin of T_NTBK_CRE_RESP_NTBK_FOR_COPY,
-      "!   Metadata of a notebook in a project.
-      METADATA type T_NOTEBOOK_METADATA_IN_PROJECT,
-      "!   Entity of a notebook copied from a source.
-      ENTITY type T_NOTEBOOK_ENTITY_FOR_COPY,
-    end of T_NTBK_CRE_RESP_NTBK_FOR_COPY.
   types:
     "! <p class="shorttext synchronized" lang="en">
     "!    The inputs and outputs required to create a transformation</p>
@@ -5944,6 +5946,25 @@ public section.
     end of T_TEXT_EXTRACTION_RESOURCES.
   types:
     "! <p class="shorttext synchronized" lang="en">
+    "!    Payload for creating a notebook in a project.</p>
+    begin of T_NTBKS_CRE_REQ_NTBK_CRE_BDY_1,
+      "!   The name of the new notebook.
+      NAME type STRING,
+      "!   A more verbose description of the notebook.
+      DESCRIPTION type STRING,
+      "!   The reference to the file in the object storage.
+      FILE_REFERENCE type STRING,
+      "!   The notebook origin.
+      ORIGINATES_FROM type T_NOTEBOOK_ORIGIN,
+      "!   A notebook runtime.
+      RUNTIME type T_NOTEBOOK_RUNTIME,
+      "!   A notebook kernel.
+      KERNEL type T_NOTEBOOK_KERNEL,
+      "!   The guid of the project in which to create the notebook.
+      PROJECT type STRING,
+    end of T_NTBKS_CRE_REQ_NTBK_CRE_BDY_1.
+  types:
+    "! <p class="shorttext synchronized" lang="en">
     "!    The status of an AutoAI RAG run.</p>
     begin of T_AUTO_AIRAGSTATUS,
       "!   Status of the training job.
@@ -6058,6 +6079,16 @@ public section.
       SYSTEM type T_SYSTEM_DETAILS,
     end of T_SIMILARITY_RESPONSE.
   types:
+    "! <p class="shorttext synchronized" lang="en">
+    "!    Information of a copied notebook as returned by a GET</p>
+    "!     request.
+    begin of T_NTBKS_CRE_RESP_NTBK_FOR_COPY,
+      "!   Metadata of a notebook in a project.
+      METADATA type T_NOTEBOOK_METADATA_IN_PROJECT,
+      "!   Entity of a notebook copied from a source.
+      ENTITY type T_NOTEBOOK_ENTITY_FOR_COPY,
+    end of T_NTBKS_CRE_RESP_NTBK_FOR_COPY.
+  types:
     "! No documentation available.
     begin of T_RESULTS_REFERENCE_OUTPUT,
       "!   The training results. Normally this is specified as `type=container` which means
@@ -6155,6 +6186,8 @@ constants:
     T_MDRTN_GRANITE_GUARDIAN_PROP type string value '|',
     T_MODERATIONS type string value '|',
     T_DEPLOYMENT_TEXT_GEN type string value '|',
+    T_NOTEBOOK_METADATA_IN_PROJECT type string value '|PROJECT_ID|',
+    T_NTBKS_RVRT_RESP_NTBK_IN_PRJ1 type string value '|',
     T_EXT_INFO_EXTERNAL_MODEL type string value '|NAME|URL|',
     T_EXT_INFO_EXTERNAL_PROMPT type string value '|URL|',
     T_EXTERNAL_INFORMATION type string value '|EXTERNAL_PROMPT_ID|EXTERNAL_MODEL_ID|EXTERNAL_MODEL_PROVIDER|',
@@ -6256,6 +6289,7 @@ constants:
     T_DEPLOYMENT_ENTITY type string value '|ONLINE|',
     T_DEPLOYMENT_RESOURCE type string value '|',
     T_DEPLOYMENT_RESRC_COLLECTION type string value '|LIMIT|FIRST|',
+    T_NTBKS_CRE_RESP_NTBK_IN_PRJCT type string value '|',
     T_EMBEDDING_RETURN_OPTIONS type string value '|',
     T_ENTITY_REQUEST_SPACE_BODY type string value '|SPACE_ID|NAME|',
     T_TEXT_CHAT_RESPONSE_FORMAT type string value '|TYPE|',
@@ -6297,12 +6331,11 @@ constants:
     T_GEOSPATIAL_TRANS_DATA type string value '|',
     T_GEOSPATIAL_TRANS_RESULTS type string value '|',
     T_GEOSPATIAL_TRANS_RESP_ENTITY type string value '|MODEL_ID|INPUTS|OUTPUT|RESULTS|',
-    T_NOTEBOOK_METADATA_IN_PROJECT type string value '|PROJECT_ID|',
-    T_NTBK_RVRT_RESP_NTBK_IN_PRJCT type string value '|',
     T_DOCUMENT_EXTRACTION_STATUS type string value '|STATE|',
     T_DOCUMENT_EXTRACTION_RESPONSE type string value '|NAME|DOCUMENT_REFERENCES|RESULTS_REFERENCE|',
     T_DOCUMENT_EXTRACTION_RESOURCE type string value '|',
     T_DOC_EXTRACTION_RESOURCES type string value '|LIMIT|',
+    T_NTBK_VRSNS_CRE_RESP_NTBK_VE1 type string value '|',
     T_NOTEBOOK_RESOURCE_METADATA type string value '|',
     T_NOTEBOOK_RESOURCE_ENTITY type string value '|',
     T_NOTEBOOK_RESOURCE type string value '|',
@@ -6315,6 +6348,7 @@ constants:
     T_TSFORECAST_RESOURCE type string value '|MODEL_ID|DATA|SCHEMA|',
     T_AISERVICE_ENTITY type string value '|SOFTWARE_SPEC|',
     T_ENTITY_REQ_SPC_PROJECT_ONLY type string value '|',
+    T_NTBK_VRSNS_GET_RESP_NTBK_VE1 type string value '|',
     T_WX_PROMPT_SESSION_ENTRY type string value '|NAME|CREATED_AT|PROMPT|',
     T_AUTO_AIRAGMODEL type string value '|MODEL_ID|',
     T_AUTO_AIRAGSTATUS_OBJECT type string value '|STATE|',
@@ -6389,7 +6423,7 @@ constants:
     T_MODEL_ASSET_REF type string value '|',
     T_TRAIN_RESRC_MODEL_ID_OUTPUT type string value '|',
     T_TXT_CHT_MSG_TXT_CHAT_MSG_USR type string value '|ROLE|CONTENT|',
-    T_NTBK_VER_CRE_RESP_NTBK_VER_1 type string value '|',
+    T_NTBKS_CRE_REQ_NTBK_COPY_BODY type string value '|NAME|SOURCE_GUID|',
     T_NOTEBOOK_IN_PROJECT type string value '|',
     T_WX_UTIL_AGENT_TOOLS_RESPONSE type string value '|RESOURCES|',
     T_PAGINATION_BASE type string value '|LIMIT|FIRST|',
@@ -6413,7 +6447,6 @@ constants:
     T_TEXT_CHAT_TOOL_CHOICE_TOOL type string value '|TYPE|FUNCTION|',
     T_MODERATION_PII_INPUT_PROP type string value '|',
     T_GRANITE_GUARDIAN_PROPERTIES type string value '|',
-    T_NTBK_CRE_RESP_NTBK_IN_PRJCT type string value '|',
     T_COMMON_PATCH_REQUEST_HELPER type string value '|',
     T_TEXT_DETECTION_CONTEXT_ITEM type string value '|DETECTION_TYPE|DETECTION|SCORE|EVIDENCE|',
     T_SYNTHETIC_DATA_GEN_REQUEST type string value '|NAME|',
@@ -6422,7 +6455,6 @@ constants:
     T_TRAINING_RESOURCE type string value '|',
     T_TRAINING_RESOURCE_COLLECTION type string value '|LIMIT|FIRST|',
     T_PII_PROPERTIES type string value '|',
-    T_NTBK_VER_RTRV_RESP_NTBK_VER1 type string value '|',
     T_RESOURCE_META_BASE type string value '|',
     T_MODERATION_PROPERTIES type string value '|',
     T_TEXT_GEN_RESULT type string value '|GENERATED_TEXT|STOP_REASON|',
@@ -6440,7 +6472,6 @@ constants:
     T_TEXT_DETECTION_EVIDENCE_REF type string value '|EVIDENCE|',
     T_FILE_PATHS type string value '|',
     T_RESOURCE_REQUEST_FIELDS type string value '|NAME|',
-    T_NTBK_CRE_RESP_NTBK_FOR_COPY type string value '|',
     T_GSPTL_TRANS_RESRC_ENTITY type string value '|MODEL_ID|INPUTS|OUTPUT|',
     T_DEPLOYMENT_TEXT_CHAT type string value '|MESSAGES|',
     T_ENTITY_REQ_SPC_PROJECT_BODY type string value '|NAME|',
@@ -6462,9 +6493,11 @@ constants:
     T_TXT_CHT_USR_CNTNTS_TXT_CHT_3 type string value '|TYPE|VIDEO_URL|',
     T_TAXONOMY_RESOURCES type string value '|LIMIT|',
     T_TEXT_EXTRACTION_RESOURCES type string value '|LIMIT|FIRST|',
+    T_NTBKS_CRE_REQ_NTBK_CRE_BDY_1 type string value '|NAME|FILE_REFERENCE|RUNTIME|PROJECT|',
     T_AUTO_AIRAGSTATUS type string value '|STATUS|',
     T_TEXT_CHAT_REQUEST type string value '|MODEL_ID|MESSAGES|',
     T_SIMILARITY_RESPONSE type string value '|MODEL_ID|RESULTS|CREATED_AT|INPUT_TOKEN_COUNT|',
+    T_NTBKS_CRE_RESP_NTBK_FOR_COPY type string value '|',
     T_RESULTS_REFERENCE_OUTPUT type string value '|RESULTS_REFERENCE|',
     __DUMMY type string value SPACE,
   end of C_REQUIRED_FIELDS .
@@ -7718,6 +7751,191 @@ constants:
     raising
       ZCX_IBMX_SERVICE_EXCEPTION .
 
+    "! <p class="shorttext synchronized" lang="en">Create a new notebook</p>
+    "!   Create a new notebook<br/>
+    "!   - either from scratch<br/>
+    "!   - or by copying another notebook.<br/>
+    "!   <br/>
+    "!   To create a notebook from scratch, you need to first upload the notebook
+    "!    content(`ipynb` format) to the project Cloud Object Storage (COS)<br/>
+    "!   and then reference it with the attribute `file_reference`.<br/>
+    "!   The other required attributes are `name`, `project` and `runtime`. <br/>
+    "!   The attribute `runtime` is used to specify the environment on which the notebook
+    "!    runs.<br/>
+    "!   <br/>
+    "!   To copy a notebook, you only need to provide `name` and `source_guid` in the
+    "!    request body.
+    "!
+    "! @parameter I_NOTEBOOKSCREATEREQUEST |
+    "!   Specification of the notebook to be created.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_NOTEBOOKS_CREATE_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOKS_CREATE
+    importing
+      !I_NOTEBOOKSCREATEREQUEST type T_NOTEBOOKS_CREATE_REQUEST
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_NOTEBOOKS_CREATE_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Retrieve the details of a large number of notebooks inside a project</p>
+    "!   Retrieve the details of a large number of notebooks inside a project.
+    "!
+    "! @parameter I_PROJECT_ID |
+    "!   The guid of the project.
+    "! @parameter I_INCLUDE |
+    "!   Additional info that will be included into the notebook details. Possible values
+    "!    are:<br/>
+    "!   - runtime.
+    "! @parameter I_NOTEBOOKLISTBODY |
+    "!   No documentation available.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_NOTEBOOKS_RESOURCE_LIST
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOKS_LIST
+    importing
+      !I_PROJECT_ID type STRING
+      !I_INCLUDE type STRING
+      !I_NOTEBOOKLISTBODY type T_NOTEBOOK_LIST_BODY
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_NOTEBOOKS_RESOURCE_LIST
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Delete a particular notebook, including the notebook asset</p>
+    "!   Delete a particular notebook, including the notebook asset.
+    "!
+    "! @parameter I_NOTEBOOK_GUID |
+    "!   The guid of the notebook.
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOKS_DELETE
+    importing
+      !I_NOTEBOOK_GUID type STRING
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Revert the main notebook to a version</p>
+    "!   Revert the main notebook to a version.
+    "!
+    "! @parameter I_NOTEBOOK_GUID |
+    "!   The guid of the main notebook.
+    "! @parameter I_NOTEBOOKREVERTBODY |
+    "!   No documentation available.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_NOTEBOOKS_REVERT_RESPONSE
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOKS_REVERT
+    importing
+      !I_NOTEBOOK_GUID type STRING
+      !I_NOTEBOOKREVERTBODY type T_NOTEBOOK_REVERT_BODY
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_NOTEBOOKS_REVERT_RESPONSE
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Update a particular notebook</p>
+    "!   Update a particular notebook.
+    "!
+    "! @parameter I_NOTEBOOK_GUID |
+    "!   The guid of the notebook.
+    "! @parameter I_NOTEBOOKUPDATEBODY |
+    "!   No documentation available.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_NOTEBOOK
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOKS_UPDATE
+    importing
+      !I_NOTEBOOK_GUID type STRING
+      !I_NOTEBOOKUPDATEBODY type T_NOTEBOOK_UPDATE_BODY
+      !I_contenttype type string default 'application/json'
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_NOTEBOOK
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+
+    "! <p class="shorttext synchronized" lang="en">Create a new version</p>
+    "!   Create a version of a given notebook.<br/>
+    "!
+    "!
+    "! @parameter I_NOTEBOOK_GUID |
+    "!   The guid of the notebook.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_NOTEBOOK_VERSIONS_CRE_RESP
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOK_VERSIONS_CREATE
+    importing
+      !I_NOTEBOOK_GUID type STRING
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_NOTEBOOK_VERSIONS_CRE_RESP
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">List the versions of a notebook</p>
+    "!   List all versions of a particular notebook.<br/>
+    "!
+    "!
+    "! @parameter I_NOTEBOOK_GUID |
+    "!   The guid of the notebook.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_NOTEBOOK_VERSIONS_LST_RESP
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOK_VERSIONS_LIST
+    importing
+      !I_NOTEBOOK_GUID type STRING
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_NOTEBOOK_VERSIONS_LST_RESP
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Retrieve a notebook version</p>
+    "!   Retrieve a particular version of a notebook.<br/>
+    "!
+    "!
+    "! @parameter I_NOTEBOOK_GUID |
+    "!   The guid of the notebook.
+    "! @parameter I_VERSION_GUID |
+    "!   The guid of the version.
+    "! @parameter E_RESPONSE |
+    "!   Service return value of type T_NOTEBOOK_VERSIONS_GET_RESP
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOK_VERSIONS_GET
+    importing
+      !I_NOTEBOOK_GUID type STRING
+      !I_VERSION_GUID type STRING
+      !I_accept      type string default 'application/json'
+    exporting
+      !E_RESPONSE type T_NOTEBOOK_VERSIONS_GET_RESP
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+    "! <p class="shorttext synchronized" lang="en">Delete a notebook version</p>
+    "!   Delete a particular version of a given notebook.<br/>
+    "!
+    "!
+    "! @parameter I_NOTEBOOK_GUID |
+    "!   The guid of the notebook.
+    "! @parameter I_VERSION_GUID |
+    "!   The guid of the version.
+    "! @raising ZCX_IBMX_SERVICE_EXCEPTION | Exception being raised in case of an error.
+    "!
+  methods NOTEBOOK_VERSIONS_DELETE
+    importing
+      !I_NOTEBOOK_GUID type STRING
+      !I_VERSION_GUID type STRING
+    raising
+      ZCX_IBMX_SERVICE_EXCEPTION .
+
     "! <p class="shorttext synchronized" lang="en">Create a new prompt / prompt template</p>
     "!   This creates a new prompt with the provided parameters.
     "!
@@ -8725,7 +8943,7 @@ endmethod.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   method get_sdk_version_date.
 
-    e_sdk_version_date = '20250916'.
+    e_sdk_version_date = '20251114'.
 
   endmethod.
 
@@ -11060,6 +11278,682 @@ method LIST_FOUNDATION_MODEL_TASKS.
         i_dictionary = c_abapname_dictionary
       changing
         c_abap       = e_response ).
+
+endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOKS_CREATE
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOKSCREATEREQUEST        TYPE T_NOTEBOOKS_CREATE_REQUEST
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_NOTEBOOKS_CREATE_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOKS_CREATE.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks'.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_NOTEBOOKSCREATEREQUEST ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_NOTEBOOKSCREATEREQUEST to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_NOTEBOOKSCREATEREQUEST i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'NotebooksCreateRequest' i_value = i_NOTEBOOKSCREATEREQUEST ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_NOTEBOOKSCREATEREQUEST to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOKS_LIST
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_PROJECT_ID        TYPE STRING
+* | [--->] I_INCLUDE        TYPE STRING
+* | [--->] I_NOTEBOOKLISTBODY        TYPE T_NOTEBOOK_LIST_BODY
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_NOTEBOOKS_RESOURCE_LIST
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOKS_LIST.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/list'.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+    " process query parameters
+    data:
+      lv_queryparam type string.
+
+    lv_queryparam = escape( val = i_PROJECT_ID format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `project_id`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+    lv_queryparam = escape( val = i_INCLUDE format = cl_abap_format=>e_uri_full ).
+    add_query_parameter(
+      exporting
+        i_parameter  = `include`
+        i_value      = lv_queryparam
+      changing
+        c_url        = ls_request_prop-url )  ##NO_TEXT.
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_NOTEBOOKLISTBODY ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_NOTEBOOKLISTBODY to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_NOTEBOOKLISTBODY i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'NotebookListBody' i_value = i_NOTEBOOKLISTBODY ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_NOTEBOOKLISTBODY to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOKS_DELETE
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOK_GUID        TYPE STRING
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOKS_DELETE.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/{notebook_guid}'.
+    replace all occurrences of `{notebook_guid}` in ls_request_prop-url-path with i_NOTEBOOK_GUID ignoring case.
+
+    " standard headers
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+
+
+    " execute HTTP DELETE request
+    lo_response = HTTP_DELETE( i_request_prop = ls_request_prop ).
+
+
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOKS_REVERT
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOK_GUID        TYPE STRING
+* | [--->] I_NOTEBOOKREVERTBODY        TYPE T_NOTEBOOK_REVERT_BODY
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_NOTEBOOKS_REVERT_RESPONSE
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOKS_REVERT.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/{notebook_guid}'.
+    replace all occurrences of `{notebook_guid}` in ls_request_prop-url-path with i_NOTEBOOK_GUID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_NOTEBOOKREVERTBODY ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_NOTEBOOKREVERTBODY to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_NOTEBOOKREVERTBODY i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'NotebookRevertBody' i_value = i_NOTEBOOKREVERTBODY ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_NOTEBOOKREVERTBODY to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP PUT request
+    lo_response = HTTP_PUT( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOKS_UPDATE
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOK_GUID        TYPE STRING
+* | [--->] I_NOTEBOOKUPDATEBODY        TYPE T_NOTEBOOK_UPDATE_BODY
+* | [--->] I_contenttype       TYPE string (default ='application/json')
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_NOTEBOOK
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOKS_UPDATE.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/{notebook_guid}'.
+    replace all occurrences of `{notebook_guid}` in ls_request_prop-url-path with i_NOTEBOOK_GUID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_content_type = I_contenttype.
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+    " process body parameters
+    data:
+      lv_body      type string,
+      lv_bodyparam type string,
+      lv_datatype  type char.
+    field-symbols:
+      <lv_text> type any.
+    lv_separator = ''.
+    lv_datatype = get_datatype( i_NOTEBOOKUPDATEBODY ).
+
+    if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-dataref or
+      lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-x.
+      assign i_NOTEBOOKUPDATEBODY to <lv_text>.
+      if ls_request_prop-header_content_type cp '*json' or ls_request_prop-header_content_type cp 'text*'.
+        ls_request_prop-body = CAST string( <lv_text> )->*.
+      else.
+        ls_request_prop-body_bin = CAST xstring( <lv_text> )->*.
+      endif.
+    else.
+      if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+         lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab or
+         ls_request_prop-header_content_type cp '*json*'.
+        if lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-struct_deep or
+           lv_datatype eq ZIF_IBMX_SERVICE_ARCH~c_datatype-itab.
+          lv_bodyparam = abap_to_json( i_value = i_NOTEBOOKUPDATEBODY i_dictionary = c_abapname_dictionary i_required_fields = c_required_fields ).
+        else.
+          lv_bodyparam = abap_to_json( i_name = 'NotebookUpdateBody' i_value = i_NOTEBOOKUPDATEBODY ).
+        endif.
+        lv_body = lv_body && lv_separator && lv_bodyparam.
+      else.
+        assign i_NOTEBOOKUPDATEBODY to <lv_text>.
+        lv_bodyparam = <lv_text>.
+        concatenate lv_body lv_bodyparam into lv_body.
+      endif.
+      if ls_request_prop-header_content_type cp '*json*'.
+        if lv_body is initial.
+          lv_body = '{}'.
+        elseif lv_body(1) ne '{' and lv_body(1) ne '['.
+          lv_body = `{` && lv_body && `}`.
+        endif.
+      endif.
+
+      if ls_request_prop-header_content_type cp '*charset=utf-8*'.
+        ls_request_prop-body_bin = convert_string_to_utf8( i_string = lv_body ).
+        "replace all occurrences of regex ';\s*charset=utf-8' in ls_request_prop-header_content_type with '' ignoring case.
+        find_regex(
+          exporting
+            i_regex = ';\s*charset=utf-8'
+            i_with = ''
+            i_ignoring_case = 'X'
+          changing
+            c_in = ls_request_prop-header_content_type ).
+      else.
+        ls_request_prop-body = lv_body.
+      endif.
+    endif.
+
+
+    " execute HTTP PATCH request
+    lo_response = HTTP_PATCH( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOK_VERSIONS_CREATE
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOK_GUID        TYPE STRING
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_NOTEBOOK_VERSIONS_CRE_RESP
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOK_VERSIONS_CREATE.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/{notebook_guid}/versions'.
+    replace all occurrences of `{notebook_guid}` in ls_request_prop-url-path with i_NOTEBOOK_GUID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+
+
+    " execute HTTP POST request
+    lo_response = HTTP_POST( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOK_VERSIONS_LIST
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOK_GUID        TYPE STRING
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_NOTEBOOK_VERSIONS_LST_RESP
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOK_VERSIONS_LIST.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/{notebook_guid}/versions'.
+    replace all occurrences of `{notebook_guid}` in ls_request_prop-url-path with i_NOTEBOOK_GUID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOK_VERSIONS_GET
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOK_GUID        TYPE STRING
+* | [--->] I_VERSION_GUID        TYPE STRING
+* | [--->] I_accept            TYPE string (default ='application/json')
+* | [<---] E_RESPONSE                    TYPE        T_NOTEBOOK_VERSIONS_GET_RESP
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOK_VERSIONS_GET.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/{notebook_guid}/versions/{version_guid}'.
+    replace all occurrences of `{notebook_guid}` in ls_request_prop-url-path with i_NOTEBOOK_GUID ignoring case.
+    replace all occurrences of `{version_guid}` in ls_request_prop-url-path with i_VERSION_GUID ignoring case.
+
+    " standard headers
+    ls_request_prop-header_accept = I_accept.
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+
+
+    " execute HTTP GET request
+    lo_response = HTTP_GET( i_request_prop = ls_request_prop ).
+
+
+    " retrieve JSON data
+    lv_json = get_response_string( lo_response ).
+    parse_json(
+      exporting
+        i_json       = lv_json
+        i_dictionary = c_abapname_dictionary
+      changing
+        c_abap       = e_response ).
+
+endmethod.
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZCL_IBMX_WATSONX_AI_ML_V1->NOTEBOOK_VERSIONS_DELETE
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] I_NOTEBOOK_GUID        TYPE STRING
+* | [--->] I_VERSION_GUID        TYPE STRING
+* | [!CX!] ZCX_IBMX_SERVICE_EXCEPTION
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+method NOTEBOOK_VERSIONS_DELETE.
+
+    data:
+      ls_request_prop type ts_request_prop,
+      lv_separator(1) type c  ##NEEDED,
+      lv_sep(1)       type c  ##NEEDED,
+      lo_response     type to_rest_response,
+      lv_json         type string  ##NEEDED.
+
+    ls_request_prop-url-path = '/v2/notebooks/{notebook_guid}/versions/{version_guid}'.
+    replace all occurrences of `{notebook_guid}` in ls_request_prop-url-path with i_NOTEBOOK_GUID ignoring case.
+    replace all occurrences of `{version_guid}` in ls_request_prop-url-path with i_VERSION_GUID ignoring case.
+
+    " standard headers
+    set_default_query_parameters(
+      changing
+        c_url =  ls_request_prop-url ).
+
+
+
+
+
+
+
+
+    " execute HTTP DELETE request
+    lo_response = HTTP_DELETE( i_request_prop = ls_request_prop ).
+
+
 
 endmethod.
 
